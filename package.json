@@ -1,5 +1,5 @@
 {
-  "name": "jspsych-simon",
+  "name": "jspsych-plugin-simon-game",
   "version": "0.0.1",
   "type": "module",
   "devDependencies": {
