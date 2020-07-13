@@ -1,0 +1,11 @@
+{
+  "name": "jspsych-simon",
+  "version": "0.0.1",
+  "description": "Simon game as jsPsych plugin",
+  "main": "index.js",
+  "author": "Seth Bashford",
+  "license": "MIT",
+  "devDependencies": {
+    "jasmine": "^3.5.0"
+  }
+}
