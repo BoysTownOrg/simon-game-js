@@ -52,7 +52,7 @@ describe("ScreenResponder", function () {
   it("should submit series when user clicks done", function () {
     let screen = new ScreenStub();
     let simon = new SimonStub();
-    let responder = new ScreenResponder(screen, simon);
+    new ScreenResponder(screen, simon);
     clickRed(screen);
     clickGreen(screen);
     clickBlue(screen);
