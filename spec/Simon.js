@@ -151,4 +151,10 @@ describe("Simon", function () {
         say(this.simon, [Color.red]);
         expect(scheduledNotifications(this.timer)).toEqual(0);
     });
+
+    it("should only schedule timed notification on notify when more than one color remaining", function () {
+        say(this.simon, [Color.red, Color.green]);
+        callback(this.timer);
+        expect(scheduledNotifications(this.timer)).toEqual(1);
+    });
 });
