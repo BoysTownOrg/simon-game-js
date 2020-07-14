@@ -110,6 +110,10 @@ function scheduledNotifications(timer) {
     return timer.scheduledNotifications();
 }
 
+function expectScheduledNotificationTimeMillisecondsToEqual(timer, x) {
+    expect(scheduledNotificationTimeMilliseconds(timer)).toEqual(x);
+}
+
 describe("Simon", function () {
     beforeEach(function () {
         this.presenter = new PresenterStub();
@@ -136,14 +140,14 @@ describe("Simon", function () {
     it("should schedule timed notification on say", function () {
         this.simon.setScheduleNotifactionTimeMilliseconds(1);
         say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
-        expect(scheduledNotificationTimeMilliseconds(this.timer)).toEqual(1);
+        expectScheduledNotificationTimeMillisecondsToEqual(this.timer, 1);
     });
 
     it("should schedule timed notification on notify", function () {
         this.simon.setScheduleNotifactionTimeMilliseconds(1);
         say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
         callback(this.timer);
-        expect(scheduledNotificationTimeMilliseconds(this.timer)).toEqual(1);
+        expectScheduledNotificationTimeMillisecondsToEqual(this.timer, 1);
         expect(scheduledNotifications(this.timer)).toEqual(2);
     });
 
