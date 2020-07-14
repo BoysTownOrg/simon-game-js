@@ -1,4 +1,5 @@
-import { ScreenResponder, Color } from "../lib/ScreenResponder.js"
+import { ScreenResponder } from "../lib/ScreenResponder.js"
+import { Color } from "../lib/Color.js"
 
 function clickRed(screen) {
   screen.clickRed();
