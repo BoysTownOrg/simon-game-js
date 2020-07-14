@@ -114,6 +114,10 @@ function expectScheduledNotificationTimeMillisecondsToEqual(timer, x) {
     expect(scheduledNotificationTimeMilliseconds(timer)).toEqual(x);
 }
 
+function expectScheduledNotificationsToEqual(timer, n) {
+    expect(scheduledNotifications(timer)).toEqual(n);
+}
+
 describe("Simon", function () {
     beforeEach(function () {
         this.presenter = new PresenterStub();
@@ -148,17 +152,17 @@ describe("Simon", function () {
         say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
         callback(this.timer);
         expectScheduledNotificationTimeMillisecondsToEqual(this.timer, 1);
-        expect(scheduledNotifications(this.timer)).toEqual(2);
+        expectScheduledNotificationsToEqual(this.timer, 2);
     });
 
     it("should only schedule timed notification on say when more than one color", function () {
         say(this.simon, [Color.red]);
-        expect(scheduledNotifications(this.timer)).toEqual(0);
+        expectScheduledNotificationsToEqual(this.timer, 0);
     });
 
     it("should only schedule timed notification on notify when more than one color remaining", function () {
         say(this.simon, [Color.red, Color.green]);
         callback(this.timer);
-        expect(scheduledNotifications(this.timer)).toEqual(1);
+        expectScheduledNotificationsToEqual(this.timer, 1);
     });
 });
