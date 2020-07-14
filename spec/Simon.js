@@ -43,6 +43,10 @@ class TimerStub {
     }
 
     subscribe(e) { this.listener = e; }
+
+    scheduledNotificationTimeMilliseconds() { return this.scheduledNotificationTimeMilliseconds_; }
+
+    scheduleNotificationAfterMilliseconds(x) { this.scheduledNotificationTimeMilliseconds_ = x; }
 }
 
 function say(simon, colors) {
@@ -89,6 +93,10 @@ function expectTrue(b) {
     expect(b).toBeTrue();
 }
 
+function scheduledNotificationTimeMilliseconds(timer) {
+    return timer.scheduledNotificationTimeMilliseconds();
+}
+
 describe("Simon", function () {
     it("should light each color while playing corresponding tone", function () {
         let presenter = new PresenterStub();
@@ -107,5 +115,15 @@ describe("Simon", function () {
         callback(timer);
         expectTrue(yellowLitUp(presenter));
         expectTrue(yellowPlayed(audioPlayer));
+    });
+
+    it("should schedule timed notification on say", function () {
+        let presenter = new PresenterStub();
+        let audioPlayer = new AudioPlayerStub();
+        let timer = new TimerStub();
+        let simon = new Simon(presenter, audioPlayer, timer);
+        simon.setScheduleNotifactionTimeMilliseconds(1);
+        say(simon, [Color.red, Color.green, Color.blue, Color.yellow]);
+        expect(scheduledNotificationTimeMilliseconds(timer)).toEqual(1);
     });
 });
