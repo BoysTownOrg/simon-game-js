@@ -146,4 +146,9 @@ describe("Simon", function () {
         expect(scheduledNotificationTimeMilliseconds(this.timer)).toEqual(1);
         expect(scheduledNotifications(this.timer)).toEqual(2);
     });
+
+    it("should only schedule timed notification on say when more than one color", function () {
+        say(this.simon, [Color.red]);
+        expect(scheduledNotifications(this.timer)).toEqual(0);
+    });
 });
