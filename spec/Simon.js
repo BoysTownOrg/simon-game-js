@@ -85,6 +85,10 @@ function yellowPlayed(audioPlayer) {
     return audioPlayer.yellowPlayed();
 }
 
+function expectTrue(b) {
+    expect(b).toBeTrue();
+}
+
 describe("Simon", function () {
     it("should light each color while playing corresponding tone", function () {
         let presenter = new PresenterStub();
@@ -92,16 +96,16 @@ describe("Simon", function () {
         let timer = new TimerStub();
         let simon = new Simon(presenter, audioPlayer, timer);
         say(simon, [Color.red, Color.green, Color.blue, Color.yellow]);
-        expect(redLitUp(presenter)).toBeTrue();
-        expect(redPlayed(audioPlayer)).toBeTrue();
+        expectTrue(redLitUp(presenter));
+        expectTrue(redPlayed(audioPlayer));
         callback(timer);
-        expect(greenLitUp(presenter)).toBeTrue();
-        expect(greenPlayed(audioPlayer)).toBeTrue();
+        expectTrue(greenLitUp(presenter));
+        expectTrue(greenPlayed(audioPlayer));
         callback(timer);
-        expect(blueLitUp(presenter)).toBeTrue();
-        expect(bluePlayed(audioPlayer)).toBeTrue();
+        expectTrue(blueLitUp(presenter));
+        expectTrue(bluePlayed(audioPlayer));
         callback(timer);
-        expect(yellowLitUp(presenter)).toBeTrue();
-        expect(yellowPlayed(audioPlayer)).toBeTrue();
+        expectTrue(yellowLitUp(presenter));
+        expectTrue(yellowPlayed(audioPlayer));
     });
 });
