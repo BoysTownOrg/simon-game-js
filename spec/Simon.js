@@ -1,273 +1,326 @@
-import { Simon } from '../lib/Simon.js'
-import { Color } from '../lib/Color.js'
+import { Simon } from "../lib/Simon.js";
+import { Color } from "../lib/Color.js";
 
 class PresenterStub {
-    clearState() {
-        this.redLitUp_ = false;
-        this.yellowLitUp_ = false;
-        this.greenLitUp_ = false;
-        this.blueLitUp_ = false;
-    }
+  clearState() {
+    this.redLitUp_ = false;
+    this.yellowLitUp_ = false;
+    this.greenLitUp_ = false;
+    this.blueLitUp_ = false;
+  }
 
-    redLitUp() { return this.redLitUp_; }
+  redLitUp() {
+    return this.redLitUp_;
+  }
 
-    greenLitUp() { return this.greenLitUp_; }
+  greenLitUp() {
+    return this.greenLitUp_;
+  }
 
-    yellowLitUp() { return this.yellowLitUp_; }
+  yellowLitUp() {
+    return this.yellowLitUp_;
+  }
 
-    blueLitUp() { return this.blueLitUp_; }
+  blueLitUp() {
+    return this.blueLitUp_;
+  }
 
-    lightUpRed() { this.redLitUp_ = true; }
+  lightUpRed() {
+    this.redLitUp_ = true;
+  }
 
-    lightUpGreen() { this.greenLitUp_ = true; }
+  lightUpGreen() {
+    this.greenLitUp_ = true;
+  }
 
-    lightUpYellow() { this.yellowLitUp_ = true; }
+  lightUpYellow() {
+    this.yellowLitUp_ = true;
+  }
 
-    lightUpBlue() { this.blueLitUp_ = true; }
+  lightUpBlue() {
+    this.blueLitUp_ = true;
+  }
 }
 
 class AudioPlayerStub {
-    play(toneColors, toneDurationMilliseconds, toneOffsetToNextOnsetDurationMilliseconds) {
-        this.toneColors_ = toneColors;
-        this.toneDurationMilliseconds_ = toneDurationMilliseconds;
-        this.toneOffsetToNextOnsetDurationMilliseconds_ = toneOffsetToNextOnsetDurationMilliseconds;
-    }
+  play(
+    toneColors,
+    toneDurationMilliseconds,
+    toneOffsetToNextOnsetDurationMilliseconds
+  ) {
+    this.toneColors_ = toneColors;
+    this.toneDurationMilliseconds_ = toneDurationMilliseconds;
+    this.toneOffsetToNextOnsetDurationMilliseconds_ = toneOffsetToNextOnsetDurationMilliseconds;
+  }
 
-    toneDurationMilliseconds() { return this.toneDurationMilliseconds_; }
+  toneDurationMilliseconds() {
+    return this.toneDurationMilliseconds_;
+  }
 
-    toneOffsetToNextOnsetDurationMilliseconds() { return this.toneOffsetToNextOnsetDurationMilliseconds_; }
+  toneOffsetToNextOnsetDurationMilliseconds() {
+    return this.toneOffsetToNextOnsetDurationMilliseconds_;
+  }
 
-    toneColors() { return this.toneColors_; }
+  toneColors() {
+    return this.toneColors_;
+  }
 
-    clearState() {
-        this.redPlayed_ = false;
-        this.yellowPlayed_ = false;
-        this.greenPlayed_ = false;
-        this.bluePlayed_ = false;
-    }
+  clearState() {
+    this.redPlayed_ = false;
+    this.yellowPlayed_ = false;
+    this.greenPlayed_ = false;
+    this.bluePlayed_ = false;
+  }
 
-    redPlayed() { return this.redPlayed_; }
+  redPlayed() {
+    return this.redPlayed_;
+  }
 
-    greenPlayed() { return this.greenPlayed_; }
+  greenPlayed() {
+    return this.greenPlayed_;
+  }
 
-    yellowPlayed() { return this.yellowPlayed_; }
+  yellowPlayed() {
+    return this.yellowPlayed_;
+  }
 
-    bluePlayed() { return this.bluePlayed_; }
+  bluePlayed() {
+    return this.bluePlayed_;
+  }
 
-    playRed() { this.redPlayed_ = true; }
+  playRed() {
+    this.redPlayed_ = true;
+  }
 
-    playGreen() { this.greenPlayed_ = true; }
+  playGreen() {
+    this.greenPlayed_ = true;
+  }
 
-    playYellow() { this.yellowPlayed_ = true; }
+  playYellow() {
+    this.yellowPlayed_ = true;
+  }
 
-    playBlue() { this.bluePlayed_ = true; }
+  playBlue() {
+    this.bluePlayed_ = true;
+  }
 }
 
 class TimerStub {
-    constructor() {
-        this.scheduledNotifications_ = 0;
-    }
+  constructor() {
+    this.scheduledNotifications_ = 0;
+  }
 
-    callback() {
-        this.listener.notify();
-    }
+  callback() {
+    this.listener.notify();
+  }
 
-    subscribe(e) { this.listener = e; }
+  subscribe(e) {
+    this.listener = e;
+  }
 
-    scheduledNotificationTimeMilliseconds() { return this.scheduledNotificationTimeMilliseconds_; }
+  scheduledNotificationTimeMilliseconds() {
+    return this.scheduledNotificationTimeMilliseconds_;
+  }
 
-    scheduleNotificationAfterMilliseconds(x) {
-        ++this.scheduledNotifications_;
-        this.scheduledNotificationTimeMilliseconds_ = x;
-    }
+  scheduleNotificationAfterMilliseconds(x) {
+    ++this.scheduledNotifications_;
+    this.scheduledNotificationTimeMilliseconds_ = x;
+  }
 
-    scheduledNotifications() { return this.scheduledNotifications_; }
+  scheduledNotifications() {
+    return this.scheduledNotifications_;
+  }
 }
 
 function say(simon, colors) {
-    simon.say(colors);
+  simon.say(colors);
 }
 
 function callback(timer) {
-    timer.callback();
+  timer.callback();
 }
 
 function redLitUp(presenter) {
-    return presenter.redLitUp();
+  return presenter.redLitUp();
 }
 
 function greenLitUp(presenter) {
-    return presenter.greenLitUp();
+  return presenter.greenLitUp();
 }
 
 function blueLitUp(presenter) {
-    return presenter.blueLitUp();
+  return presenter.blueLitUp();
 }
 
 function yellowLitUp(presenter) {
-    return presenter.yellowLitUp();
+  return presenter.yellowLitUp();
 }
 
 function redPlayed(audioPlayer) {
-    return audioPlayer.redPlayed();
+  return audioPlayer.redPlayed();
 }
 
 function greenPlayed(audioPlayer) {
-    return audioPlayer.greenPlayed();
+  return audioPlayer.greenPlayed();
 }
 
 function bluePlayed(audioPlayer) {
-    return audioPlayer.bluePlayed();
+  return audioPlayer.bluePlayed();
 }
 
 function yellowPlayed(audioPlayer) {
-    return audioPlayer.yellowPlayed();
+  return audioPlayer.yellowPlayed();
 }
 
 function expectTrue(b) {
-    expect(b).toBeTrue();
+  expect(b).toBeTrue();
 }
 
 function scheduledNotificationTimeMilliseconds(timer) {
-    return timer.scheduledNotificationTimeMilliseconds();
+  return timer.scheduledNotificationTimeMilliseconds();
 }
 
 function scheduledNotifications(timer) {
-    return timer.scheduledNotifications();
+  return timer.scheduledNotifications();
 }
 
 function expectScheduledNotificationTimeMillisecondsToEqual(timer, x) {
-    expect(scheduledNotificationTimeMilliseconds(timer)).toEqual(x);
+  expect(scheduledNotificationTimeMilliseconds(timer)).toEqual(x);
 }
 
 function expectScheduledNotificationsToEqual(timer, n) {
-    expect(scheduledNotifications(timer)).toEqual(n);
+  expect(scheduledNotifications(timer)).toEqual(n);
 }
 
 function setScheduleNotifactionTimeMilliseconds(simon, x) {
-    simon.setScheduleNotifactionTimeMilliseconds(x);
+  simon.setScheduleNotifactionTimeMilliseconds(x);
 }
 
 function clearPresenterState(presenter) {
-    presenter.clearState();
+  presenter.clearState();
 }
 
 function clearAudioPlayerState(audioPlayer) {
-    audioPlayer.clearState();
+  audioPlayer.clearState();
 }
 
 function enterYellow(simon) {
-    simon.enterYellow();
+  simon.enterYellow();
 }
 
 function enterRed(simon) {
-    simon.enterRed();
+  simon.enterRed();
 }
 
 function enterGreen(simon) {
-    simon.enterGreen();
+  simon.enterGreen();
 }
 
 function enterBlue(simon) {
-    simon.enterBlue();
+  simon.enterBlue();
 }
 
 function setLongToneDurationMilliseconds(simon, x) {
-    simon.setLongToneDurationMilliseconds(x);
+  simon.setLongToneDurationMilliseconds(x);
 }
 
 function setToneOffsetToNextOnsetDurationMilliseconds(simon, x) {
-    simon.setToneOffsetToNextOnsetDurationMilliseconds(x);
+  simon.setToneOffsetToNextOnsetDurationMilliseconds(x);
 }
 
 function expectEqual(a, b) {
-    expect(a).toEqual(b);
+  expect(a).toEqual(b);
 }
 
 function toneDurationMilliseconds(player) {
-    return player.toneDurationMilliseconds();
+  return player.toneDurationMilliseconds();
 }
 
 function toneOffsetToNextOnsetDurationMilliseconds(player) {
-    return player.toneOffsetToNextOnsetDurationMilliseconds();
+  return player.toneOffsetToNextOnsetDurationMilliseconds();
 }
 
 function toneColors(player) {
-    return player.toneColors();
+  return player.toneColors();
 }
 
 describe("Simon", function () {
-    beforeEach(function () {
-        this.presenter = new PresenterStub();
-        this.audioPlayer = new AudioPlayerStub();
-        this.timer = new TimerStub();
-        this.simon = new Simon(this.presenter, this.audioPlayer, this.timer);
-    });
+  beforeEach(function () {
+    this.presenter = new PresenterStub();
+    this.audioPlayer = new AudioPlayerStub();
+    this.timer = new TimerStub();
+    this.simon = new Simon(this.presenter, this.audioPlayer, this.timer);
+  });
 
-    it("should play the color tones on say", function () {
-        setLongToneDurationMilliseconds(this.simon, 1);
-        setToneOffsetToNextOnsetDurationMilliseconds(this.simon, 2);
-        say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
-        expectEqual(toneDurationMilliseconds(this.audioPlayer), 1);
-        expectEqual(toneOffsetToNextOnsetDurationMilliseconds(this.audioPlayer), 2);
-        expectEqual(toneColors(this.audioPlayer), [Color.red, Color.green, Color.blue, Color.yellow]);
-    });
+  it("should play the color tones on say", function () {
+    setLongToneDurationMilliseconds(this.simon, 1);
+    setToneOffsetToNextOnsetDurationMilliseconds(this.simon, 2);
+    say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
+    expectEqual(toneDurationMilliseconds(this.audioPlayer), 1);
+    expectEqual(toneOffsetToNextOnsetDurationMilliseconds(this.audioPlayer), 2);
+    expectEqual(toneColors(this.audioPlayer), [
+      Color.red,
+      Color.green,
+      Color.blue,
+      Color.yellow,
+    ]);
+  });
 
-    it("should light each color while playing corresponding tone", function () {
-        say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
-        expectTrue(redLitUp(this.presenter));
-        expectTrue(redPlayed(this.audioPlayer));
-        callback(this.timer);
-        expectTrue(greenLitUp(this.presenter));
-        expectTrue(greenPlayed(this.audioPlayer));
-        callback(this.timer);
-        expectTrue(blueLitUp(this.presenter));
-        expectTrue(bluePlayed(this.audioPlayer));
-        callback(this.timer);
-        expectTrue(yellowLitUp(this.presenter));
-        expectTrue(yellowPlayed(this.audioPlayer));
-    });
+  it("should light each color while playing corresponding tone", function () {
+    say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
+    expectTrue(redLitUp(this.presenter));
+    expectTrue(redPlayed(this.audioPlayer));
+    callback(this.timer);
+    expectTrue(greenLitUp(this.presenter));
+    expectTrue(greenPlayed(this.audioPlayer));
+    callback(this.timer);
+    expectTrue(blueLitUp(this.presenter));
+    expectTrue(bluePlayed(this.audioPlayer));
+    callback(this.timer);
+    expectTrue(yellowLitUp(this.presenter));
+    expectTrue(yellowPlayed(this.audioPlayer));
+  });
 
-    it("should schedule timed notification on say", function () {
-        setScheduleNotifactionTimeMilliseconds(this.simon, 1);
-        say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
-        expectScheduledNotificationTimeMillisecondsToEqual(this.timer, 1);
-    });
+  it("should schedule timed notification on say", function () {
+    setScheduleNotifactionTimeMilliseconds(this.simon, 1);
+    say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
+    expectScheduledNotificationTimeMillisecondsToEqual(this.timer, 1);
+  });
 
-    it("should schedule timed notification on notify", function () {
-        setScheduleNotifactionTimeMilliseconds(this.simon, 1);
-        say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
-        callback(this.timer);
-        expectScheduledNotificationTimeMillisecondsToEqual(this.timer, 1);
-        expectScheduledNotificationsToEqual(this.timer, 2);
-    });
+  it("should schedule timed notification on notify", function () {
+    setScheduleNotifactionTimeMilliseconds(this.simon, 1);
+    say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
+    callback(this.timer);
+    expectScheduledNotificationTimeMillisecondsToEqual(this.timer, 1);
+    expectScheduledNotificationsToEqual(this.timer, 2);
+  });
 
-    it("should only schedule timed notification on say when more than one color", function () {
-        say(this.simon, [Color.red]);
-        expectScheduledNotificationsToEqual(this.timer, 0);
-    });
+  it("should only schedule timed notification on say when more than one color", function () {
+    say(this.simon, [Color.red]);
+    expectScheduledNotificationsToEqual(this.timer, 0);
+  });
 
-    it("should only schedule timed notification on notify when more than one color remaining", function () {
-        say(this.simon, [Color.red, Color.green]);
-        callback(this.timer);
-        expectScheduledNotificationsToEqual(this.timer, 1);
-    });
+  it("should only schedule timed notification on notify when more than one color remaining", function () {
+    say(this.simon, [Color.red, Color.green]);
+    callback(this.timer);
+    expectScheduledNotificationsToEqual(this.timer, 1);
+  });
 
-    it("should light up and play entered colors that are correct", function () {
-        say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
-        clearPresenterState(this.presenter);
-        clearAudioPlayerState(this.audioPlayer);
-        enterRed(this.simon);
-        expectTrue(redLitUp(this.presenter));
-        expectTrue(redPlayed(this.audioPlayer));
-        enterGreen(this.simon);
-        expectTrue(greenLitUp(this.presenter));
-        expectTrue(greenPlayed(this.audioPlayer));
-        enterBlue(this.simon);
-        expectTrue(blueLitUp(this.presenter));
-        expectTrue(bluePlayed(this.audioPlayer));
-        enterYellow(this.simon);
-        expectTrue(yellowLitUp(this.presenter));
-        expectTrue(yellowPlayed(this.audioPlayer));
-    });
+  it("should light up and play entered colors that are correct", function () {
+    say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
+    clearPresenterState(this.presenter);
+    clearAudioPlayerState(this.audioPlayer);
+    enterRed(this.simon);
+    expectTrue(redLitUp(this.presenter));
+    expectTrue(redPlayed(this.audioPlayer));
+    enterGreen(this.simon);
+    expectTrue(greenLitUp(this.presenter));
+    expectTrue(greenPlayed(this.audioPlayer));
+    enterBlue(this.simon);
+    expectTrue(blueLitUp(this.presenter));
+    expectTrue(bluePlayed(this.audioPlayer));
+    enterYellow(this.simon);
+    expectTrue(yellowLitUp(this.presenter));
+    expectTrue(yellowPlayed(this.audioPlayer));
+  });
 });
