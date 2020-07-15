@@ -32,6 +32,14 @@ class ToneGeneratorStub {
     this.startTimeSeconds_ = start;
     this.stopTimeSeconds_ = stop;
   }
+
+  frequencyHz() {
+    return this.frequencyHz_;
+  }
+
+  setFrequencyHz(f) {
+    this.frequencyHz_ = f;
+  }
 }
 
 function play(
@@ -80,6 +88,14 @@ function expectToneGeneratorStartAndStopTimesSeconds(generator, start, stop) {
   expectEqual(stopTimeSeconds(generator), stop);
 }
 
+function frequencyHz(generator) {
+  return generator.frequencyHz();
+}
+
+function expectToneGeneratorFrequencyHz(generator, f) {
+  expectEqual(frequencyHz(generator), f);
+}
+
 describe("AudioPlayer", function () {
   it("should schedule color tones to be played in succession", function () {
     let audioEnvironment = new AudioEnvironmentStub();
@@ -93,7 +109,15 @@ describe("AudioPlayer", function () {
       redToneGenerator,
       blueToneGenerator,
     ]);
-    let player = new AudioPlayer(audioEnvironment);
+    let player = new AudioPlayer(
+      audioEnvironment,
+      new Map([
+        [Color.blue, 1],
+        [Color.red, 2],
+        [Color.yellow, 3],
+        [Color.green, 4],
+      ])
+    );
     setToneFrequenciesHz(
       player,
       new Map([
@@ -131,5 +155,32 @@ describe("AudioPlayer", function () {
       5 + 6 + 7 + 8 + 7 + 8 + 7 + 8,
       5 + 6 + 7 + 8 + 7 + 8 + 7 + 8 + 7
     );
+  });
+
+  it("should set tone generator frequencies", function () {
+    let audioEnvironment = new AudioEnvironmentStub();
+    let yellowToneGenerator = new ToneGeneratorStub();
+    let greenToneGenerator = new ToneGeneratorStub();
+    let redToneGenerator = new ToneGeneratorStub();
+    let blueToneGenerator = new ToneGeneratorStub();
+    setToneGenerators(audioEnvironment, [
+      yellowToneGenerator,
+      greenToneGenerator,
+      redToneGenerator,
+      blueToneGenerator,
+    ]);
+    new AudioPlayer(
+      audioEnvironment,
+      new Map([
+        [Color.blue, 1],
+        [Color.red, 2],
+        [Color.yellow, 3],
+        [Color.green, 4],
+      ])
+    );
+    expectToneGeneratorFrequencyHz(blueToneGenerator, 1);
+    expectToneGeneratorFrequencyHz(redToneGenerator, 2);
+    expectToneGeneratorFrequencyHz(yellowToneGenerator, 3);
+    expectToneGeneratorFrequencyHz(greenToneGenerator, 4);
   });
 });
