@@ -84,6 +84,7 @@ jsPsych.plugins[pluginName] = (function () {
     }
 
     let screen = new CognitionScreen(display_element);
+    let audioEnvironment = new WebAudioContext();
     jsPsych.finishTrial();
   };
   return plugin;
