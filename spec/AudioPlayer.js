@@ -97,20 +97,20 @@ function expectToneGeneratorFrequencyHz(generator, f) {
 }
 
 describe("AudioPlayer", function () {
-  it("should schedule color tones to be played in succession", function () {
-    let audioEnvironment = new AudioEnvironmentStub();
-    let yellowToneGenerator = new ToneGeneratorStub();
-    let greenToneGenerator = new ToneGeneratorStub();
-    let redToneGenerator = new ToneGeneratorStub();
-    let blueToneGenerator = new ToneGeneratorStub();
-    setToneGenerators(audioEnvironment, [
-      yellowToneGenerator,
-      greenToneGenerator,
-      redToneGenerator,
-      blueToneGenerator,
+  beforeEach(function () {
+    this.audioEnvironment = new AudioEnvironmentStub();
+    this.yellowToneGenerator = new ToneGeneratorStub();
+    this.greenToneGenerator = new ToneGeneratorStub();
+    this.redToneGenerator = new ToneGeneratorStub();
+    this.blueToneGenerator = new ToneGeneratorStub();
+    setToneGenerators(this.audioEnvironment, [
+      this.yellowToneGenerator,
+      this.greenToneGenerator,
+      this.redToneGenerator,
+      this.blueToneGenerator,
     ]);
-    let player = new AudioPlayer(
-      audioEnvironment,
+    this.player = new AudioPlayer(
+      this.audioEnvironment,
       new Map([
         [Color.blue, 1],
         [Color.red, 2],
@@ -118,69 +118,43 @@ describe("AudioPlayer", function () {
         [Color.green, 4],
       ])
     );
-    setToneFrequenciesHz(
-      player,
-      new Map([
-        [Color.blue, 1],
-        [Color.red, 2],
-        [Color.yellow, 3],
-        [Color.green, 4],
-      ])
-    );
-    setPlayDelaySeconds(player, 5);
-    setCurrentTimeSeconds(audioEnvironment, 6);
+  });
+
+  it("should set tone generator frequencies", function () {
+    expectToneGeneratorFrequencyHz(this.blueToneGenerator, 1);
+    expectToneGeneratorFrequencyHz(this.redToneGenerator, 2);
+    expectToneGeneratorFrequencyHz(this.yellowToneGenerator, 3);
+    expectToneGeneratorFrequencyHz(this.greenToneGenerator, 4);
+  });
+
+  it("should schedule color tones to be played in succession", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
     play(
-      player,
+      this.player,
       [Color.red, Color.green, Color.blue, Color.yellow],
       7000,
       8000
     );
     expectToneGeneratorStartAndStopTimesSeconds(
-      redToneGenerator,
+      this.redToneGenerator,
       5 + 6,
       5 + 6 + 7
     );
     expectToneGeneratorStartAndStopTimesSeconds(
-      greenToneGenerator,
+      this.greenToneGenerator,
       5 + 6 + 7 + 8,
       5 + 6 + 7 + 8 + 7
     );
     expectToneGeneratorStartAndStopTimesSeconds(
-      blueToneGenerator,
+      this.blueToneGenerator,
       5 + 6 + 7 + 8 + 7 + 8,
       5 + 6 + 7 + 8 + 7 + 8 + 7
     );
     expectToneGeneratorStartAndStopTimesSeconds(
-      yellowToneGenerator,
+      this.yellowToneGenerator,
       5 + 6 + 7 + 8 + 7 + 8 + 7 + 8,
       5 + 6 + 7 + 8 + 7 + 8 + 7 + 8 + 7
     );
-  });
-
-  it("should set tone generator frequencies", function () {
-    let audioEnvironment = new AudioEnvironmentStub();
-    let yellowToneGenerator = new ToneGeneratorStub();
-    let greenToneGenerator = new ToneGeneratorStub();
-    let redToneGenerator = new ToneGeneratorStub();
-    let blueToneGenerator = new ToneGeneratorStub();
-    setToneGenerators(audioEnvironment, [
-      yellowToneGenerator,
-      greenToneGenerator,
-      redToneGenerator,
-      blueToneGenerator,
-    ]);
-    new AudioPlayer(
-      audioEnvironment,
-      new Map([
-        [Color.blue, 1],
-        [Color.red, 2],
-        [Color.yellow, 3],
-        [Color.green, 4],
-      ])
-    );
-    expectToneGeneratorFrequencyHz(blueToneGenerator, 1);
-    expectToneGeneratorFrequencyHz(redToneGenerator, 2);
-    expectToneGeneratorFrequencyHz(yellowToneGenerator, 3);
-    expectToneGeneratorFrequencyHz(greenToneGenerator, 4);
   });
 });
