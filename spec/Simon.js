@@ -27,6 +27,18 @@ class PresenterStub {
 }
 
 class AudioPlayerStub {
+    play(toneColors, toneDurationMilliseconds, toneOffsetToNextOnsetDurationMilliseconds) {
+        this.toneColors_ = toneColors;
+        this.toneDurationMilliseconds_ = toneDurationMilliseconds;
+        this.toneOffsetToNextOnsetDurationMilliseconds_ = toneOffsetToNextOnsetDurationMilliseconds;
+    }
+
+    toneDurationMilliseconds() { return this.toneDurationMilliseconds_; }
+
+    toneOffsetToNextOnsetDurationMilliseconds() { return this.toneOffsetToNextOnsetDurationMilliseconds_; }
+
+    toneColors() { return this.toneColors_; }
+
     clearState() {
         this.redPlayed_ = false;
         this.yellowPlayed_ = false;
@@ -160,12 +172,45 @@ function enterBlue(simon) {
     simon.enterBlue();
 }
 
+function setLongToneDurationMilliseconds(simon, x) {
+    simon.setLongToneDurationMilliseconds(x);
+}
+
+function setToneOffsetToNextOnsetDurationMilliseconds(simon, x) {
+    simon.setToneOffsetToNextOnsetDurationMilliseconds(x);
+}
+
+function expectEqual(a, b) {
+    expect(a).toEqual(b);
+}
+
+function toneDurationMilliseconds(player) {
+    return player.toneDurationMilliseconds();
+}
+
+function toneOffsetToNextOnsetDurationMilliseconds(player) {
+    return player.toneOffsetToNextOnsetDurationMilliseconds();
+}
+
+function toneColors(player) {
+    return player.toneColors();
+}
+
 describe("Simon", function () {
     beforeEach(function () {
         this.presenter = new PresenterStub();
         this.audioPlayer = new AudioPlayerStub();
         this.timer = new TimerStub();
         this.simon = new Simon(this.presenter, this.audioPlayer, this.timer);
+    });
+
+    it("should play the color tones on say", function () {
+        setLongToneDurationMilliseconds(this.simon, 1);
+        setToneOffsetToNextOnsetDurationMilliseconds(this.simon, 2);
+        say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
+        expectEqual(toneDurationMilliseconds(this.audioPlayer), 1);
+        expectEqual(toneOffsetToNextOnsetDurationMilliseconds(this.audioPlayer), 2);
+        expectEqual(toneColors(this.audioPlayer), [Color.red, Color.green, Color.blue, Color.yellow]);
     });
 
     it("should light each color while playing corresponding tone", function () {
