@@ -7,31 +7,43 @@ jsPsych.plugins[pluginName] = (function () {
     parameters: {},
   };
   plugin.trial = function (display_element, trial) {
+    function addClickEventListener(button, f) {
+      this.redButton.addEventListener("click", f);
+    }
+
+    function createButton() {
+      return document.createElement("div");
+    }
+
+    function adopt(parent, child) {
+      parent.append(child);
+    }
+
     class CognitionScreen {
       constructor(display_element) {
-        this.greenButton = document.createElement("div");
-        this.redButton = document.createElement("div");
-        this.blueButton = document.createElement("div");
-        this.yellowButton = document.createElement("div");
-        this.doneButton = document.createElement("div");
-        display_element.append(this.greenButton);
-        display_element.append(this.redButton);
-        display_element.append(this.blueButton);
-        display_element.append(this.yellowButton);
-        display_element.append(this.doneButton);
-        this.greenButton.addEventListener("click", function (e) {
+        this.greenButton = createButton();
+        this.redButton = createButton();
+        this.blueButton = createButton();
+        this.yellowButton = createButton();
+        this.doneButton = createButton();
+        adopt(display_element, this.greenButton);
+        adopt(display_element, this.redButton);
+        adopt(display_element, this.blueButton);
+        adopt(display_element, this.yellowButton);
+        adopt(display_element, this.doneButton);
+        addClickEventListener(this.greenButton, function (_e) {
           this.listener.notifyThatGreenWasClicked();
         });
-        this.redButton.addEventListener("click", function (e) {
+        addClickEventListener(this.redButton, function (_e) {
           this.listener.notifyThatRedWasClicked();
         });
-        this.blueButton.addEventListener("click", function (e) {
+        addClickEventListener(this.blueButton, function (_e) {
           this.listener.notifyThatBlueWasClicked();
         });
-        this.yellowButton.addEventListener("click", function (e) {
+        addClickEventListener(this.yellowButton, function (_e) {
           this.listener.notifyThatYellowWasClicked();
         });
-        this.doneButton.addEventListener("click", function (e) {
+        addClickEventListener(this.doneButton, function (_e) {
           this.listener.notifyThatDoneWasClicked();
         });
       }
