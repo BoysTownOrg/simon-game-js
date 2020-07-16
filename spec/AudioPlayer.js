@@ -9,6 +9,14 @@ class ColorToneEvenListenerStub {
   notifyThatRedToneStarted() {
     this.notifiedThatRedToneStarted_ = true;
   }
+
+  notifiedThatRedToneEnded() {
+    return this.notifiedThatRedToneEnded_;
+  }
+
+  notifyThatRedToneEnded() {
+    this.notifiedThatRedToneEnded_ = true;
+  }
 }
 
 function scheduledTone(startTimeSeconds, stopTimeSeconds, frequencyHz) {
@@ -81,6 +89,10 @@ function endNextTone(audioEnvironment) {
 
 function notifiedThatRedToneStarted(listener) {
   return listener.notifiedThatRedToneStarted();
+}
+
+function notifiedThatRedToneEnded(listener) {
+  return listener.notifiedThatRedToneEnded();
 }
 
 function expectTrue(b) {
@@ -227,5 +239,21 @@ describe("AudioPlayer", function () {
     );
     endNextTone(this.audioEnvironment);
     expectTrue(notifiedThatRedToneStarted(listener));
+  });
+
+  it("should notify when first color tone ends", function () {
+    const listener = new ColorToneEvenListenerStub();
+    this.player.subscribe(listener);
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    expectTrue(notifiedThatRedToneEnded(listener));
   });
 });
