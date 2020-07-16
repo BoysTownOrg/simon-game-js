@@ -8,6 +8,14 @@ class ScreenStub {
   lightRedButton() {
     this.redButtonLit_ = true;
   }
+
+  redButtonLightTurnedOff() {
+    return this.redButtonLightTurnedOff_;
+  }
+
+  turnOffRedButtonLight() {
+    this.redButtonLightTurnedOff_ = true;
+  }
 }
 
 describe("ScreenPresenter", function () {
@@ -16,5 +24,12 @@ describe("ScreenPresenter", function () {
     const presenter = new ScreenPresenter(screen);
     presenter.notifyThatRedToneStarted();
     expect(screen.redButtonLit()).toBeTrue();
+  });
+
+  it("should turn off red button light when red tone ends", function () {
+    const screen = new ScreenStub();
+    const presenter = new ScreenPresenter(screen);
+    presenter.notifyThatRedToneEnded();
+    expect(screen.redButtonLightTurnedOff()).toBeTrue();
   });
 });
