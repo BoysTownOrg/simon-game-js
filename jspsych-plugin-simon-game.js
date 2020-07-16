@@ -1,3 +1,4 @@
+import { Simon } from "./lib/Simon.js";
 import { AudioPlayer } from "./lib/AudioPlayer.js";
 import { ScreenPresenter } from "./lib/ScreenPresenter.js";
 import { Color } from "./lib/Color.js";
@@ -108,6 +109,9 @@ jsPsych.plugins[pluginName] = (function () {
     audioPlayer.setPlayDelaySeconds(0.02);
     const presenter = new ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
+    const simon = new Simon();
+    simon.setLongToneDurationMilliseconds(700);
+    simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
     jsPsych.finishTrial();
   };
   return plugin;
