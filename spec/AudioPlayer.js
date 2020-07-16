@@ -245,4 +245,23 @@ describe("AudioPlayer", function () {
       0
     );
   });
+
+  it("should schedule second tone after first completes", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    expectScheduledTonesContains(
+      this.audioEnvironment,
+      5 + 6 + 7 + 8,
+      5 + 6 + 7 + 8 + 7,
+      4
+    );
+  });
 });
