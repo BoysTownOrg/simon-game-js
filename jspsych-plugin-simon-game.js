@@ -1,3 +1,7 @@
+import { AudioPlayer } from "./lib/AudioPlayer.js";
+import { ScreenPresenter } from "./lib/ScreenPresenter.js";
+import { Color } from "./lib/Color.js";
+
 const pluginName = "simon-game";
 jsPsych.plugins[pluginName] = (function () {
   var plugin = {};
@@ -51,6 +55,22 @@ jsPsych.plugins[pluginName] = (function () {
       subscribe(e) {
         this.listener = e;
       }
+
+      turnOnRedButtonLight() {}
+
+      turnOffRedButtonLight() {}
+
+      turnOnGreenButtonLight() {}
+
+      turnOffGreenButtonLight() {}
+
+      turnOnBlueButtonLight() {}
+
+      turnOffBlueButtonLight() {}
+
+      turnOnYellowButtonLight() {}
+
+      turnOffYellowButtonLight() {}
     }
 
     class WebAudioContext {
@@ -74,8 +94,20 @@ jsPsych.plugins[pluginName] = (function () {
       }
     }
 
-    let screen = new CognitionScreen(display_element);
-    let audioEnvironment = new WebAudioContext();
+    const screen = new CognitionScreen(display_element);
+    const audioEnvironment = new WebAudioContext();
+    const audioPlayer = new AudioPlayer(
+      audioEnvironment,
+      new Map([
+        [Color.green, 391.995],
+        [Color.red, 329.628],
+        [Color.yellow, 261.626],
+        [Color.blue, 195.998],
+      ])
+    );
+    audioPlayer.setPlayDelaySeconds(0.02);
+    const presenter = new ScreenPresenter(screen);
+    audioPlayer.subscribe(presenter);
     jsPsych.finishTrial();
   };
   return plugin;
