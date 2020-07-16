@@ -12,6 +12,7 @@ function scheduledTone(startTimeSeconds, stopTimeSeconds, frequencyHz) {
 class AudioEnvironmentStub {
   constructor() {
     this.scheduledTones_ = [];
+    this.scheduledToneOnEnds = [];
   }
 
   setCurrentTimeSeconds(x) {
@@ -30,14 +31,20 @@ class AudioEnvironmentStub {
     return this.generators.shift();
   }
 
-  scheduleTone(startTimeSeconds, stopTimeSeconds, frequencyHz) {
+  scheduleTone(startTimeSeconds, stopTimeSeconds, frequencyHz, onEnd) {
     this.scheduledTones_.push(
       scheduledTone(startTimeSeconds, stopTimeSeconds, frequencyHz)
     );
+    this.scheduledToneOnEnds.push(onEnd);
   }
 
   scheduledTones() {
     return this.scheduledTones_;
+  }
+
+  endNextTone() {
+    let onEnd = this.scheduledToneOnEnds.shift();
+    onEnd();
   }
 }
 
@@ -116,6 +123,10 @@ function expectToneGeneratorFrequencyHz(generator, f) {
 
 function scheduledTones(audioEnvironment) {
   return audioEnvironment.scheduledTones();
+}
+
+function endNextTone(audioEnvironment) {
+  audioEnvironment.endNextTone();
 }
 
 function expectScheduledTonesContains(
@@ -202,15 +213,10 @@ describe("AudioPlayer", function () {
       7000,
       8000
     );
-    expectToneGeneratorStartAndStopTimesSeconds(
-      this.redToneGenerator,
-      5 + 6,
-      5 + 6 + 7
-    );
     expectScheduledTonesContains(this.audioEnvironment, 5 + 6, 5 + 6 + 7, 2);
   });
 
-  it("should schedule silence generator to play before first tone", function () {
+  it("should schedule silence before first tone", function () {
     setPlayDelaySeconds(this.player, 5);
     setCurrentTimeSeconds(this.audioEnvironment, 6);
     play(
@@ -220,5 +226,23 @@ describe("AudioPlayer", function () {
       8000
     );
     expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
+  });
+
+  it("should schedule second silence after first completes", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    endNextTone(this.audioEnvironment);
+    expectScheduledTonesContains(
+      this.audioEnvironment,
+      5 + 6 + 7,
+      5 + 6 + 7 + 8,
+      0
+    );
   });
 });
