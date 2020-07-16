@@ -1,7 +1,19 @@
 import { AudioPlayer } from "../lib/AudioPlayer.js";
 import { Color } from "../lib/Color.js";
 
+function scheduledTone(startTimeSeconds, stopTimeSeconds, frequencyHz) {
+  return {
+    startTimeSeconds: startTimeSeconds,
+    stopTimeSeconds: stopTimeSeconds,
+    frequencyHz: frequencyHz,
+  };
+}
+
 class AudioEnvironmentStub {
+  constructor() {
+    this.scheduledTones_ = [];
+  }
+
   setCurrentTimeSeconds(x) {
     this.currentTimeSeconds_ = x;
   }
@@ -16,6 +28,16 @@ class AudioEnvironmentStub {
 
   createToneGenerator() {
     return this.generators.shift();
+  }
+
+  scheduleTone(startTimeSeconds, stopTimeSeconds, frequencyHz) {
+    this.scheduledTones_.push(
+      scheduledTone(startTimeSeconds, stopTimeSeconds, frequencyHz)
+    );
+  }
+
+  scheduledTones() {
+    return this.scheduledTones_;
   }
 }
 
@@ -96,6 +118,21 @@ function expectToneGeneratorFrequencyHz(generator, f) {
   expectEqual(frequencyHz(generator), f);
 }
 
+function scheduledTones(audioEnvironment) {
+  return audioEnvironment.scheduledTones();
+}
+
+function expectScheduledTonesContains(
+  audioEnvironment,
+  startTimeSeconds,
+  stopTimeSeconds,
+  frequencyHz
+) {
+  expect(scheduledTones(audioEnvironment)).toContain(
+    scheduledTone(startTimeSeconds, stopTimeSeconds, frequencyHz)
+  );
+}
+
 describe("AudioPlayer", function () {
   beforeEach(function () {
     this.audioEnvironment = new AudioEnvironmentStub();
@@ -174,5 +211,6 @@ describe("AudioPlayer", function () {
       6,
       5 + 6
     );
+    expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
   });
 });
