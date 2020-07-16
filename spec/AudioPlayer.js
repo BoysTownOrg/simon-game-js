@@ -143,18 +143,6 @@ function expectScheduledTonesContains(
 describe("AudioPlayer", function () {
   beforeEach(function () {
     this.audioEnvironment = new AudioEnvironmentStub();
-    this.yellowToneGenerator = new ToneGeneratorStub();
-    this.greenToneGenerator = new ToneGeneratorStub();
-    this.redToneGenerator = new ToneGeneratorStub();
-    this.blueToneGenerator = new ToneGeneratorStub();
-    this.silenceGenerator = new ToneGeneratorStub();
-    setToneGenerators(this.audioEnvironment, [
-      this.yellowToneGenerator,
-      this.greenToneGenerator,
-      this.redToneGenerator,
-      this.blueToneGenerator,
-      this.silenceGenerator,
-    ]);
     this.player = new AudioPlayer(
       this.audioEnvironment,
       new Map([
@@ -163,44 +151,6 @@ describe("AudioPlayer", function () {
         [Color.yellow, 3],
         [Color.green, 4],
       ])
-    );
-  });
-
-  it("should set tone generator frequencies", function () {
-    expectToneGeneratorFrequencyHz(this.blueToneGenerator, 1);
-    expectToneGeneratorFrequencyHz(this.redToneGenerator, 2);
-    expectToneGeneratorFrequencyHz(this.yellowToneGenerator, 3);
-    expectToneGeneratorFrequencyHz(this.greenToneGenerator, 4);
-  });
-
-  it("should schedule color tones to be played in succession", function () {
-    setPlayDelaySeconds(this.player, 5);
-    setCurrentTimeSeconds(this.audioEnvironment, 6);
-    play(
-      this.player,
-      [Color.red, Color.green, Color.blue, Color.yellow],
-      7000,
-      8000
-    );
-    expectToneGeneratorStartAndStopTimesSeconds(
-      this.redToneGenerator,
-      5 + 6,
-      5 + 6 + 7
-    );
-    expectToneGeneratorStartAndStopTimesSeconds(
-      this.greenToneGenerator,
-      5 + 6 + 7 + 8,
-      5 + 6 + 7 + 8 + 7
-    );
-    expectToneGeneratorStartAndStopTimesSeconds(
-      this.blueToneGenerator,
-      5 + 6 + 7 + 8 + 7 + 8,
-      5 + 6 + 7 + 8 + 7 + 8 + 7
-    );
-    expectToneGeneratorStartAndStopTimesSeconds(
-      this.yellowToneGenerator,
-      5 + 6 + 7 + 8 + 7 + 8 + 7 + 8,
-      5 + 6 + 7 + 8 + 7 + 8 + 7 + 8 + 7
     );
   });
 
