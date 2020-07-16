@@ -193,6 +193,23 @@ describe("AudioPlayer", function () {
     );
   });
 
+  it("should schedule first color tone", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    expectToneGeneratorStartAndStopTimesSeconds(
+      this.redToneGenerator,
+      5 + 6,
+      5 + 6 + 7
+    );
+    expectScheduledTonesContains(this.audioEnvironment, 5 + 6, 5 + 6 + 7, 2);
+  });
+
   it("should schedule silence generator to play before first tone", function () {
     setPlayDelaySeconds(this.player, 5);
     setCurrentTimeSeconds(this.audioEnvironment, 6);
