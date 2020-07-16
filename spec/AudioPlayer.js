@@ -154,4 +154,24 @@ describe("AudioPlayer", function () {
       4
     );
   });
+
+  it("should not schedule additional color tone after last completes", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    expect(scheduledTones(this.audioEnvironment).length).toEqual(9);
+  });
 });
