@@ -1,6 +1,16 @@
 import { AudioPlayer } from "../lib/AudioPlayer.js";
 import { Color } from "../lib/Color.js";
 
+class ColorToneEvenListenerStub {
+  notifiedThatRedToneStarted() {
+    return this.notifiedThatRedToneStarted_;
+  }
+
+  notifyThatRedToneStarted() {
+    this.notifiedThatRedToneStarted_ = true;
+  }
+}
+
 function scheduledTone(startTimeSeconds, stopTimeSeconds, frequencyHz) {
   return {
     startTimeSeconds: startTimeSeconds,
@@ -67,6 +77,14 @@ function scheduledTones(audioEnvironment) {
 
 function endNextTone(audioEnvironment) {
   audioEnvironment.endNextTone();
+}
+
+function notifiedThatRedToneStarted(listener) {
+  return listener.notifiedThatRedToneStarted();
+}
+
+function expectTrue(b) {
+  expect(b).toBeTrue();
 }
 
 function expectScheduledTonesContains(
@@ -194,5 +212,20 @@ describe("AudioPlayer", function () {
     endNextTone(this.audioEnvironment);
     endNextTone(this.audioEnvironment);
     expect(scheduledTones(this.audioEnvironment).length).toEqual(9);
+  });
+
+  it("should notify when first color tone starts", function () {
+    const listener = new ColorToneEvenListenerStub();
+    this.player.subscribe(listener);
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    endNextTone(this.audioEnvironment);
+    expectTrue(notifiedThatRedToneStarted(listener));
   });
 });
