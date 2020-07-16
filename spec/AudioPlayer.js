@@ -23,14 +23,6 @@ class AudioEnvironmentStub {
     return this.currentTimeSeconds_;
   }
 
-  setToneGenerators(g) {
-    this.generators = g;
-  }
-
-  createToneGenerator() {
-    return this.generators.shift();
-  }
-
   scheduleTone(startTimeSeconds, stopTimeSeconds, frequencyHz, onEnd) {
     this.scheduledTones_.push(
       scheduledTone(startTimeSeconds, stopTimeSeconds, frequencyHz)
@@ -45,29 +37,6 @@ class AudioEnvironmentStub {
   endNextTone() {
     let onEnd = this.scheduledToneOnEnds.shift();
     onEnd();
-  }
-}
-
-class ToneGeneratorStub {
-  startTimeSeconds() {
-    return this.startTimeSeconds_;
-  }
-
-  stopTimeSeconds() {
-    return this.stopTimeSeconds_;
-  }
-
-  startPlayingAndStopAtSeconds(start, stop) {
-    this.startTimeSeconds_ = start;
-    this.stopTimeSeconds_ = stop;
-  }
-
-  frequencyHz() {
-    return this.frequencyHz_;
-  }
-
-  setFrequencyHz(f) {
-    this.frequencyHz_ = f;
   }
 }
 
@@ -90,35 +59,6 @@ function setPlayDelaySeconds(player, x) {
 
 function setCurrentTimeSeconds(audioEnvironment, x) {
   audioEnvironment.setCurrentTimeSeconds(x);
-}
-
-function setToneGenerators(audioEnvironment, generators) {
-  audioEnvironment.setToneGenerators(generators);
-}
-
-function expectEqual(a, b) {
-  expect(a).toEqual(b);
-}
-
-function startTimeSeconds(generator) {
-  return generator.startTimeSeconds();
-}
-
-function stopTimeSeconds(generator) {
-  return generator.stopTimeSeconds();
-}
-
-function expectToneGeneratorStartAndStopTimesSeconds(generator, start, stop) {
-  expectEqual(startTimeSeconds(generator), start);
-  expectEqual(stopTimeSeconds(generator), stop);
-}
-
-function frequencyHz(generator) {
-  return generator.frequencyHz();
-}
-
-function expectToneGeneratorFrequencyHz(generator, f) {
-  expectEqual(frequencyHz(generator), f);
 }
 
 function scheduledTones(audioEnvironment) {
