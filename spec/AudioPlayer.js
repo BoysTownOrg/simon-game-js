@@ -81,10 +81,6 @@ function setPlayDelaySeconds(player, x) {
   player.setPlayDelaySeconds(x);
 }
 
-function setToneFrequenciesHz(player, frequencies) {
-  player.setToneFrequenciesHz(frequencies);
-}
-
 function setCurrentTimeSeconds(audioEnvironment, x) {
   audioEnvironment.setCurrentTimeSeconds(x);
 }
@@ -205,11 +201,6 @@ describe("AudioPlayer", function () {
       [Color.red, Color.green, Color.blue, Color.yellow],
       7000,
       8000
-    );
-    expectToneGeneratorStartAndStopTimesSeconds(
-      this.silenceGenerator,
-      6,
-      5 + 6
     );
     expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
   });
