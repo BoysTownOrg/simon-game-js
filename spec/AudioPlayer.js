@@ -94,19 +94,7 @@ describe("AudioPlayer", function () {
     );
   });
 
-  it("should schedule first color tone", function () {
-    setPlayDelaySeconds(this.player, 5);
-    setCurrentTimeSeconds(this.audioEnvironment, 6);
-    play(
-      this.player,
-      [Color.red, Color.green, Color.blue, Color.yellow],
-      7000,
-      8000
-    );
-    expectScheduledTonesContains(this.audioEnvironment, 5 + 6, 5 + 6 + 7, 2);
-  });
-
-  it("should schedule silence before first tone", function () {
+  it("should schedule silent tone before first color tone on play", function () {
     setPlayDelaySeconds(this.player, 5);
     setCurrentTimeSeconds(this.audioEnvironment, 6);
     play(
@@ -118,7 +106,19 @@ describe("AudioPlayer", function () {
     expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
   });
 
-  it("should schedule second silence after first completes", function () {
+  it("should schedule first color tone on play", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    expectScheduledTonesContains(this.audioEnvironment, 5 + 6, 5 + 6 + 7, 2);
+  });
+
+  it("should schedule second silent tone after first completes", function () {
     setPlayDelaySeconds(this.player, 5);
     setCurrentTimeSeconds(this.audioEnvironment, 6);
     play(
@@ -136,7 +136,7 @@ describe("AudioPlayer", function () {
     );
   });
 
-  it("should schedule second tone after first completes", function () {
+  it("should schedule second color tone after first completes", function () {
     setPlayDelaySeconds(this.player, 5);
     setCurrentTimeSeconds(this.audioEnvironment, 6);
     play(
