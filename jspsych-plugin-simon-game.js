@@ -63,26 +63,14 @@ jsPsych.plugins[pluginName] = (function () {
         return this.audioContext.currentTime;
       }
 
-      createToneGenerator() {
-        return new WebAudioSquareOscillator(this.audioContext);
-      }
-    }
-
-    class WebAudioSquareOscillator {
-      constructor(audioContext) {
-        this.oscillator = audioContext.createOscillator();
-        this.oscillator.type = "square";
-        this.oscillator.onended = function () {};
-        this.oscillator.connect(audioContext.destination);
-      }
-
-      startPlayingAndStopAtSeconds(start, stop) {
-        this.oscillator.start(start);
-        this.oscillator.stop(stop);
-      }
-
-      setFrequencyHz(f) {
-        this.oscillator.frequency.value = f;
+      scheduleTone(startTimeSeconds, stopTimeSeconds, frequencyHz, onEnd) {
+        const oscillator = this.audioContext.createOscillator();
+        oscillator.type = "square";
+        oscillator.frequency.value = frequencyHz;
+        oscillator.onended = onEnd;
+        oscillator.connect(this.audioContext.destination);
+        oscillator.start(startTimeSeconds);
+        oscillator.stop(stopTimeSeconds);
       }
     }
 
