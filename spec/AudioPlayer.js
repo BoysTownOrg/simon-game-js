@@ -103,11 +103,13 @@ describe("AudioPlayer", function () {
     this.greenToneGenerator = new ToneGeneratorStub();
     this.redToneGenerator = new ToneGeneratorStub();
     this.blueToneGenerator = new ToneGeneratorStub();
+    this.silenceGenerator = new ToneGeneratorStub();
     setToneGenerators(this.audioEnvironment, [
       this.yellowToneGenerator,
       this.greenToneGenerator,
       this.redToneGenerator,
       this.blueToneGenerator,
+      this.silenceGenerator,
     ]);
     this.player = new AudioPlayer(
       this.audioEnvironment,
@@ -155,6 +157,22 @@ describe("AudioPlayer", function () {
       this.yellowToneGenerator,
       5 + 6 + 7 + 8 + 7 + 8 + 7 + 8,
       5 + 6 + 7 + 8 + 7 + 8 + 7 + 8 + 7
+    );
+  });
+
+  it("should schedule silence generator to play before first tone", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    expectToneGeneratorStartAndStopTimesSeconds(
+      this.silenceGenerator,
+      6,
+      5 + 6
     );
   });
 });

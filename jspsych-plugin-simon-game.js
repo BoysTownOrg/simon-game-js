@@ -64,13 +64,16 @@ jsPsych.plugins[pluginName] = (function () {
       }
 
       createToneGenerator() {
-        return new WebAudioOscillator(this.audioContext);
+        return new WebAudioSquareOscillator(this.audioContext);
       }
     }
 
-    class WebAudioOscillator {
+    class WebAudioSquareOscillator {
       constructor(audioContext) {
         this.oscillator = audioContext.createOscillator();
+        this.oscillator.type = "square";
+        this.oscillator.onended = function () {};
+        this.oscillator.connect(audioContext.destination);
       }
 
       startPlayingAndStopAtSeconds(start, stop) {
