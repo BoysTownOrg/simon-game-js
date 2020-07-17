@@ -371,10 +371,31 @@ describe("Simon", function () {
     expectTrue(correctYellowTonePlayed(this.audioPlayer));
   });
 
-  it("should play incorrect tone on incorrect color entered", function () {
+  it("should play incorrect when red entered and red is incorrect", function () {
     say(this.simon, [Color.green, Color.red, Color.blue, Color.yellow]);
     enterRed(this.simon);
     expectFalse(correctRedTonePlayed(this.audioPlayer));
     expectTrue(incorrectRedTonePlayed(this.audioPlayer));
+  });
+
+  it("should play incorrect when blue entered and blue is incorrect", function () {
+    say(this.simon, [Color.green, Color.red, Color.blue, Color.yellow]);
+    enterBlue(this.simon);
+    expectFalse(correctBlueTonePlayed(this.audioPlayer));
+    expectTrue(incorrectBlueTonePlayed(this.audioPlayer));
+  });
+
+  it("should play incorrect when green entered and green is incorrect", function () {
+    say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
+    enterGreen(this.simon);
+    expectFalse(correctGreenTonePlayed(this.audioPlayer));
+    expectTrue(incorrectGreenTonePlayed(this.audioPlayer));
+  });
+
+  it("should play incorrect when yellow entered and yellow is incorrect", function () {
+    say(this.simon, [Color.green, Color.red, Color.blue, Color.yellow]);
+    enterYellow(this.simon);
+    expectFalse(correctYellowTonePlayed(this.audioPlayer));
+    expectTrue(incorrectYellowTonePlayed(this.audioPlayer));
   });
 });
