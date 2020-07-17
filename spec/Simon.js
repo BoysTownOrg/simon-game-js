@@ -45,6 +45,7 @@ class PresenterStub {
 class AudioPlayerStub {
   constructor() {
     this.correctRedTonePlayed_ = false;
+    this.incorrectRedTonePlayed_ = false;
   }
 
   play(
@@ -115,6 +116,14 @@ class AudioPlayerStub {
   playCorrectRedTone() {
     this.correctRedTonePlayed_ = true;
   }
+
+  incorrectRedTonePlayed() {
+    return this.incorrectRedTonePlayed_;
+  }
+
+  playIncorrectRedTone() {
+    this.incorrectRedTonePlayed_ = true;
+  }
 }
 
 function say(simon, colors) {
@@ -155,6 +164,10 @@ function yellowPlayed(audioPlayer) {
 
 function expectTrue(b) {
   expect(b).toBeTrue();
+}
+
+function expectFalse(b) {
+  expect(b).toBeFalse();
 }
 
 function clearPresenterState(presenter) {
@@ -209,6 +222,10 @@ function correctRedTonePlayed(player) {
   return player.correctRedTonePlayed();
 }
 
+function incorrectRedTonePlayed(player) {
+  return player.incorrectRedTonePlayed();
+}
+
 describe("Simon", function () {
   beforeEach(function () {
     this.presenter = new PresenterStub();
@@ -251,6 +268,14 @@ describe("Simon", function () {
   it("should play entered colors that are correct", function () {
     say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
     enterRed(this.simon);
+    expectFalse(incorrectRedTonePlayed(this.audioPlayer));
     expectTrue(correctRedTonePlayed(this.audioPlayer));
+  });
+
+  it("should play incorrect tone on incorrect color entered", function () {
+    say(this.simon, [Color.green, Color.red, Color.blue, Color.yellow]);
+    enterRed(this.simon);
+    expectFalse(correctRedTonePlayed(this.audioPlayer));
+    expectTrue(incorrectRedTonePlayed(this.audioPlayer));
   });
 });
