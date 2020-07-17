@@ -247,6 +247,13 @@ describe("AudioPlayer", function () {
     expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
   });
 
+  it("should schedule correct red tone", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    playCorrectRedTone(this.player, 7000);
+    expectScheduledTonesContains(this.audioEnvironment, 5 + 6, 5 + 6 + 7, 2);
+  });
+
   it("should schedule first color tone on play", function () {
     setPlayDelaySeconds(this.player, 5);
     setCurrentTimeSeconds(this.audioEnvironment, 6);
