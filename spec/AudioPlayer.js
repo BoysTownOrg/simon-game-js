@@ -163,6 +163,30 @@ function notifiedThatRedToneEnded(listener) {
   return listener.notifiedThatRedToneEnded();
 }
 
+function notifiedThatGreenToneStarted(listener) {
+  return listener.notifiedThatGreenToneStarted();
+}
+
+function notifiedThatGreenToneEnded(listener) {
+  return listener.notifiedThatGreenToneEnded();
+}
+
+function notifiedThatYellowToneStarted(listener) {
+  return listener.notifiedThatYellowToneStarted();
+}
+
+function notifiedThatYellowToneEnded(listener) {
+  return listener.notifiedThatYellowToneEnded();
+}
+
+function notifiedThatBlueToneStarted(listener) {
+  return listener.notifiedThatBlueToneStarted();
+}
+
+function notifiedThatBlueToneEnded(listener) {
+  return listener.notifiedThatBlueToneEnded();
+}
+
 function notifiedThatToneSeriesEnded(listener) {
   return listener.notifiedThatToneSeriesEnded();
 }
@@ -313,6 +337,7 @@ describe("AudioPlayer", function () {
       7000,
       8000
     );
+    expectFalse(notifiedThatRedToneStarted(listener));
     endNextTone(this.audioEnvironment);
     expectTrue(notifiedThatRedToneStarted(listener));
   });
@@ -329,8 +354,72 @@ describe("AudioPlayer", function () {
       8000
     );
     endNextTone(this.audioEnvironment);
+    expectFalse(notifiedThatRedToneEnded(listener));
     endNextTone(this.audioEnvironment);
     expectTrue(notifiedThatRedToneEnded(listener));
+  });
+
+  it("should notify when second color tone ends", function () {
+    const listener = new ColorToneEventListenerStub();
+    this.player.subscribe(listener);
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    expectFalse(notifiedThatGreenToneEnded(listener));
+    endNextTone(this.audioEnvironment);
+    expectTrue(notifiedThatGreenToneEnded(listener));
+  });
+
+  it("should notify when third color tone ends", function () {
+    const listener = new ColorToneEventListenerStub();
+    this.player.subscribe(listener);
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    expectFalse(notifiedThatBlueToneEnded(listener));
+    endNextTone(this.audioEnvironment);
+    expectTrue(notifiedThatBlueToneEnded(listener));
+  });
+
+  it("should notify when fourth color tone ends", function () {
+    const listener = new ColorToneEventListenerStub();
+    this.player.subscribe(listener);
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    expectFalse(notifiedThatYellowToneEnded(listener));
+    endNextTone(this.audioEnvironment);
+    expectTrue(notifiedThatYellowToneEnded(listener));
   });
 
   it("should notify when playing ends", function () {
