@@ -46,6 +46,12 @@ class AudioPlayerStub {
   constructor() {
     this.correctRedTonePlayed_ = false;
     this.incorrectRedTonePlayed_ = false;
+    this.correctYellowTonePlayed_ = false;
+    this.incorrectYellowTonePlayed_ = false;
+    this.correctGreenTonePlayed_ = false;
+    this.incorrectGreenTonePlayed_ = false;
+    this.correctBlueTonePlayed_ = false;
+    this.incorrectBlueTonePlayed_ = false;
   }
 
   play(
@@ -123,6 +129,54 @@ class AudioPlayerStub {
 
   playIncorrectRedTone() {
     this.incorrectRedTonePlayed_ = true;
+  }
+
+  correctBlueTonePlayed() {
+    return this.correctBlueTonePlayed_;
+  }
+
+  playCorrectBlueTone() {
+    this.correctBlueTonePlayed_ = true;
+  }
+
+  incorrectBlueTonePlayed() {
+    return this.incorrectBlueTonePlayed_;
+  }
+
+  playIncorrectBlueTone() {
+    this.incorrectBlueTonePlayed_ = true;
+  }
+
+  correctGreenTonePlayed() {
+    return this.correctGreenTonePlayed_;
+  }
+
+  playCorrectGreenTone() {
+    this.correctGreenTonePlayed_ = true;
+  }
+
+  incorrectGreenTonePlayed() {
+    return this.incorrectGreenTonePlayed_;
+  }
+
+  playIncorrectGreenTone() {
+    this.incorrectGreenTonePlayed_ = true;
+  }
+
+  correctYellowTonePlayed() {
+    return this.correctYellowTonePlayed_;
+  }
+
+  playCorrectYellowTone() {
+    this.correctYellowTonePlayed_ = true;
+  }
+
+  incorrectYellowTonePlayed() {
+    return this.incorrectYellowTonePlayed_;
+  }
+
+  playIncorrectYellowTone() {
+    this.incorrectYellowTonePlayed_ = true;
   }
 }
 
@@ -226,6 +280,30 @@ function incorrectRedTonePlayed(player) {
   return player.incorrectRedTonePlayed();
 }
 
+function correctYellowTonePlayed(player) {
+  return player.correctYellowTonePlayed();
+}
+
+function incorrectYellowTonePlayed(player) {
+  return player.incorrectYellowTonePlayed();
+}
+
+function correctGreenTonePlayed(player) {
+  return player.correctGreenTonePlayed();
+}
+
+function incorrectGreenTonePlayed(player) {
+  return player.incorrectGreenTonePlayed();
+}
+
+function correctBlueTonePlayed(player) {
+  return player.correctBlueTonePlayed();
+}
+
+function incorrectBlueTonePlayed(player) {
+  return player.incorrectBlueTonePlayed();
+}
+
 describe("Simon", function () {
   beforeEach(function () {
     this.presenter = new PresenterStub();
@@ -265,11 +343,32 @@ describe("Simon", function () {
     expectTrue(yellowPlayed(this.audioPlayer));
   });
 
-  it("should play entered colors that are correct", function () {
+  it("should play correct when red entered and red is correct", function () {
     say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
     enterRed(this.simon);
     expectFalse(incorrectRedTonePlayed(this.audioPlayer));
     expectTrue(correctRedTonePlayed(this.audioPlayer));
+  });
+
+  it("should play correct when green entered and green is correct", function () {
+    say(this.simon, [Color.green, Color.red, Color.blue, Color.yellow]);
+    enterGreen(this.simon);
+    expectFalse(incorrectGreenTonePlayed(this.audioPlayer));
+    expectTrue(correctGreenTonePlayed(this.audioPlayer));
+  });
+
+  it("should play correct when blue entered and blue is correct", function () {
+    say(this.simon, [Color.blue, Color.green, Color.red, Color.yellow]);
+    enterBlue(this.simon);
+    expectFalse(incorrectBlueTonePlayed(this.audioPlayer));
+    expectTrue(correctBlueTonePlayed(this.audioPlayer));
+  });
+
+  it("should play correct when yellow entered and yellow is correct", function () {
+    say(this.simon, [Color.yellow, Color.green, Color.blue, Color.red]);
+    enterYellow(this.simon);
+    expectFalse(incorrectYellowTonePlayed(this.audioPlayer));
+    expectTrue(correctYellowTonePlayed(this.audioPlayer));
   });
 
   it("should play incorrect tone on incorrect color entered", function () {
