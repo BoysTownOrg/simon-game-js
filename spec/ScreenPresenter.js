@@ -2,22 +2,22 @@ import { ScreenPresenter } from "../lib/ScreenPresenter.js";
 
 class ScreenStub {
   constructor() {
-    this.redButtonLit_ = false;
+    this.redButtonLightTurnedOn_ = false;
     this.redButtonLightTurnedOff_ = false;
-    this.blueButtonLit_ = false;
+    this.blueButtonLightTurnedOn_ = false;
     this.blueButtonLightTurnedOff_ = false;
-    this.greenButtonLit_ = false;
+    this.greenButtonLightTurnedOn_ = false;
     this.greenButtonLightTurnedOff_ = false;
-    this.yellowButtonLit_ = false;
+    this.yellowButtonLightTurnedOn_ = false;
     this.yellowButtonLightTurnedOff_ = false;
   }
 
-  redButtonLit() {
-    return this.redButtonLit_;
+  redButtonLightTurnedOn() {
+    return this.redButtonLightTurnedOn_;
   }
 
   turnOnRedButtonLight() {
-    this.redButtonLit_ = true;
+    this.redButtonLightTurnedOn_ = true;
   }
 
   redButtonLightTurnedOff() {
@@ -28,12 +28,12 @@ class ScreenStub {
     this.redButtonLightTurnedOff_ = true;
   }
 
-  greenButtonLit() {
-    return this.greenButtonLit_;
+  greenButtonLightTurnedOn() {
+    return this.greenButtonLightTurnedOn_;
   }
 
   turnOnGreenButtonLight() {
-    this.greenButtonLit_ = true;
+    this.greenButtonLightTurnedOn_ = true;
   }
 
   greenButtonLightTurnedOff() {
@@ -44,12 +44,12 @@ class ScreenStub {
     this.greenButtonLightTurnedOff_ = true;
   }
 
-  blueButtonLit() {
-    return this.blueButtonLit_;
+  blueButtonLightTurnedOn() {
+    return this.blueButtonLightTurnedOn_;
   }
 
   turnOnBlueButtonLight() {
-    this.blueButtonLit_ = true;
+    this.blueButtonLightTurnedOn_ = true;
   }
 
   blueButtonLightTurnedOff() {
@@ -60,12 +60,12 @@ class ScreenStub {
     this.blueButtonLightTurnedOff_ = true;
   }
 
-  yellowButtonLit() {
-    return this.yellowButtonLit_;
+  yellowButtonLightTurnedOn() {
+    return this.yellowButtonLightTurnedOn_;
   }
 
   turnOnYellowButtonLight() {
-    this.yellowButtonLit_ = true;
+    this.yellowButtonLightTurnedOn_ = true;
   }
 
   yellowButtonLightTurnedOff() {
@@ -81,20 +81,20 @@ function expectTrue(b) {
   expect(b).toBeTrue();
 }
 
-function expectRedButtonLit(screen) {
-  expectTrue(screen.redButtonLit());
+function expectRedButtonLightTurnedOn(screen) {
+  expectTrue(screen.redButtonLightTurnedOn());
 }
 
-function expectGreenButtonLit(screen) {
-  expectTrue(screen.greenButtonLit());
+function expectGreenButtonLightTurnedOn(screen) {
+  expectTrue(screen.greenButtonLightTurnedOn());
 }
 
-function expectBlueButtonLit(screen) {
-  expectTrue(screen.blueButtonLit());
+function expectBlueButtonLightTurnedOn(screen) {
+  expectTrue(screen.blueButtonLightTurnedOn());
 }
 
-function expectYellowButtonLit(screen) {
-  expectTrue(screen.yellowButtonLit());
+function expectYellowButtonLightTurnedOn(screen) {
+  expectTrue(screen.yellowButtonLightTurnedOn());
 }
 
 describe("ScreenPresenter", function () {
@@ -105,7 +105,7 @@ describe("ScreenPresenter", function () {
 
   it("should light red button when red tone starts", function () {
     this.presenter.notifyThatRedToneStarted();
-    expectRedButtonLit(this.screen);
+    expectRedButtonLightTurnedOn(this.screen);
   });
 
   it("should turn off red button light when red tone ends", function () {
@@ -115,7 +115,7 @@ describe("ScreenPresenter", function () {
 
   it("should light green button when green tone starts", function () {
     this.presenter.notifyThatGreenToneStarted();
-    expectGreenButtonLit(this.screen);
+    expectGreenButtonLightTurnedOn(this.screen);
   });
 
   it("should turn off green button light when green tone ends", function () {
@@ -125,7 +125,7 @@ describe("ScreenPresenter", function () {
 
   it("should light blue button when blue tone starts", function () {
     this.presenter.notifyThatBlueToneStarted();
-    expectBlueButtonLit(this.screen);
+    expectBlueButtonLightTurnedOn(this.screen);
   });
 
   it("should turn off blue button light when blue tone ends", function () {
@@ -135,7 +135,7 @@ describe("ScreenPresenter", function () {
 
   it("should light yellow button when yellow tone starts", function () {
     this.presenter.notifyThatYellowToneStarted();
-    expectYellowButtonLit(this.screen);
+    expectYellowButtonLightTurnedOn(this.screen);
   });
 
   it("should turn off yellow button light when yellow tone ends", function () {
@@ -145,9 +145,9 @@ describe("ScreenPresenter", function () {
 
   it("should turn on all button lights when tone series ends", function () {
     this.presenter.notifyThatToneSeriesEnded();
-    expectYellowButtonLit(this.screen);
-    expectRedButtonLit(this.screen);
-    expectGreenButtonLit(this.screen);
-    expectBlueButtonLit(this.screen);
+    expectYellowButtonLightTurnedOn(this.screen);
+    expectRedButtonLightTurnedOn(this.screen);
+    expectGreenButtonLightTurnedOn(this.screen);
+    expectBlueButtonLightTurnedOn(this.screen);
   });
 });
