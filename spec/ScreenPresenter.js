@@ -1,6 +1,17 @@
 import { ScreenPresenter } from "../lib/ScreenPresenter.js";
 
 class ScreenStub {
+  constructor() {
+    this.redButtonLit_ = false;
+    this.redButtonLightTurnedOff_ = false;
+    this.blueButtonLit_ = false;
+    this.blueButtonLightTurnedOff_ = false;
+    this.greenButtonLit_ = false;
+    this.greenButtonLightTurnedOff_ = false;
+    this.yellowButtonLit_ = false;
+    this.yellowButtonLightTurnedOff_ = false;
+  }
+
   redButtonLit() {
     return this.redButtonLit_;
   }
@@ -110,5 +121,13 @@ describe("ScreenPresenter", function () {
   it("should turn off yellow button light when yellow tone ends", function () {
     this.presenter.notifyThatYellowToneEnded();
     expect(this.screen.yellowButtonLightTurnedOff()).toBeTrue();
+  });
+
+  it("should turn on all button lights when tone series ends", function () {
+    this.presenter.notifyThatToneSeriesEnded();
+    expect(this.screen.yellowButtonLit()).toBeTrue();
+    expect(this.screen.redButtonLit()).toBeTrue();
+    expect(this.screen.greenButtonLit()).toBeTrue();
+    expect(this.screen.blueButtonLit()).toBeTrue();
   });
 });
