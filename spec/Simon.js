@@ -11,14 +11,14 @@ class AudioPlayerStub {
     this.incorrectGreenTonePlayed_ = false;
     this.correctBlueTonePlayed_ = false;
     this.incorrectBlueTonePlayed_ = false;
-    this.correctRedToneDurationSeconds_ = 0;
-    this.incorrectRedToneDurationSeconds_ = 0;
-    this.correctYellowToneDurationSeconds_ = 0;
-    this.incorrectYellowToneDurationSeconds_ = 0;
-    this.correctGreenToneDurationSeconds_ = 0;
-    this.incorrectGreenToneDurationSeconds_ = 0;
-    this.correctBlueToneDurationSeconds_ = 0;
-    this.incorrectBlueToneDurationSeconds_ = 0;
+    this.correctRedToneDurationMilliseconds_ = 0;
+    this.incorrectRedToneDurationMilliseconds_ = 0;
+    this.correctYellowToneDurationMilliseconds_ = 0;
+    this.incorrectYellowToneDurationMilliseconds_ = 0;
+    this.correctGreenToneDurationMilliseconds_ = 0;
+    this.incorrectGreenToneDurationMilliseconds_ = 0;
+    this.correctBlueToneDurationMilliseconds_ = 0;
+    this.incorrectBlueToneDurationMilliseconds_ = 0;
   }
 
   play(
@@ -48,40 +48,40 @@ class AudioPlayerStub {
   }
 
   playCorrectRedTone(s) {
-    this.correctRedToneDurationSeconds_ = s;
+    this.correctRedToneDurationMilliseconds_ = s;
     this.correctRedTonePlayed_ = true;
   }
 
-  correctRedToneDurationSeconds() {
-    return this.correctRedToneDurationSeconds_;
+  correctRedToneDurationMilliseconds() {
+    return this.correctRedToneDurationMilliseconds_;
   }
 
-  incorrectRedToneDurationSeconds() {
-    return this.incorrectRedToneDurationSeconds_;
+  incorrectRedToneDurationMilliseconds() {
+    return this.incorrectRedToneDurationMilliseconds_;
   }
 
-  correctGreenToneDurationSeconds() {
-    return this.correctGreenToneDurationSeconds_;
+  correctGreenToneDurationMilliseconds() {
+    return this.correctGreenToneDurationMilliseconds_;
   }
 
-  incorrectGreenToneDurationSeconds() {
-    return this.incorrectGreenToneDurationSeconds_;
+  incorrectGreenToneDurationMilliseconds() {
+    return this.incorrectGreenToneDurationMilliseconds_;
   }
 
-  correctBlueToneDurationSeconds() {
-    return this.correctBlueToneDurationSeconds_;
+  correctBlueToneDurationMilliseconds() {
+    return this.correctBlueToneDurationMilliseconds_;
   }
 
-  incorrectBlueToneDurationSeconds() {
-    return this.incorrectBlueToneDurationSeconds_;
+  incorrectBlueToneDurationMilliseconds() {
+    return this.incorrectBlueToneDurationMilliseconds_;
   }
 
-  correctYellowToneDurationSeconds() {
-    return this.correctYellowToneDurationSeconds_;
+  correctYellowToneDurationMilliseconds() {
+    return this.correctYellowToneDurationMilliseconds_;
   }
 
-  incorrectYellowToneDurationSeconds() {
-    return this.incorrectYellowToneDurationSeconds_;
+  incorrectYellowToneDurationMilliseconds() {
+    return this.incorrectYellowToneDurationMilliseconds_;
   }
 
   incorrectRedTonePlayed() {
@@ -89,7 +89,7 @@ class AudioPlayerStub {
   }
 
   playIncorrectRedTone(s) {
-    this.incorrectRedToneDurationSeconds_ = s;
+    this.incorrectRedToneDurationMilliseconds_ = s;
     this.incorrectRedTonePlayed_ = true;
   }
 
@@ -98,7 +98,7 @@ class AudioPlayerStub {
   }
 
   playCorrectBlueTone(s) {
-    this.correctBlueToneDurationSeconds_ = s;
+    this.correctBlueToneDurationMilliseconds_ = s;
     this.correctBlueTonePlayed_ = true;
   }
 
@@ -107,7 +107,7 @@ class AudioPlayerStub {
   }
 
   playIncorrectBlueTone(s) {
-    this.incorrectBlueToneDurationSeconds_ = s;
+    this.incorrectBlueToneDurationMilliseconds_ = s;
     this.incorrectBlueTonePlayed_ = true;
   }
 
@@ -116,7 +116,7 @@ class AudioPlayerStub {
   }
 
   playCorrectGreenTone(s) {
-    this.correctGreenToneDurationSeconds_ = s;
+    this.correctGreenToneDurationMilliseconds_ = s;
     this.correctGreenTonePlayed_ = true;
   }
 
@@ -125,7 +125,7 @@ class AudioPlayerStub {
   }
 
   playIncorrectGreenTone(s) {
-    this.incorrectGreenToneDurationSeconds_ = s;
+    this.incorrectGreenToneDurationMilliseconds_ = s;
     this.incorrectGreenTonePlayed_ = true;
   }
 
@@ -134,7 +134,7 @@ class AudioPlayerStub {
   }
 
   playCorrectYellowTone(s) {
-    this.correctYellowToneDurationSeconds_ = s;
+    this.correctYellowToneDurationMilliseconds_ = s;
     this.correctYellowTonePlayed_ = true;
   }
 
@@ -143,7 +143,7 @@ class AudioPlayerStub {
   }
 
   playIncorrectYellowTone(s) {
-    this.incorrectYellowToneDurationSeconds_ = s;
+    this.incorrectYellowToneDurationMilliseconds_ = s;
     this.incorrectYellowTonePlayed_ = true;
   }
 }
@@ -262,7 +262,7 @@ describe("Simon", function () {
     enterRed(this.simon);
     expectFalse(incorrectRedTonePlayed(this.audioPlayer));
     expectTrue(correctRedTonePlayed(this.audioPlayer));
-    expectEqual(this.audioPlayer.correctRedToneDurationSeconds(), 1);
+    expectEqual(this.audioPlayer.correctRedToneDurationMilliseconds(), 1);
   });
 
   it("should play correct when green entered and green is correct", function () {
