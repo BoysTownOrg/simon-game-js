@@ -266,51 +266,65 @@ describe("Simon", function () {
   });
 
   it("should play correct when green entered and green is correct", function () {
+    setShortToneDurationMilliseconds(this.simon, 1);
     say(this.simon, [Color.green, Color.red, Color.blue, Color.yellow]);
     enterGreen(this.simon);
     expectFalse(incorrectGreenTonePlayed(this.audioPlayer));
     expectTrue(correctGreenTonePlayed(this.audioPlayer));
+    expectEqual(this.audioPlayer.correctGreenToneDurationMilliseconds(), 1);
   });
 
   it("should play correct when blue entered and blue is correct", function () {
+    setShortToneDurationMilliseconds(this.simon, 1);
     say(this.simon, [Color.blue, Color.green, Color.red, Color.yellow]);
     enterBlue(this.simon);
     expectFalse(incorrectBlueTonePlayed(this.audioPlayer));
     expectTrue(correctBlueTonePlayed(this.audioPlayer));
+    expectEqual(this.audioPlayer.correctBlueToneDurationMilliseconds(), 1);
   });
 
   it("should play correct when yellow entered and yellow is correct", function () {
+    setShortToneDurationMilliseconds(this.simon, 1);
     say(this.simon, [Color.yellow, Color.green, Color.blue, Color.red]);
     enterYellow(this.simon);
     expectFalse(incorrectYellowTonePlayed(this.audioPlayer));
     expectTrue(correctYellowTonePlayed(this.audioPlayer));
+    expectEqual(this.audioPlayer.correctYellowToneDurationMilliseconds(), 1);
   });
 
   it("should play incorrect when red entered and red is incorrect", function () {
+    setShortToneDurationMilliseconds(this.simon, 1);
     say(this.simon, [Color.green, Color.red, Color.blue, Color.yellow]);
     enterRed(this.simon);
     expectFalse(correctRedTonePlayed(this.audioPlayer));
     expectTrue(incorrectRedTonePlayed(this.audioPlayer));
+    expectEqual(this.audioPlayer.incorrectRedToneDurationMilliseconds(), 1);
   });
 
   it("should play incorrect when blue entered and blue is incorrect", function () {
+    setShortToneDurationMilliseconds(this.simon, 1);
     say(this.simon, [Color.green, Color.red, Color.blue, Color.yellow]);
     enterBlue(this.simon);
     expectFalse(correctBlueTonePlayed(this.audioPlayer));
     expectTrue(incorrectBlueTonePlayed(this.audioPlayer));
+    expectEqual(this.audioPlayer.incorrectBlueToneDurationMilliseconds(), 1);
   });
 
   it("should play incorrect when green entered and green is incorrect", function () {
+    setShortToneDurationMilliseconds(this.simon, 1);
     say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
     enterGreen(this.simon);
     expectFalse(correctGreenTonePlayed(this.audioPlayer));
     expectTrue(incorrectGreenTonePlayed(this.audioPlayer));
+    expectEqual(this.audioPlayer.incorrectGreenToneDurationMilliseconds(), 1);
   });
 
   it("should play incorrect when yellow entered and yellow is incorrect", function () {
+    setShortToneDurationMilliseconds(this.simon, 1);
     say(this.simon, [Color.green, Color.red, Color.blue, Color.yellow]);
     enterYellow(this.simon);
     expectFalse(correctYellowTonePlayed(this.audioPlayer));
     expectTrue(incorrectYellowTonePlayed(this.audioPlayer));
+    expectEqual(this.audioPlayer.incorrectYellowToneDurationMilliseconds(), 1);
   });
 });
