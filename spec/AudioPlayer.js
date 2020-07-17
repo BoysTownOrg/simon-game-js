@@ -143,6 +143,18 @@ function playCorrectRedTone(player, toneDurationMilliseconds) {
   player.playCorrectRedTone(toneDurationMilliseconds);
 }
 
+function playCorrectBlueTone(player, toneDurationMilliseconds) {
+  player.playCorrectBlueTone(toneDurationMilliseconds);
+}
+
+function playCorrectGreenTone(player, toneDurationMilliseconds) {
+  player.playCorrectGreenTone(toneDurationMilliseconds);
+}
+
+function playCorrectYellowTone(player, toneDurationMilliseconds) {
+  player.playCorrectYellowTone(toneDurationMilliseconds);
+}
+
 function setPlayDelaySeconds(player, x) {
   player.setPlayDelaySeconds(x);
 }
@@ -228,18 +240,6 @@ describe("AudioPlayer", function () {
     );
   });
 
-  it("should schedule silent tone before first color tone on play", function () {
-    setPlayDelaySeconds(this.player, 5);
-    setCurrentTimeSeconds(this.audioEnvironment, 6);
-    play(
-      this.player,
-      [Color.red, Color.green, Color.blue, Color.yellow],
-      7000,
-      8000
-    );
-    expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
-  });
-
   it("should schedule silent tone before playing correct red tone", function () {
     setPlayDelaySeconds(this.player, 5);
     setCurrentTimeSeconds(this.audioEnvironment, 6);
@@ -252,6 +252,60 @@ describe("AudioPlayer", function () {
     setCurrentTimeSeconds(this.audioEnvironment, 6);
     playCorrectRedTone(this.player, 7000);
     expectScheduledTonesContains(this.audioEnvironment, 5 + 6, 5 + 6 + 7, 2);
+  });
+
+  it("should schedule silent tone before playing correct yellow tone", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    playCorrectYellowTone(this.player, 7000);
+    expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
+  });
+
+  it("should schedule correct yellow tone", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    playCorrectYellowTone(this.player, 7000);
+    expectScheduledTonesContains(this.audioEnvironment, 5 + 6, 5 + 6 + 7, 3);
+  });
+
+  it("should schedule silent tone before playing correct green tone", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    playCorrectGreenTone(this.player, 7000);
+    expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
+  });
+
+  it("should schedule correct green tone", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    playCorrectGreenTone(this.player, 7000);
+    expectScheduledTonesContains(this.audioEnvironment, 5 + 6, 5 + 6 + 7, 4);
+  });
+
+  it("should schedule silent tone before playing correct blue tone", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    playCorrectBlueTone(this.player, 7000);
+    expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
+  });
+
+  it("should schedule correct blue tone", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    playCorrectBlueTone(this.player, 7000);
+    expectScheduledTonesContains(this.audioEnvironment, 5 + 6, 5 + 6 + 7, 1);
+  });
+
+  it("should schedule silent tone before first color tone on play", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
   });
 
   it("should schedule first color tone on play", function () {
