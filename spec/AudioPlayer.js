@@ -342,6 +342,66 @@ describe("AudioPlayer", function () {
     expectTrue(notifiedThatRedToneStarted(listener));
   });
 
+  it("should notify when second color tone starts", function () {
+    const listener = new ColorToneEventListenerStub();
+    this.player.subscribe(listener);
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    expectFalse(notifiedThatGreenToneStarted(listener));
+    endNextTone(this.audioEnvironment);
+    expectTrue(notifiedThatGreenToneStarted(listener));
+  });
+
+  it("should notify when third color tone starts", function () {
+    const listener = new ColorToneEventListenerStub();
+    this.player.subscribe(listener);
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    expectFalse(notifiedThatBlueToneStarted(listener));
+    endNextTone(this.audioEnvironment);
+    expectTrue(notifiedThatBlueToneStarted(listener));
+  });
+
+  it("should notify when fourth color tone starts", function () {
+    const listener = new ColorToneEventListenerStub();
+    this.player.subscribe(listener);
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    expectFalse(notifiedThatYellowToneStarted(listener));
+    endNextTone(this.audioEnvironment);
+    expectTrue(notifiedThatYellowToneStarted(listener));
+  });
+
   it("should notify when first color tone ends", function () {
     const listener = new ColorToneEventListenerStub();
     this.player.subscribe(listener);
