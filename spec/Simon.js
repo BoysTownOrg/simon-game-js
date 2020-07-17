@@ -35,45 +35,6 @@ class AudioPlayerStub {
     return this.toneColors_;
   }
 
-  clearState() {
-    this.redPlayed_ = false;
-    this.yellowPlayed_ = false;
-    this.greenPlayed_ = false;
-    this.bluePlayed_ = false;
-  }
-
-  redPlayed() {
-    return this.redPlayed_;
-  }
-
-  greenPlayed() {
-    return this.greenPlayed_;
-  }
-
-  yellowPlayed() {
-    return this.yellowPlayed_;
-  }
-
-  bluePlayed() {
-    return this.bluePlayed_;
-  }
-
-  playRed() {
-    this.redPlayed_ = true;
-  }
-
-  playGreen() {
-    this.greenPlayed_ = true;
-  }
-
-  playYellow() {
-    this.yellowPlayed_ = true;
-  }
-
-  playBlue() {
-    this.bluePlayed_ = true;
-  }
-
   correctRedTonePlayed() {
     return this.correctRedTonePlayed_;
   }
