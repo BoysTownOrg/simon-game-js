@@ -50,6 +50,7 @@ jsPsych.plugins[pluginName] = (function () {
         });
         addClickEventListener(this.doneButton, function (_e) {
           this.listener.notifyThatDoneWasClicked();
+          jsPsych.finishTrial();
         });
       }
 
@@ -109,10 +110,10 @@ jsPsych.plugins[pluginName] = (function () {
     audioPlayer.setPlayDelaySeconds(0.02);
     const presenter = new ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
-    const simon = new Simon();
+    const simon = new Simon(audioPlayer);
     simon.setLongToneDurationMilliseconds(700);
+    simon.setShortToneDurationMilliseconds(100);
     simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
-    jsPsych.finishTrial();
   };
   return plugin;
 })();
