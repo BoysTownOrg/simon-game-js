@@ -139,6 +139,10 @@ function play(
   );
 }
 
+function playCorrectRedTone(player, toneDurationMilliseconds) {
+  player.playCorrectRedTone(toneDurationMilliseconds);
+}
+
 function setPlayDelaySeconds(player, x) {
   player.setPlayDelaySeconds(x);
 }
@@ -233,6 +237,13 @@ describe("AudioPlayer", function () {
       7000,
       8000
     );
+    expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
+  });
+
+  it("should schedule silent tone before playing correct red tone", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    playCorrectRedTone(this.player, 7000);
     expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
   });
 
