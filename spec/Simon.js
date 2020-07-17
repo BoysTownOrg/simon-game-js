@@ -1,47 +1,6 @@
 import { Simon } from "../lib/Simon.js";
 import { Color } from "../lib/Color.js";
 
-class PresenterStub {
-  clearState() {
-    this.redLitUp_ = false;
-    this.yellowLitUp_ = false;
-    this.greenLitUp_ = false;
-    this.blueLitUp_ = false;
-  }
-
-  redLitUp() {
-    return this.redLitUp_;
-  }
-
-  greenLitUp() {
-    return this.greenLitUp_;
-  }
-
-  yellowLitUp() {
-    return this.yellowLitUp_;
-  }
-
-  blueLitUp() {
-    return this.blueLitUp_;
-  }
-
-  lightUpRed() {
-    this.redLitUp_ = true;
-  }
-
-  lightUpGreen() {
-    this.greenLitUp_ = true;
-  }
-
-  lightUpYellow() {
-    this.yellowLitUp_ = true;
-  }
-
-  lightUpBlue() {
-    this.blueLitUp_ = true;
-  }
-}
-
 class AudioPlayerStub {
   constructor() {
     this.correctRedTonePlayed_ = false;
@@ -184,52 +143,12 @@ function say(simon, colors) {
   simon.say(colors);
 }
 
-function redLitUp(presenter) {
-  return presenter.redLitUp();
-}
-
-function greenLitUp(presenter) {
-  return presenter.greenLitUp();
-}
-
-function blueLitUp(presenter) {
-  return presenter.blueLitUp();
-}
-
-function yellowLitUp(presenter) {
-  return presenter.yellowLitUp();
-}
-
-function redPlayed(audioPlayer) {
-  return audioPlayer.redPlayed();
-}
-
-function greenPlayed(audioPlayer) {
-  return audioPlayer.greenPlayed();
-}
-
-function bluePlayed(audioPlayer) {
-  return audioPlayer.bluePlayed();
-}
-
-function yellowPlayed(audioPlayer) {
-  return audioPlayer.yellowPlayed();
-}
-
 function expectTrue(b) {
   expect(b).toBeTrue();
 }
 
 function expectFalse(b) {
   expect(b).toBeFalse();
-}
-
-function clearPresenterState(presenter) {
-  presenter.clearState();
-}
-
-function clearAudioPlayerState(audioPlayer) {
-  audioPlayer.clearState();
 }
 
 function enterYellow(simon) {
@@ -306,9 +225,8 @@ function incorrectBlueTonePlayed(player) {
 
 describe("Simon", function () {
   beforeEach(function () {
-    this.presenter = new PresenterStub();
     this.audioPlayer = new AudioPlayerStub();
-    this.simon = new Simon(this.presenter, this.audioPlayer);
+    this.simon = new Simon(this.audioPlayer);
   });
 
   it("should play the color tones on say", function () {
@@ -323,24 +241,6 @@ describe("Simon", function () {
       Color.blue,
       Color.yellow,
     ]);
-  });
-
-  it("should light up and play entered colors that are correct", function () {
-    say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
-    clearPresenterState(this.presenter);
-    clearAudioPlayerState(this.audioPlayer);
-    enterRed(this.simon);
-    expectTrue(redLitUp(this.presenter));
-    expectTrue(redPlayed(this.audioPlayer));
-    enterGreen(this.simon);
-    expectTrue(greenLitUp(this.presenter));
-    expectTrue(greenPlayed(this.audioPlayer));
-    enterBlue(this.simon);
-    expectTrue(blueLitUp(this.presenter));
-    expectTrue(bluePlayed(this.audioPlayer));
-    enterYellow(this.simon);
-    expectTrue(yellowLitUp(this.presenter));
-    expectTrue(yellowPlayed(this.audioPlayer));
   });
 
   it("should play correct when red entered and red is correct", function () {
