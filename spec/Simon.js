@@ -43,6 +43,10 @@ class PresenterStub {
 }
 
 class AudioPlayerStub {
+  constructor() {
+    this.correctRedTonePlayed_ = false;
+  }
+
   play(
     toneColors,
     toneDurationMilliseconds,
@@ -102,6 +106,14 @@ class AudioPlayerStub {
 
   playBlue() {
     this.bluePlayed_ = true;
+  }
+
+  correctRedTonePlayed() {
+    return this.correctRedTonePlayed_;
+  }
+
+  playCorrectRedTone() {
+    this.correctRedTonePlayed_ = true;
   }
 }
 
@@ -193,6 +205,10 @@ function toneColors(player) {
   return player.toneColors();
 }
 
+function correctRedTonePlayed(player) {
+  return player.correctRedTonePlayed();
+}
+
 describe("Simon", function () {
   beforeEach(function () {
     this.presenter = new PresenterStub();
@@ -230,5 +246,11 @@ describe("Simon", function () {
     enterYellow(this.simon);
     expectTrue(yellowLitUp(this.presenter));
     expectTrue(yellowPlayed(this.audioPlayer));
+  });
+
+  it("should play entered colors that are correct", function () {
+    say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
+    enterRed(this.simon);
+    expectTrue(correctRedTonePlayed(this.audioPlayer));
   });
 });
