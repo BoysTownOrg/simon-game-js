@@ -1,7 +1,19 @@
 import { AudioPlayer } from "../lib/AudioPlayer.js";
 import { Color } from "../lib/Color.js";
 
-class ColorToneEvenListenerStub {
+class ColorToneEventListenerStub {
+  constructor() {
+    this.notifiedThatToneSeriesEnded_ = false;
+    this.notifiedThatRedToneStarted_ = false;
+    this.notifiedThatRedToneEnded_ = false;
+    this.notifiedThatYellowToneStarted_ = false;
+    this.notifiedThatYellowToneEnded_ = false;
+    this.notifiedThatGreenToneStarted_ = false;
+    this.notifiedThatGreenToneEnded_ = false;
+    this.notifiedThatBlueToneStarted_ = false;
+    this.notifiedThatBlueToneEnded_ = false;
+  }
+
   notifiedThatRedToneStarted() {
     return this.notifiedThatRedToneStarted_;
   }
@@ -16,6 +28,62 @@ class ColorToneEvenListenerStub {
 
   notifyThatRedToneEnded() {
     this.notifiedThatRedToneEnded_ = true;
+  }
+
+  notifiedThatBlueToneStarted() {
+    return this.notifiedThatBlueToneStarted_;
+  }
+
+  notifyThatBlueToneStarted() {
+    this.notifiedThatBlueToneStarted_ = true;
+  }
+
+  notifiedThatBlueToneEnded() {
+    return this.notifiedThatBlueToneEnded_;
+  }
+
+  notifyThatBlueToneEnded() {
+    this.notifiedThatBlueToneEnded_ = true;
+  }
+
+  notifiedThatGreenToneStarted() {
+    return this.notifiedThatGreenToneStarted_;
+  }
+
+  notifyThatGreenToneStarted() {
+    this.notifiedThatGreenToneStarted_ = true;
+  }
+
+  notifiedThatGreenToneEnded() {
+    return this.notifiedThatGreenToneEnded_;
+  }
+
+  notifyThatGreenToneEnded() {
+    this.notifiedThatGreenToneEnded_ = true;
+  }
+
+  notifiedThatYellowToneStarted() {
+    return this.notifiedThatYellowToneStarted_;
+  }
+
+  notifyThatYellowToneStarted() {
+    this.notifiedThatYellowToneStarted_ = true;
+  }
+
+  notifiedThatYellowToneEnded() {
+    return this.notifiedThatYellowToneEnded_;
+  }
+
+  notifyThatYellowToneEnded() {
+    this.notifiedThatYellowToneEnded_ = true;
+  }
+
+  notifiedThatToneSeriesEnded() {
+    return this.notifiedThatToneSeriesEnded_;
+  }
+
+  notifyThatToneSeriesEnded() {
+    this.notifiedThatToneSeriesEnded_ = true;
   }
 }
 
@@ -95,8 +163,16 @@ function notifiedThatRedToneEnded(listener) {
   return listener.notifiedThatRedToneEnded();
 }
 
+function notifiedThatToneSeriesEnded(listener) {
+  return listener.notifiedThatToneSeriesEnded();
+}
+
 function expectTrue(b) {
   expect(b).toBeTrue();
+}
+
+function expectFalse(b) {
+  expect(b).toBeFalse();
 }
 
 function expectScheduledTonesContains(
@@ -227,7 +303,7 @@ describe("AudioPlayer", function () {
   });
 
   it("should notify when first color tone starts", function () {
-    const listener = new ColorToneEvenListenerStub();
+    const listener = new ColorToneEventListenerStub();
     this.player.subscribe(listener);
     setPlayDelaySeconds(this.player, 5);
     setCurrentTimeSeconds(this.audioEnvironment, 6);
@@ -242,7 +318,7 @@ describe("AudioPlayer", function () {
   });
 
   it("should notify when first color tone ends", function () {
-    const listener = new ColorToneEvenListenerStub();
+    const listener = new ColorToneEventListenerStub();
     this.player.subscribe(listener);
     setPlayDelaySeconds(this.player, 5);
     setCurrentTimeSeconds(this.audioEnvironment, 6);
@@ -255,5 +331,29 @@ describe("AudioPlayer", function () {
     endNextTone(this.audioEnvironment);
     endNextTone(this.audioEnvironment);
     expectTrue(notifiedThatRedToneEnded(listener));
+  });
+
+  it("should notify when playing ends", function () {
+    const listener = new ColorToneEventListenerStub();
+    this.player.subscribe(listener);
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    expectFalse(notifiedThatToneSeriesEnded(listener));
+    endNextTone(this.audioEnvironment);
+    expectTrue(notifiedThatToneSeriesEnded(listener));
   });
 });
