@@ -10,6 +10,24 @@ class ScreenStub {
     this.greenButtonLightTurnedOff_ = false;
     this.yellowButtonLightTurnedOn_ = false;
     this.yellowButtonLightTurnedOff_ = false;
+    this.blueButtonDarkened_ = false;
+    this.blueButtonUndarkened_ = false;
+  }
+
+  blueButtonDarkened() {
+    return this.blueButtonDarkened_;
+  }
+
+  darkenBlueButton() {
+    this.blueButtonDarkened_ = true;
+  }
+
+  blueButtonUndarkened() {
+    return this.blueButtonUndarkened_;
+  }
+
+  undarkenBlueButton() {
+    this.blueButtonUndarkened_ = true;
   }
 
   redButtonLightTurnedOn() {
@@ -149,5 +167,15 @@ describe("ScreenPresenter", function () {
     expectRedButtonLightTurnedOn(this.screen);
     expectGreenButtonLightTurnedOn(this.screen);
     expectBlueButtonLightTurnedOn(this.screen);
+  });
+
+  it("should darken blue button when correct blue tone starts", function () {
+    this.presenter.notifyThatCorrectBlueToneStarted();
+    expectTrue(this.screen.blueButtonDarkened());
+  });
+
+  it("should undarken blue button when correct blue tone ends", function () {
+    this.presenter.notifyThatCorrectBlueToneEnded();
+    expectTrue(this.screen.blueButtonUndarkened());
   });
 });
