@@ -10,9 +10,9 @@ function addClickEventListener(button, f) {
 
 function createCircleBorderedButton() {
   const button = document.createElement("div");
-  button.style.height = "90px";
-  button.style.width = "90px";
-  button.style.borderRadius = "400px";
+  button.style.height = "200px";
+  button.style.width = "200px";
+  button.style.borderRadius = "100px";
   button.style.border = "4px solid black";
   button.style.margin = "20px";
   return button;
@@ -44,10 +44,8 @@ class CognitionScreen {
     adopt(display_element, row);
     adopt(row, this.redButton);
     const gap = document.createElement("div");
-    gap.style.height = "90px";
-    gap.style.width = "90px";
-    gap.style.borderRadius = "400px";
-    gap.style.margin = "20px";
+    gap.style.height = "200px";
+    gap.style.width = "400px";
     adopt(row, gap);
     adopt(row, this.blueButton);
     const bottomRow = document.createElement("div");
@@ -167,18 +165,14 @@ class WebAudioContext {
   }
 }
 
-export function plugin(name) {
-  var plugin = {};
+export function plugin() {
+  let plugin = {};
   plugin.info = {
-    name: name,
-    description: "",
     parameters: {},
   };
   plugin.trial = function (display_element, trial) {
-    const screen = new CognitionScreen(display_element);
-    const audioEnvironment = new WebAudioContext();
     const audioPlayer = new AudioPlayer(
-      audioEnvironment,
+      new WebAudioContext(),
       new Map([
         [Color.green, 391.995],
         [Color.red, 329.628],
@@ -188,16 +182,15 @@ export function plugin(name) {
       48.9994
     );
     audioPlayer.setPlayDelaySeconds(0.003);
+    const screen = new CognitionScreen(display_element);
     const presenter = new ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
     const simon = new Simon(audioPlayer);
     simon.setLongToneDurationMilliseconds(700);
     simon.setShortToneDurationMilliseconds(100);
     simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
-    const responder = new ScreenResponder(screen, simon);
-    jsPsych.pluginAPI.setTimeout(() => {
-      simon.say([Color.red, Color.green, Color.yellow, Color.blue]);
-    }, 500);
+    new ScreenResponder(screen, simon);
+    simon.say(trial.colors);
   };
   return plugin;
 }

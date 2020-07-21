@@ -1,13 +1,15 @@
 import { plugin } from "./jspsych-plugin-simon-game.js";
+import { Color } from "./lib/Color.js";
 
-const pluginName = "simon-game";
+const simon = "simon-game";
 
-jsPsych.plugins[pluginName] = plugin(pluginName);
+jsPsych.plugins[simon] = plugin();
 
-var hello_trial = {
-  type: pluginName,
+var trial = {
+  type: simon,
+  colors: [Color.red, Color.green, Color.yellow, Color.blue],
 };
 
 jsPsych.init({
-  timeline: [hello_trial],
+  timeline: [trial],
 });
