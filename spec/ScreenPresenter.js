@@ -178,4 +178,14 @@ describe("ScreenPresenter", function () {
     this.presenter.notifyThatCorrectBlueToneEnded();
     expectTrue(this.screen.blueButtonUndarkened());
   });
+
+  it("should darken blue button when incorrect blue tone starts", function () {
+    this.presenter.notifyThatIncorrectBlueToneStarted();
+    expectTrue(this.screen.blueButtonDarkened());
+  });
+
+  it("should undarken blue button when incorrect blue tone ends", function () {
+    this.presenter.notifyThatIncorrectBlueToneEnded();
+    expectTrue(this.screen.blueButtonUndarkened());
+  });
 });
