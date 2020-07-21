@@ -8,8 +8,12 @@ function addClickEventListener(button, f) {
   button.addEventListener("mousedown", f);
 }
 
-function createCircleBorderedButton() {
-  const button = document.createElement("div");
+function element() {
+  return document.createElement("div");
+}
+
+function borderedCircleButton() {
+  const button = element();
   button.style.height = "200px";
   button.style.width = "200px";
   button.style.borderRadius = "100px";
@@ -50,40 +54,30 @@ function setRedBackground(button) {
   setBackgroundColor(button, "red");
 }
 
-const redColor = "red";
-const yellowColor = "yellow";
-const greenColor = "green";
-const blueColor = "blue";
-
 class CognitionScreen {
   constructor(display_element) {
-    this.greenButton = createCircleBorderedButton();
-    this.redButton = createCircleBorderedButton();
-    this.blueButton = createCircleBorderedButton();
-    this.yellowButton = createCircleBorderedButton();
-    this.doneButton = document.createElement("div");
+    this.greenButton = borderedCircleButton();
+    this.redButton = borderedCircleButton();
+    this.blueButton = borderedCircleButton();
+    this.yellowButton = borderedCircleButton();
+    this.doneButton = element();
     this.doneButton.style.border = "solid";
     this.doneButton.textContent = "Done";
-    const topRow = document.createElement("div");
+    const topRow = element();
     topRow.style.display = "inline-flex";
-    topRow.style.alignItems = "center";
     adopt(display_element, topRow);
     adopt(topRow, this.greenButton);
-    const middleRow = document.createElement("div");
+    const middleRow = element();
     middleRow.style.display = "flex";
-    middleRow.style.justifyContent = "space-around";
-    middleRow.style.alignItems = "center";
-    middleRow.style.margin = "15px auto";
     adopt(display_element, middleRow);
     adopt(middleRow, this.redButton);
-    const gap = document.createElement("div");
+    const gap = element();
     gap.style.height = "200px";
     gap.style.width = "400px";
     adopt(middleRow, gap);
     adopt(middleRow, this.blueButton);
-    const bottomRow = document.createElement("div");
+    const bottomRow = element();
     bottomRow.style.display = "inline-flex";
-    bottomRow.style.alignItems = "center";
     adopt(display_element, bottomRow);
     adopt(bottomRow, this.yellowButton);
     adopt(display_element, this.doneButton);
