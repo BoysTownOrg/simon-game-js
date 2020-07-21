@@ -34,19 +34,19 @@ class CognitionScreen {
     adopt(display_element, this.blueButton);
     adopt(display_element, this.yellowButton);
     adopt(display_element, this.doneButton);
-    addClickEventListener(this.greenButton, function (_e) {
+    addClickEventListener(this.greenButton, (_e) => {
       this.listener.notifyThatGreenWasClicked();
     });
-    addClickEventListener(this.redButton, function (_e) {
+    addClickEventListener(this.redButton, (_e) => {
       this.listener.notifyThatRedWasClicked();
     });
-    addClickEventListener(this.blueButton, function (_e) {
+    addClickEventListener(this.blueButton, (_e) => {
       this.listener.notifyThatBlueWasClicked();
     });
-    addClickEventListener(this.yellowButton, function (_e) {
+    addClickEventListener(this.yellowButton, (_e) => {
       this.listener.notifyThatYellowWasClicked();
     });
-    addClickEventListener(this.doneButton, function (_e) {
+    addClickEventListener(this.doneButton, (_e) => {
       this.listener.notifyThatDoneWasClicked();
       jsPsych.finishTrial();
     });
@@ -88,21 +88,37 @@ class CognitionScreen {
     this.yellowButton.style.backgroundColor = "";
   }
 
-  darkenBlueButton() {}
+  darkenBlueButton() {
+    this.blueButton.style.backgroundColor = "black";
+  }
 
-  undarkenBlueButton() {}
+  undarkenBlueButton() {
+    this.blueButton.style.backgroundColor = "blue";
+  }
 
-  darkenRedButton() {}
+  darkenRedButton() {
+    this.redButton.style.backgroundColor = "black";
+  }
 
-  undarkenRedButton() {}
+  undarkenRedButton() {
+    this.redButton.style.backgroundColor = "red";
+  }
 
-  darkenGreenButton() {}
+  darkenGreenButton() {
+    this.greenButton.style.backgroundColor = "black";
+  }
 
-  undarkenGreenButton() {}
+  undarkenGreenButton() {
+    this.greenButton.style.backgroundColor = "green";
+  }
 
-  darkenYellowButton() {}
+  darkenYellowButton() {
+    this.yellowButton.style.backgroundColor = "black";
+  }
 
-  undarkenYellowButton() {}
+  undarkenYellowButton() {
+    this.yellowButton.style.backgroundColor = "yellow";
+  }
 }
 
 class WebAudioContext {
@@ -146,7 +162,7 @@ export function plugin(name) {
       ]),
       48.9994
     );
-    audioPlayer.setPlayDelaySeconds(0.02);
+    audioPlayer.setPlayDelaySeconds(0);
     const presenter = new ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
     const simon = new Simon(audioPlayer);
@@ -154,9 +170,7 @@ export function plugin(name) {
     simon.setShortToneDurationMilliseconds(100);
     simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
     const responder = new ScreenResponder(screen, simon);
-    jsPsych.pluginAPI.setTimeout(function () {
-      simon.say([Color.red, Color.green, Color.yellow, Color.blue]);
-    }, 1000);
+    simon.say([Color.red, Color.green, Color.yellow, Color.blue]);
   };
   return plugin;
 }
