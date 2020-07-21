@@ -19,6 +19,15 @@ class AudioPlayerStub {
     this.incorrectGreenToneDurationMilliseconds_ = 0;
     this.correctBlueToneDurationMilliseconds_ = 0;
     this.incorrectBlueToneDurationMilliseconds_ = 0;
+    this.playing_ = false;
+  }
+
+  playing() {
+    return this.playing_;
+  }
+
+  setPlaying() {
+    this.playing_ = true;
   }
 
   play(
@@ -236,6 +245,10 @@ function setShortToneDurationMilliseconds(simon, x) {
   simon.setShortToneDurationMilliseconds(x);
 }
 
+function setPlaying(player) {
+  player.setPlaying();
+}
+
 describe("Simon", function () {
   beforeEach(function () {
     this.audioPlayer = new AudioPlayerStub();
@@ -335,5 +348,13 @@ describe("Simon", function () {
     expectFalse(incorrectYellowTonePlayed(this.audioPlayer));
     enterYellow(this.simon);
     expectTrue(incorrectYellowTonePlayed(this.audioPlayer));
+  });
+
+  it("should not play correct tone when entered while playing series", function () {
+    say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
+    setPlaying(this.audioPlayer);
+    enterRed(this.simon);
+    expectFalse(incorrectRedTonePlayed(this.audioPlayer));
+    expectFalse(correctRedTonePlayed(this.audioPlayer));
   });
 });
