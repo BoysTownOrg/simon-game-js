@@ -1,28 +1,7 @@
 import { ScreenResponder } from "../lib/ScreenResponder.js";
-import { Color } from "../lib/Color.js";
 
 function clickRed(screen) {
   screen.clickRed();
-}
-
-function clickGreen(screen) {
-  screen.clickGreen();
-}
-
-function clickBlue(screen) {
-  screen.clickBlue();
-}
-
-function clickYellow(screen) {
-  screen.clickYellow();
-}
-
-function clickDone(screen) {
-  screen.clickDone();
-}
-
-function submittedSeries(simon) {
-  return simon.submittedSeries();
 }
 
 class ScreenStub {
