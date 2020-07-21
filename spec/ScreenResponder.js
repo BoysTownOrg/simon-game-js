@@ -1,5 +1,5 @@
-import { ScreenResponder } from "../lib/ScreenResponder.js"
-import { Color } from "../lib/Color.js"
+import { ScreenResponder } from "../lib/ScreenResponder.js";
+import { Color } from "../lib/Color.js";
 
 function clickRed(screen) {
   screen.clickRed();
@@ -26,20 +26,39 @@ function submittedSeries(simon) {
 }
 
 class ScreenStub {
-  clickDone() { this.listener.notifyThatDoneWasClicked() }
+  clickDone() {
+    this.listener.notifyThatDoneWasClicked();
+  }
 
-  clickYellow() { this.listener.notifyThatYellowWasClicked() }
+  clickYellow() {
+    this.listener.notifyThatYellowWasClicked();
+  }
 
-  clickRed() { this.listener.notifyThatRedWasClicked() }
+  clickRed() {
+    this.listener.notifyThatRedWasClicked();
+  }
 
-  clickGreen() { this.listener.notifyThatGreenWasClicked() }
+  clickGreen() {
+    this.listener.notifyThatGreenWasClicked();
+  }
 
-  clickBlue() { this.listener.notifyThatBlueWasClicked(); }
+  clickBlue() {
+    this.listener.notifyThatBlueWasClicked();
+  }
 
-  subscribe(e) { this.listener = e; }
+  subscribe(e) {
+    this.listener = e;
+  }
 }
 
 class SimonStub {
+  constructor() {
+    this.redEntered_ = false;
+    this.yellowEntered_ = false;
+    this.greenEntered_ = false;
+    this.blueEntered_ = false;
+  }
+
   submitSeries(s) {
     this.submittedSeries_ = s;
   }
@@ -47,6 +66,34 @@ class SimonStub {
   submittedSeries() {
     return this.submittedSeries_;
   }
+
+  redEntered() {
+    return this.redEntered_;
+  }
+
+  enterRed() {
+    this.redEntered_ = true;
+  }
+
+  enterGreen() {
+    this.greenEntered_ = true;
+  }
+
+  enterBlue() {
+    this.blueEntered_ = true;
+  }
+
+  enterYellow() {
+    this.yellowEntered_ = true;
+  }
+}
+
+function expectTrue(b) {
+  expect(b).toBeTrue();
+}
+
+function redEntered(simon) {
+  return simon.redEntered();
 }
 
 describe("ScreenResponder", function () {
@@ -59,6 +106,19 @@ describe("ScreenResponder", function () {
     clickBlue(screen);
     clickYellow(screen);
     clickDone(screen);
-    expect(submittedSeries(simon)).toEqual([Color.red, Color.green, Color.blue, Color.yellow]);
+    expect(submittedSeries(simon)).toEqual([
+      Color.red,
+      Color.green,
+      Color.blue,
+      Color.yellow,
+    ]);
+  });
+
+  it("should enter red when user clicks red", function () {
+    let screen = new ScreenStub();
+    let simon = new SimonStub();
+    new ScreenResponder(screen, simon);
+    clickRed(screen);
+    expectTrue(redEntered(simon));
   });
 });
