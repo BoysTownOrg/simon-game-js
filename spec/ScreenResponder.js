@@ -97,23 +97,6 @@ function redEntered(simon) {
 }
 
 describe("ScreenResponder", function () {
-  it("should submit series when user clicks done", function () {
-    let screen = new ScreenStub();
-    let simon = new SimonStub();
-    new ScreenResponder(screen, simon);
-    clickRed(screen);
-    clickGreen(screen);
-    clickBlue(screen);
-    clickYellow(screen);
-    clickDone(screen);
-    expect(submittedSeries(simon)).toEqual([
-      Color.red,
-      Color.green,
-      Color.blue,
-      Color.yellow,
-    ]);
-  });
-
   it("should enter red when user clicks red", function () {
     let screen = new ScreenStub();
     let simon = new SimonStub();
