@@ -5,7 +5,7 @@ import { ScreenResponder } from "./lib/ScreenResponder.js";
 import { Color } from "./lib/Color.js";
 
 function addClickEventListener(button, f) {
-  button.addEventListener("click", f);
+  button.addEventListener("mousedown", f);
 }
 
 function createCircleBorderedButton() {
@@ -158,7 +158,10 @@ class WebAudioContext {
     oscillator.type = "square";
     oscillator.frequency.value = frequencyHz;
     oscillator.onended = onEnd;
-    oscillator.connect(this.audioContext.destination);
+    const gain = this.audioContext.createGain();
+    gain.gain.value = 0.01;
+    oscillator.connect(gain);
+    gain.connect(this.audioContext.destination);
     oscillator.start(startTimeSeconds);
     oscillator.stop(stopTimeSeconds);
   }
