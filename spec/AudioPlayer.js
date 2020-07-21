@@ -14,6 +14,24 @@ class ColorToneEventListenerStub {
     this.notifiedThatBlueToneEnded_ = false;
     this.notifiedThatCorrectBlueToneStarted_ = false;
     this.notifiedThatCorrectBlueToneEnded_ = false;
+    this.notifiedThatIncorrectBlueToneStarted_ = false;
+    this.notifiedThatIncorrectBlueToneEnded_ = false;
+  }
+
+  notifiedThatIncorrectBlueToneEnded() {
+    return this.notifiedThatIncorrectBlueToneEnded_;
+  }
+
+  notifyThatIncorrectBlueToneEnded() {
+    this.notifiedThatIncorrectBlueToneEnded_ = true;
+  }
+
+  notifiedThatIncorrectBlueToneStarted() {
+    return this.notifiedThatIncorrectBlueToneStarted_;
+  }
+
+  notifyThatIncorrectBlueToneStarted() {
+    this.notifiedThatIncorrectBlueToneStarted_ = true;
   }
 
   notifiedThatCorrectBlueToneEnded() {
@@ -173,6 +191,10 @@ function playCorrectYellowTone(player, toneDurationMilliseconds) {
   player.playCorrectYellowTone(toneDurationMilliseconds);
 }
 
+function playIncorrectBlueTone(player, toneDurationMilliseconds) {
+  player.playIncorrectBlueTone(toneDurationMilliseconds);
+}
+
 function setPlayDelaySeconds(player, x) {
   player.setPlayDelaySeconds(x);
 }
@@ -231,6 +253,14 @@ function notifiedThatCorrectBlueToneStarted(listener) {
 
 function notifiedThatCorrectBlueToneEnded(listener) {
   return listener.notifiedThatCorrectBlueToneEnded();
+}
+
+function notifiedThatIncorrectBlueToneStarted(listener) {
+  return listener.notifiedThatIncorrectBlueToneStarted();
+}
+
+function notifiedThatIncorrectBlueToneEnded(listener) {
+  return listener.notifiedThatIncorrectBlueToneEnded();
 }
 
 function expectTrue(b) {
@@ -621,5 +651,24 @@ describe("AudioPlayer", function () {
     expectFalse(notifiedThatCorrectBlueToneEnded(listener));
     endNextTone(this.audioEnvironment);
     expectTrue(notifiedThatCorrectBlueToneEnded(listener));
+  });
+
+  it("should notify when incorrect color tone starts", function () {
+    const listener = new ColorToneEventListenerStub();
+    this.player.subscribe(listener);
+    playIncorrectBlueTone(this.player, 7000);
+    expectFalse(notifiedThatIncorrectBlueToneStarted(listener));
+    endNextTone(this.audioEnvironment);
+    expectTrue(notifiedThatIncorrectBlueToneStarted(listener));
+  });
+
+  it("should notify when incorrect color tone ends", function () {
+    const listener = new ColorToneEventListenerStub();
+    this.player.subscribe(listener);
+    playIncorrectBlueTone(this.player, 7000);
+    endNextTone(this.audioEnvironment);
+    expectFalse(notifiedThatIncorrectBlueToneEnded(listener));
+    endNextTone(this.audioEnvironment);
+    expectTrue(notifiedThatIncorrectBlueToneEnded(listener));
   });
 });
