@@ -292,7 +292,8 @@ describe("AudioPlayer", function () {
         [Color.red, 2],
         [Color.yellow, 3],
         [Color.green, 4],
-      ])
+      ]),
+      9
     );
   });
 
@@ -350,6 +351,20 @@ describe("AudioPlayer", function () {
     setCurrentTimeSeconds(this.audioEnvironment, 6);
     playCorrectBlueTone(this.player, 7000);
     expectScheduledTonesContains(this.audioEnvironment, 5 + 6, 5 + 6 + 7, 1);
+  });
+
+  it("should schedule silent tone before playing incorrect blue tone", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    playIncorrectBlueTone(this.player, 7000);
+    expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
+  });
+
+  it("should schedule incorrect blue tone", function () {
+    setPlayDelaySeconds(this.player, 5);
+    setCurrentTimeSeconds(this.audioEnvironment, 6);
+    playIncorrectBlueTone(this.player, 7000);
+    expectScheduledTonesContains(this.audioEnvironment, 5 + 6, 5 + 6 + 7, 9);
   });
 
   it("should schedule silent tone before first color tone on play", function () {
