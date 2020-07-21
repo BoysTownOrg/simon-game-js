@@ -32,7 +32,7 @@ class CognitionScreen {
     this.doneButton.style.border = "solid";
     this.doneButton.textContent = "Done";
     const topRow = document.createElement("div");
-    topRow.style.display = "flex";
+    topRow.style.display = "inline-flex";
     topRow.style.alignItems = "center";
     adopt(display_element, topRow);
     adopt(topRow, this.greenButton);
@@ -51,7 +51,7 @@ class CognitionScreen {
     adopt(row, gap);
     adopt(row, this.blueButton);
     const bottomRow = document.createElement("div");
-    bottomRow.style.display = "flex";
+    bottomRow.style.display = "inline-flex";
     bottomRow.style.alignItems = "center";
     adopt(display_element, bottomRow);
     adopt(bottomRow, this.yellowButton);
