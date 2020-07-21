@@ -263,6 +263,10 @@ function notifiedThatIncorrectBlueToneEnded(listener) {
   return listener.notifiedThatIncorrectBlueToneEnded();
 }
 
+function playing(player) {
+  return player.playing();
+}
+
 function expectTrue(b) {
   expect(b).toBeTrue();
 }
@@ -647,6 +651,28 @@ describe("AudioPlayer", function () {
     expectFalse(notifiedThatToneSeriesEnded(listener));
     endNextTone(this.audioEnvironment);
     expectTrue(notifiedThatToneSeriesEnded(listener));
+  });
+
+  it("is playing until playing ends", function () {
+    expectFalse(playing(this.player));
+    play(
+      this.player,
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      7000,
+      8000
+    );
+    expectTrue(playing(this.player));
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    endNextTone(this.audioEnvironment);
+    expectTrue(playing(this.player));
+    endNextTone(this.audioEnvironment);
+    expectFalse(playing(this.player));
   });
 
   it("should notify when correct color tone starts", function () {
