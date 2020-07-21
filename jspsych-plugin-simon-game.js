@@ -22,6 +22,10 @@ function adopt(parent, child) {
   parent.append(child);
 }
 
+function setBackgroundColor(button, color) {
+  button.style.backgroundColor = color;
+}
+
 class CognitionScreen {
   constructor(display_element) {
     this.greenButton = createCircleBorderedButton();
@@ -36,18 +40,18 @@ class CognitionScreen {
     topRow.style.alignItems = "center";
     adopt(display_element, topRow);
     adopt(topRow, this.greenButton);
-    const row = document.createElement("div");
-    row.style.display = "flex";
-    row.style.justifyContent = "space-around";
-    row.style.alignItems = "center";
-    row.style.margin = "15px auto";
-    adopt(display_element, row);
-    adopt(row, this.redButton);
+    const middleRow = document.createElement("div");
+    middleRow.style.display = "flex";
+    middleRow.style.justifyContent = "space-around";
+    middleRow.style.alignItems = "center";
+    middleRow.style.margin = "15px auto";
+    adopt(display_element, middleRow);
+    adopt(middleRow, this.redButton);
     const gap = document.createElement("div");
     gap.style.height = "200px";
     gap.style.width = "400px";
-    adopt(row, gap);
-    adopt(row, this.blueButton);
+    adopt(middleRow, gap);
+    adopt(middleRow, this.blueButton);
     const bottomRow = document.createElement("div");
     bottomRow.style.display = "inline-flex";
     bottomRow.style.alignItems = "center";
@@ -77,67 +81,67 @@ class CognitionScreen {
   }
 
   turnOnRedButtonLight() {
-    this.redButton.style.backgroundColor = "red";
+    setBackgroundColor(this.redButton, "red");
   }
 
   turnOffRedButtonLight() {
-    this.redButton.style.backgroundColor = "";
+    setBackgroundColor(this.redButton, "");
   }
 
   turnOnGreenButtonLight() {
-    this.greenButton.style.backgroundColor = "green";
+    setBackgroundColor(this.greenButton, "green");
   }
 
   turnOffGreenButtonLight() {
-    this.greenButton.style.backgroundColor = "";
+    setBackgroundColor(this.greenButton, "");
   }
 
   turnOnBlueButtonLight() {
-    this.blueButton.style.backgroundColor = "blue";
+    setBackgroundColor(this.blueButton, "blue");
   }
 
   turnOffBlueButtonLight() {
-    this.blueButton.style.backgroundColor = "";
+    setBackgroundColor(this.blueButton, "");
   }
 
   turnOnYellowButtonLight() {
-    this.yellowButton.style.backgroundColor = "yellow";
+    setBackgroundColor(this.yellowButton, "yellow");
   }
 
   turnOffYellowButtonLight() {
-    this.yellowButton.style.backgroundColor = "";
+    setBackgroundColor(this.yellowButton, "");
   }
 
   darkenBlueButton() {
-    this.blueButton.style.backgroundColor = "black";
+    setBackgroundColor(this.blueButton, "black");
   }
 
   undarkenBlueButton() {
-    this.blueButton.style.backgroundColor = "blue";
+    setBackgroundColor(this.blueButton, "blue");
   }
 
   darkenRedButton() {
-    this.redButton.style.backgroundColor = "black";
+    setBackgroundColor(this.redButton, "black");
   }
 
   undarkenRedButton() {
-    this.redButton.style.backgroundColor = "red";
+    setBackgroundColor(this.redButton, "red");
   }
 
   darkenGreenButton() {
-    this.greenButton.style.backgroundColor = "black";
+    setBackgroundColor(this.greenButton, "black");
   }
 
   undarkenGreenButton() {
-    this.greenButton.style.backgroundColor = "green";
+    setBackgroundColor(this.greenButton, "green");
   }
 
   darkenYellowButton() {
-    this.yellowButton.style.backgroundColor = "black";
+    setBackgroundColor(this.yellowButton, "black");
   }
 
   undarkenYellowButton() {
-    this.yellowButton.style.backgroundColor = "yellow";
+    setBackgroundColor(this.yellowButton, "yellow");
   }
 }
 
