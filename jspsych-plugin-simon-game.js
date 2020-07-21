@@ -8,12 +8,12 @@ function addClickEventListener(button, f) {
   button.addEventListener("click", f);
 }
 
-function createButton(color) {
+function createCircleBorderedButton() {
   const button = document.createElement("div");
   button.style.height = "90px";
   button.style.width = "90px";
   button.style.borderRadius = "400px";
-  button.style.border = "4px solid " + color;
+  button.style.border = "4px solid black";
   button.style.margin = "20px";
   return button;
 }
@@ -24,15 +24,37 @@ function adopt(parent, child) {
 
 class CognitionScreen {
   constructor(display_element) {
-    this.greenButton = createButton("green");
-    this.redButton = createButton("red");
-    this.blueButton = createButton("blue");
-    this.yellowButton = createButton("yellow");
-    this.doneButton = createButton();
-    adopt(display_element, this.greenButton);
-    adopt(display_element, this.redButton);
-    adopt(display_element, this.blueButton);
-    adopt(display_element, this.yellowButton);
+    this.greenButton = createCircleBorderedButton();
+    this.redButton = createCircleBorderedButton();
+    this.blueButton = createCircleBorderedButton();
+    this.yellowButton = createCircleBorderedButton();
+    this.doneButton = document.createElement("div");
+    this.doneButton.style.border = "solid";
+    this.doneButton.textContent = "Done";
+    const topRow = document.createElement("div");
+    topRow.style.display = "flex";
+    topRow.style.alignItems = "center";
+    adopt(display_element, topRow);
+    adopt(topRow, this.greenButton);
+    const row = document.createElement("div");
+    row.style.display = "flex";
+    row.style.justifyContent = "space-around";
+    row.style.alignItems = "center";
+    row.style.margin = "15px auto";
+    adopt(display_element, row);
+    adopt(row, this.redButton);
+    const gap = document.createElement("div");
+    gap.style.height = "90px";
+    gap.style.width = "90px";
+    gap.style.borderRadius = "400px";
+    gap.style.margin = "20px";
+    adopt(row, gap);
+    adopt(row, this.blueButton);
+    const bottomRow = document.createElement("div");
+    bottomRow.style.display = "flex";
+    bottomRow.style.alignItems = "center";
+    adopt(display_element, bottomRow);
+    adopt(bottomRow, this.yellowButton);
     adopt(display_element, this.doneButton);
     addClickEventListener(this.greenButton, (_e) => {
       this.listener.notifyThatGreenWasClicked();
@@ -162,7 +184,7 @@ export function plugin(name) {
       ]),
       48.9994
     );
-    audioPlayer.setPlayDelaySeconds(0);
+    audioPlayer.setPlayDelaySeconds(0.003);
     const presenter = new ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
     const simon = new Simon(audioPlayer);
@@ -170,7 +192,9 @@ export function plugin(name) {
     simon.setShortToneDurationMilliseconds(100);
     simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
     const responder = new ScreenResponder(screen, simon);
-    simon.say([Color.red, Color.green, Color.yellow, Color.blue]);
+    jsPsych.pluginAPI.setTimeout(() => {
+      simon.say([Color.red, Color.green, Color.yellow, Color.blue]);
+    }, 500);
   };
   return plugin;
 }
