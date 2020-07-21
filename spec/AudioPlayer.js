@@ -13,6 +13,15 @@ class ColorToneEventListenerStub {
     this.notifiedThatBlueToneStarted_ = false;
     this.notifiedThatBlueToneEnded_ = false;
     this.notifiedThatCorrectBlueToneStarted_ = false;
+    this.notifiedThatCorrectBlueToneEnded_ = false;
+  }
+
+  notifiedThatCorrectBlueToneEnded() {
+    return this.notifiedThatCorrectBlueToneEnded_;
+  }
+
+  notifyThatCorrectBlueToneEnded() {
+    this.notifiedThatCorrectBlueToneEnded_ = true;
   }
 
   notifiedThatCorrectBlueToneStarted() {
@@ -218,6 +227,10 @@ function notifiedThatToneSeriesEnded(listener) {
 
 function notifiedThatCorrectBlueToneStarted(listener) {
   return listener.notifiedThatCorrectBlueToneStarted();
+}
+
+function notifiedThatCorrectBlueToneEnded(listener) {
+  return listener.notifiedThatCorrectBlueToneEnded();
 }
 
 function expectTrue(b) {
@@ -598,5 +611,15 @@ describe("AudioPlayer", function () {
     expectFalse(notifiedThatCorrectBlueToneStarted(listener));
     endNextTone(this.audioEnvironment);
     expectTrue(notifiedThatCorrectBlueToneStarted(listener));
+  });
+
+  it("should notify when correct color tone ends", function () {
+    const listener = new ColorToneEventListenerStub();
+    this.player.subscribe(listener);
+    playCorrectBlueTone(this.player, 7000);
+    endNextTone(this.audioEnvironment);
+    expectFalse(notifiedThatCorrectBlueToneEnded(listener));
+    endNextTone(this.audioEnvironment);
+    expectTrue(notifiedThatCorrectBlueToneEnded(listener));
   });
 });
