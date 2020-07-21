@@ -26,6 +26,16 @@ function setBackgroundColor(button, color) {
   button.style.backgroundColor = color;
 }
 
+function clearBackgroundColor(button) {
+  setBackgroundColor(button, "");
+}
+
+const redColor = "red";
+const yellowColor = "yellow";
+const greenColor = "green";
+const blueColor = "blue";
+const blackColor = "black";
+
 class CognitionScreen {
   constructor(display_element) {
     this.greenButton = createCircleBorderedButton();
@@ -81,67 +91,67 @@ class CognitionScreen {
   }
 
   turnOnRedButtonLight() {
-    setBackgroundColor(this.redButton, "red");
+    setBackgroundColor(this.redButton, redColor);
   }
 
   turnOffRedButtonLight() {
-    setBackgroundColor(this.redButton, "");
+    clearBackgroundColor(this.redButton);
   }
 
   turnOnGreenButtonLight() {
-    setBackgroundColor(this.greenButton, "green");
+    setBackgroundColor(this.greenButton, greenColor);
   }
 
   turnOffGreenButtonLight() {
-    setBackgroundColor(this.greenButton, "");
+    clearBackgroundColor(this.greenButton);
   }
 
   turnOnBlueButtonLight() {
-    setBackgroundColor(this.blueButton, "blue");
+    setBackgroundColor(this.blueButton, blueColor);
   }
 
   turnOffBlueButtonLight() {
-    setBackgroundColor(this.blueButton, "");
+    clearBackgroundColor(this.blueButton);
   }
 
   turnOnYellowButtonLight() {
-    setBackgroundColor(this.yellowButton, "yellow");
+    setBackgroundColor(this.yellowButton, yellowColor);
   }
 
   turnOffYellowButtonLight() {
-    setBackgroundColor(this.yellowButton, "");
+    clearBackgroundColor(this.yellowButton);
   }
 
   darkenBlueButton() {
-    setBackgroundColor(this.blueButton, "black");
+    setBackgroundColor(this.blueButton, blackColor);
   }
 
   undarkenBlueButton() {
-    setBackgroundColor(this.blueButton, "blue");
+    setBackgroundColor(this.blueButton, blueColor);
   }
 
   darkenRedButton() {
-    setBackgroundColor(this.redButton, "black");
+    setBackgroundColor(this.redButton, blackColor);
   }
 
   undarkenRedButton() {
-    setBackgroundColor(this.redButton, "red");
+    setBackgroundColor(this.redButton, redColor);
   }
 
   darkenGreenButton() {
-    setBackgroundColor(this.greenButton, "black");
+    setBackgroundColor(this.greenButton, blackColor);
   }
 
   undarkenGreenButton() {
-    setBackgroundColor(this.greenButton, "green");
+    setBackgroundColor(this.greenButton, greenColor);
   }
 
   darkenYellowButton() {
-    setBackgroundColor(this.yellowButton, "black");
+    setBackgroundColor(this.yellowButton, blackColor);
   }
 
   undarkenYellowButton() {
-    setBackgroundColor(this.yellowButton, "yellow");
+    setBackgroundColor(this.yellowButton, yellowColor);
   }
 }
 
