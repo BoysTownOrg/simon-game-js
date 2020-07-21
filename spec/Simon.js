@@ -327,4 +327,13 @@ describe("Simon", function () {
     expectTrue(incorrectYellowTonePlayed(this.audioPlayer));
     expectEqual(this.audioPlayer.incorrectYellowToneDurationMilliseconds(), 1);
   });
+
+  it("should play incorrect when second tone entered is incorrect", function () {
+    setShortToneDurationMilliseconds(this.simon, 1);
+    say(this.simon, [Color.yellow, Color.red, Color.blue, Color.green]);
+    enterYellow(this.simon);
+    expectFalse(incorrectYellowTonePlayed(this.audioPlayer));
+    enterYellow(this.simon);
+    expectTrue(incorrectYellowTonePlayed(this.audioPlayer));
+  });
 });
