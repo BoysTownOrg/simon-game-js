@@ -1,14 +1,21 @@
 import { Simon } from "./lib/Simon.js";
 import { AudioPlayer } from "./lib/AudioPlayer.js";
 import { ScreenPresenter } from "./lib/ScreenPresenter.js";
+import { ScreenResponder } from "./lib/ScreenResponder.js";
 import { Color } from "./lib/Color.js";
 
 function addClickEventListener(button, f) {
   button.addEventListener("click", f);
 }
 
-function createButton() {
-  return document.createElement("div");
+function createButton(color) {
+  const button = document.createElement("div");
+  button.style.height = "90px";
+  button.style.width = "90px";
+  button.style.borderRadius = "400px";
+  button.style.border = "4px solid " + color;
+  button.style.margin = "20px";
+  return button;
 }
 
 function adopt(parent, child) {
@@ -17,10 +24,10 @@ function adopt(parent, child) {
 
 class CognitionScreen {
   constructor(display_element) {
-    this.greenButton = createButton();
-    this.redButton = createButton();
-    this.blueButton = createButton();
-    this.yellowButton = createButton();
+    this.greenButton = createButton("green");
+    this.redButton = createButton("red");
+    this.blueButton = createButton("blue");
+    this.yellowButton = createButton("yellow");
     this.doneButton = createButton();
     adopt(display_element, this.greenButton);
     adopt(display_element, this.redButton);
@@ -49,21 +56,53 @@ class CognitionScreen {
     this.listener = e;
   }
 
-  turnOnRedButtonLight() {}
+  turnOnRedButtonLight() {
+    this.redButton.style.backgroundColor = "red";
+  }
 
-  turnOffRedButtonLight() {}
+  turnOffRedButtonLight() {
+    this.redButton.style.backgroundColor = "";
+  }
 
-  turnOnGreenButtonLight() {}
+  turnOnGreenButtonLight() {
+    this.greenButton.style.backgroundColor = "green";
+  }
 
-  turnOffGreenButtonLight() {}
+  turnOffGreenButtonLight() {
+    this.greenButton.style.backgroundColor = "";
+  }
 
-  turnOnBlueButtonLight() {}
+  turnOnBlueButtonLight() {
+    this.blueButton.style.backgroundColor = "blue";
+  }
 
-  turnOffBlueButtonLight() {}
+  turnOffBlueButtonLight() {
+    this.blueButton.style.backgroundColor = "";
+  }
 
-  turnOnYellowButtonLight() {}
+  turnOnYellowButtonLight() {
+    this.yellowButton.style.backgroundColor = "yellow";
+  }
 
-  turnOffYellowButtonLight() {}
+  turnOffYellowButtonLight() {
+    this.yellowButton.style.backgroundColor = "";
+  }
+
+  darkenBlueButton() {}
+
+  undarkenBlueButton() {}
+
+  darkenRedButton() {}
+
+  undarkenRedButton() {}
+
+  darkenGreenButton() {}
+
+  undarkenGreenButton() {}
+
+  darkenYellowButton() {}
+
+  undarkenYellowButton() {}
 }
 
 class WebAudioContext {
@@ -104,7 +143,8 @@ export function plugin(name) {
         [Color.red, 329.628],
         [Color.yellow, 261.626],
         [Color.blue, 195.998],
-      ])
+      ]),
+      48.9994
     );
     audioPlayer.setPlayDelaySeconds(0.02);
     const presenter = new ScreenPresenter(screen);
@@ -113,7 +153,10 @@ export function plugin(name) {
     simon.setLongToneDurationMilliseconds(700);
     simon.setShortToneDurationMilliseconds(100);
     simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
-    simon.say([Color.red, Color.green, Color.yellow, Color.blue]);
+    const responder = new ScreenResponder(screen, simon);
+    jsPsych.pluginAPI.setTimeout(function () {
+      simon.say([Color.red, Color.green, Color.yellow, Color.blue]);
+    }, 1000);
   };
   return plugin;
 }
