@@ -12,15 +12,21 @@ function element() {
   return document.createElement("div");
 }
 
+function pixelsString(a) {
+  return a + "px";
+}
+
 function borderedCircleButton() {
   const button = element();
   const diameterPixels = 300;
   const borderWidthPixels = 4;
-  button.style.height = diameterPixels + "px";
-  button.style.width = diameterPixels + "px";
-  button.style.borderRadius = diameterPixels / 2 + borderWidthPixels + "px";
-  button.style.border = borderWidthPixels + "px solid black";
-  button.style.margin = "20px";
+  button.style.height = pixelsString(diameterPixels);
+  button.style.width = pixelsString(diameterPixels);
+  button.style.borderRadius = pixelsString(
+    diameterPixels / 2 + borderWidthPixels
+  );
+  button.style.border = pixelsString(borderWidthPixels) + " solid black";
+  button.style.margin = pixelsString(20);
   return button;
 }
 
