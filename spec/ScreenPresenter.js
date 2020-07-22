@@ -13,6 +13,15 @@ class ScreenStub {
     this.blueButtonDarkened_ = false;
     this.blueButtonUndarkened_ = false;
     this.doneButtonShown_ = false;
+    this.cleared_ = false;
+  }
+
+  clear() {
+    this.cleared_ = true;
+  }
+
+  cleared() {
+    return this.cleared_;
   }
 
   doneButtonShown() {
@@ -201,5 +210,10 @@ describe("ScreenPresenter", function () {
   it("should undarken blue button when incorrect blue tone ends", function () {
     this.presenter.notifyThatIncorrectBlueToneEnded();
     expectTrue(this.screen.blueButtonUndarkened());
+  });
+
+  it("should clear screen when trial completes", function () {
+    this.presenter.notifyThatTrialHasCompleted();
+    expectTrue(this.screen.cleared());
   });
 });
