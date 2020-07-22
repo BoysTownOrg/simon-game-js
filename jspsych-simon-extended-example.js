@@ -5,27 +5,16 @@ const simon = "simon-game";
 
 jsPsych.plugins[simon] = plugin();
 
-/* create timeline */
 const timeline = [];
 
-/* define welcome message trial */
-const welcome = {
-  type: "html-keyboard-response",
-  stimulus: "Welcome to the experiment. Press any key to begin.",
-};
-timeline.push(welcome);
-
-/* define instructions trial */
 const instructions = {
   type: "html-keyboard-response",
-  stimulus: "<p>Repeat after me.</p>",
-  post_trial_gap: 500,
+  stimulus:
+    '<p>You will see patterns of colored circles shown on the screen in different places, one at a time. After watching each pattern, you must correctly copy it by pressing the place/color where you saw it.</p><p>When you finish copying each pattern, press the "Done" button and then the next pattern will be shown.</p><p>For example, if you see the pattern BLUE-RED-GREEN, then you should press the colors blue, red, green in that order, and then press "Done" at the bottom.</p><p>If you don\'t know or can\'t remember what a pattern was, just make your best guess. Once you make a response, you cannot go back and correct it, so take your time in choosing the correct colors.</p><p>Watch me! Press spacebar to start.</p>',
 };
 timeline.push(instructions);
 
-/* test trials */
-
-const test_stimuli = [
+const trials = [
   {
     colors: [Color.red],
   },
@@ -34,25 +23,16 @@ const test_stimuli = [
   },
 ];
 
-const fixation = {
-  type: "html-keyboard-response",
-  stimulus: '<div style="font-size:60px;">+</div>',
-  choices: jsPsych.NO_KEYS,
-  trial_duration: 1000,
-};
-
 const test = {
   type: simon,
   colors: jsPsych.timelineVariable("colors"),
 };
 
 const test_procedure = {
-  timeline: [fixation, test],
-  timeline_variables: test_stimuli,
+  timeline: [test],
+  timeline_variables: trials,
 };
 timeline.push(test_procedure);
-
-/* define debrief */
 
 const debrief_block = {
   type: "html-keyboard-response",
@@ -62,7 +42,6 @@ const debrief_block = {
 };
 timeline.push(debrief_block);
 
-/* start the experiment */
 jsPsych.init({
   timeline: timeline,
 });
