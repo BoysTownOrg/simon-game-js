@@ -25,6 +25,10 @@ class ScreenStub {
     this.listener.notifyThatBlueWasClicked();
   }
 
+  clickDone() {
+    this.listener.notifyThatDoneWasClicked();
+  }
+
   subscribe(e) {
     this.listener = e;
   }
@@ -36,6 +40,7 @@ class SimonStub {
     this.yellowEntered_ = false;
     this.greenEntered_ = false;
     this.blueEntered_ = false;
+    this.submitted_ = false;
   }
 
   submitSeries(s) {
@@ -65,6 +70,14 @@ class SimonStub {
   enterYellow() {
     this.yellowEntered_ = true;
   }
+
+  submitted() {
+    return this.submitted_;
+  }
+
+  submit() {
+    this.submitted_ = true;
+  }
 }
 
 function expectTrue(b) {
@@ -82,5 +95,13 @@ describe("ScreenResponder", function () {
     new ScreenResponder(screen, simon);
     clickRed(screen);
     expectTrue(redEntered(simon));
+  });
+
+  it("should submit when user clicks done", function () {
+    let screen = new ScreenStub();
+    let simon = new SimonStub();
+    new ScreenResponder(screen, simon);
+    screen.clickDone();
+    expectTrue(simon.submitted());
   });
 });
