@@ -63,6 +63,7 @@ class CognitionScreen {
     this.doneButton = element();
     this.doneButton.style.border = "solid";
     this.doneButton.textContent = "Done";
+    this.doneButton.style.display = "none";
     const topRow = element();
     topRow.style.display = "inline-flex";
     adopt(display_element, topRow);
@@ -165,6 +166,10 @@ class CognitionScreen {
 
   undarkenYellowButton() {
     setYellowBackground(this.yellowButton);
+  }
+
+  showDoneButton() {
+    this.doneButton.style.display = "block";
   }
 }
 
