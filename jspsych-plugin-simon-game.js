@@ -16,7 +16,7 @@ function borderedCircleButton() {
   const button = element();
   button.style.height = "200px";
   button.style.width = "200px";
-  button.style.borderRadius = "100px";
+  button.style.borderRadius = "104px";
   button.style.border = "4px solid black";
   button.style.margin = "20px";
   return button;
