@@ -54,6 +54,13 @@ function setRedBackground(button) {
   setBackgroundColor(button, "red");
 }
 
+function clear(parent) {
+  // https://stackoverflow.com/a/3955238
+  while (parent.firstChild) {
+    parent.removeChild(parent.lastChild);
+  }
+}
+
 class CognitionScreen {
   constructor(parent) {
     this.parent = parent;
@@ -174,10 +181,7 @@ class CognitionScreen {
   }
 
   clear() {
-    // https://stackoverflow.com/a/3955238
-    while (this.parent.firstChild) {
-      this.parent.removeChild(this.parent.lastChild);
-    }
+    clear(this.parent);
   }
 }
 
@@ -211,10 +215,7 @@ export function plugin() {
     parameters: {},
   };
   plugin.trial = function (display_element, trial) {
-    const element = document.getElementById(
-      "jspsych-loading-progress-bar-container"
-    );
-    element.parentNode.removeChild(element);
+    clear(display_element);
     const audioPlayer = new AudioPlayer(
       new WebAudioContext(),
       new Map([
