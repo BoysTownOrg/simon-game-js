@@ -198,6 +198,10 @@ export function plugin() {
     parameters: {},
   };
   plugin.trial = function (display_element, trial) {
+    const element = document.getElementById(
+      "jspsych-loading-progress-bar-container"
+    );
+    element.parentNode.removeChild(element);
     const audioPlayer = new AudioPlayer(
       new WebAudioContext(),
       new Map([
