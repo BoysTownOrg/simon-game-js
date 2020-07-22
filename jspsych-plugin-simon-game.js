@@ -14,10 +14,12 @@ function element() {
 
 function borderedCircleButton() {
   const button = element();
-  button.style.height = "200px";
-  button.style.width = "200px";
-  button.style.borderRadius = "104px";
-  button.style.border = "4px solid black";
+  const diameterPixels = 300;
+  const borderWidthPixels = 4;
+  button.style.height = diameterPixels + "px";
+  button.style.width = diameterPixels + "px";
+  button.style.borderRadius = diameterPixels / 2 + borderWidthPixels + "px";
+  button.style.border = borderWidthPixels + "px solid black";
   button.style.margin = "20px";
   return button;
 }
