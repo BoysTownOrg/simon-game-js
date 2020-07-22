@@ -89,19 +89,19 @@ function redEntered(simon) {
 }
 
 describe("ScreenResponder", function () {
+  beforeEach(function () {
+    this.screen = new ScreenStub();
+    this.simon = new SimonStub();
+    new ScreenResponder(this.screen, this.simon);
+  });
+
   it("should enter red when user clicks red", function () {
-    let screen = new ScreenStub();
-    let simon = new SimonStub();
-    new ScreenResponder(screen, simon);
-    clickRed(screen);
-    expectTrue(redEntered(simon));
+    clickRed(this.screen);
+    expectTrue(redEntered(this.simon));
   });
 
   it("should submit when user clicks done", function () {
-    let screen = new ScreenStub();
-    let simon = new SimonStub();
-    new ScreenResponder(screen, simon);
-    screen.clickDone();
-    expectTrue(simon.submitted());
+    this.screen.clickDone();
+    expectTrue(this.simon.submitted());
   });
 });
