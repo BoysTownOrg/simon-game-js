@@ -1,6 +1,20 @@
 import { Simon } from "../lib/Simon.js";
 import { Color } from "../lib/Color.js";
 
+class EventListenerStub {
+  constructor() {
+    this.notifiedThatTrialHasCompleted_ = false;
+  }
+
+  notifiedThatTrialHasCompleted() {
+    return this.notifiedThatTrialHasCompleted_;
+  }
+
+  notifyThatTrialHasCompleted() {
+    this.notifiedThatTrialHasCompleted_ = true;
+  }
+}
+
 class AudioPlayerStub {
   constructor() {
     this.correctRedTonePlayed_ = false;
@@ -356,5 +370,12 @@ describe("Simon", function () {
     enterRed(this.simon);
     expectFalse(incorrectRedTonePlayed(this.audioPlayer));
     expectFalse(correctRedTonePlayed(this.audioPlayer));
+  });
+
+  it("should notify that trial is complete on submit", function () {
+    const listener = new EventListenerStub();
+    this.simon.subscribe(listener);
+    this.simon.submit();
+    expectTrue(listener.notifiedThatTrialHasCompleted());
   });
 });
