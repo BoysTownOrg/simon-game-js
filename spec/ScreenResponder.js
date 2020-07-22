@@ -1,9 +1,5 @@
 import { ScreenResponder } from "../lib/ScreenResponder.js";
 
-function clickRed(screen) {
-  screen.clickRed();
-}
-
 class ScreenStub {
   clickDone() {
     this.listener.notifyThatDoneWasClicked();
@@ -55,6 +51,18 @@ class SimonStub {
     return this.redEntered_;
   }
 
+  greenEntered() {
+    return this.greenEntered_;
+  }
+
+  blueEntered() {
+    return this.blueEntered_;
+  }
+
+  yellowEntered() {
+    return this.yellowEntered_;
+  }
+
   enterRed() {
     this.redEntered_ = true;
   }
@@ -84,10 +92,6 @@ function expectTrue(b) {
   expect(b).toBeTrue();
 }
 
-function redEntered(simon) {
-  return simon.redEntered();
-}
-
 describe("ScreenResponder", function () {
   beforeEach(function () {
     this.screen = new ScreenStub();
@@ -96,8 +100,23 @@ describe("ScreenResponder", function () {
   });
 
   it("should enter red when user clicks red", function () {
-    clickRed(this.screen);
-    expectTrue(redEntered(this.simon));
+    this.screen.clickRed();
+    expectTrue(this.simon.redEntered());
+  });
+
+  it("should enter yellow when user clicks yellow", function () {
+    this.screen.clickYellow();
+    expectTrue(this.simon.yellowEntered());
+  });
+
+  it("should enter green when user clicks green", function () {
+    this.screen.clickGreen();
+    expectTrue(this.simon.greenEntered());
+  });
+
+  it("should enter blue when user clicks blue", function () {
+    this.screen.clickBlue();
+    expectTrue(this.simon.blueEntered());
   });
 
   it("should submit when user clicks done", function () {
