@@ -55,7 +55,8 @@ function setRedBackground(button) {
 }
 
 class CognitionScreen {
-  constructor(display_element) {
+  constructor(parent) {
+    this.parent = parent;
     this.greenButton = borderedCircleButton();
     this.redButton = borderedCircleButton();
     this.blueButton = borderedCircleButton();
@@ -66,11 +67,11 @@ class CognitionScreen {
     this.doneButton.style.display = "none";
     const topRow = element();
     topRow.style.display = "inline-flex";
-    adopt(display_element, topRow);
+    adopt(parent, topRow);
     adopt(topRow, this.greenButton);
     const middleRow = element();
     middleRow.style.display = "flex";
-    adopt(display_element, middleRow);
+    adopt(parent, middleRow);
     adopt(middleRow, this.redButton);
     const gap = element();
     gap.style.height = "200px";
@@ -79,9 +80,9 @@ class CognitionScreen {
     adopt(middleRow, this.blueButton);
     const bottomRow = element();
     bottomRow.style.display = "inline-flex";
-    adopt(display_element, bottomRow);
+    adopt(parent, bottomRow);
     adopt(bottomRow, this.yellowButton);
-    adopt(display_element, this.doneButton);
+    adopt(parent, this.doneButton);
     addClickEventListener(this.greenButton, (_e) => {
       this.listener.notifyThatGreenWasClicked();
     });
@@ -171,6 +172,13 @@ class CognitionScreen {
   showDoneButton() {
     this.doneButton.style.display = "block";
   }
+
+  clear() {
+    // https://stackoverflow.com/a/3955238
+    while (this.parent.firstChild) {
+      this.parent.removeChild(this.parent.lastChild);
+    }
+  }
 }
 
 class WebAudioContext {
@@ -222,6 +230,7 @@ export function plugin() {
     const presenter = new ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
     const simon = new Simon(audioPlayer);
+    simon.subscribe(presenter);
     simon.setLongToneDurationMilliseconds(700);
     simon.setShortToneDurationMilliseconds(100);
     simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
