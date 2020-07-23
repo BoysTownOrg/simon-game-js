@@ -277,6 +277,10 @@ function setPlaying(player) {
   player.setPlaying();
 }
 
+function submit(simon) {
+  simon.submit();
+}
+
 describe("Simon", function () {
   beforeEach(function () {
     this.audioPlayer = new AudioPlayerStub();
@@ -390,12 +394,12 @@ describe("Simon", function () {
   it("should notify that trial is complete on submit", function () {
     const listener = new EventListenerStub();
     this.simon.subscribe(listener);
-    this.simon.submit();
+    submit(this.simon);
     expectTrue(listener.notifiedThatTrialHasCompleted());
   });
 
   it("should conclude trial on submit", function () {
-    this.simon.submit();
+    submit(this.simon);
     expectTrue(this.trial.concluded());
   });
 });
