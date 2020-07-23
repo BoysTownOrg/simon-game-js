@@ -418,4 +418,14 @@ describe("Simon", function () {
     submit(this.simon);
     expectTrue(this.trial.correct());
   });
+
+  it("should evaluate an incorrect trial", function () {
+    say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
+    enterRed(this.simon);
+    enterGreen(this.simon);
+    enterRed(this.simon);
+    enterYellow(this.simon);
+    submit(this.simon);
+    expectFalse(this.trial.correct());
+  });
 });
