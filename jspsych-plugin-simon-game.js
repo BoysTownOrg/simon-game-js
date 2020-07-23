@@ -220,7 +220,13 @@ class WebAudioContext {
 export function plugin() {
   let plugin = {};
   plugin.info = {
-    parameters: {},
+    parameters: {
+      colors: {
+        type: jsPsych.plugins.parameterType.INT,
+        default: undefined,
+        array: true,
+      },
+    },
   };
   plugin.trial = function (display_element, trial) {
     clear(display_element);
