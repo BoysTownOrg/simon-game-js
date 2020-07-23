@@ -69,6 +69,12 @@ function clear(parent) {
   }
 }
 
+class JsPsychTrial {
+  conclude() {
+    jsPsych.finishTrial();
+  }
+}
+
 class CognitionScreen {
   constructor(parent) {
     this.parent = parent;
@@ -112,7 +118,6 @@ class CognitionScreen {
     });
     addClickEventListener(this.doneButton, (_e) => {
       this.listener.notifyThatDoneWasClicked();
-      jsPsych.finishTrial({ correct: true });
     });
   }
 
@@ -244,7 +249,7 @@ export function plugin() {
     const screen = new CognitionScreen(display_element);
     const presenter = new ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
-    const simon = new Simon(audioPlayer);
+    const simon = new Simon(audioPlayer, new JsPsychTrial());
     simon.subscribe(presenter);
     simon.setLongToneDurationMilliseconds(700);
     simon.setShortToneDurationMilliseconds(100);
