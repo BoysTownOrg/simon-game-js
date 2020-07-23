@@ -251,6 +251,19 @@ class WebAudioContext {
   }
 }
 
+function toneFrequenciesHz() {
+  return new Map([
+    [Color.green, 391.995],
+    [Color.red, 329.628],
+    [Color.yellow, 261.626],
+    [Color.blue, 195.998],
+  ]);
+}
+
+function incorrectToneFrequencyHz() {
+  return 48.9994;
+}
+
 export function plugin() {
   let plugin = {};
   plugin.info = {
@@ -266,13 +279,8 @@ export function plugin() {
   const colorButtonOrder = shuffle([...Array(4).keys()]);
   const audioPlayer = new AudioPlayer(
     new WebAudioContext(),
-    new Map([
-      [Color.green, 391.995],
-      [Color.red, 329.628],
-      [Color.yellow, 261.626],
-      [Color.blue, 195.998],
-    ]),
-    48.9994
+    toneFrequenciesHz(),
+    incorrectToneFrequencyHz()
   );
   audioPlayer.setPlayDelaySeconds(0.003);
   const simon = new Simon(audioPlayer, new JsPsychTrial());
@@ -282,10 +290,10 @@ export function plugin() {
   plugin.trial = function (display_element, trial) {
     clear(display_element);
     const screen = new CognitionScreen(display_element, colorButtonOrder);
+    new ScreenResponder(screen, simon);
     const presenter = new ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
     simon.subscribe(presenter);
-    new ScreenResponder(screen, simon);
     simon.say(trial.colors);
   };
   return plugin;
