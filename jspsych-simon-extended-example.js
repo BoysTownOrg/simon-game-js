@@ -25,20 +25,24 @@ function shuffle(array) {
   return array;
 }
 
+function colorOrder(orderedColors, n) {
+  return [orderedColors.get(n), n];
+}
+
 // https://stackoverflow.com/a/10050831
-const colorButtonOrder = shuffle([...Array(4).keys()]);
-const colorFromOrder = new Map([
-  [colorButtonOrder[0], Color.red],
-  [colorButtonOrder[1], Color.green],
-  [colorButtonOrder[2], Color.blue],
-  [colorButtonOrder[3], Color.yellow],
+const order = shuffle([...Array(4).keys()]);
+const orderedColors = new Map([
+  [order[0], Color.red],
+  [order[1], Color.green],
+  [order[2], Color.blue],
+  [order[3], Color.yellow],
 ]);
 jsPsych.plugins[simon] = plugin(
   new Map([
-    [colorFromOrder.get(colorButtonOrder[0]), colorButtonOrder[0]],
-    [colorFromOrder.get(colorButtonOrder[1]), colorButtonOrder[1]],
-    [colorFromOrder.get(colorButtonOrder[2]), colorButtonOrder[2]],
-    [colorFromOrder.get(colorButtonOrder[3]), colorButtonOrder[3]],
+    colorOrder(orderedColors, order[0]),
+    colorOrder(orderedColors, order[1]),
+    colorOrder(orderedColors, order[2]),
+    colorOrder(orderedColors, order[3]),
   ])
 );
 const timeline = [];
@@ -52,7 +56,7 @@ pushHtmlKeyboardResponse(
 );
 timeline.push({
   type: simon,
-  colors: [colorFromOrder.get(0), colorFromOrder.get(2), colorFromOrder.get(2)],
+  colors: [orderedColors.get(0), orderedColors.get(2), orderedColors.get(2)],
 });
 pushHtmlKeyboardResponse(
   timeline,
@@ -60,7 +64,7 @@ pushHtmlKeyboardResponse(
 );
 timeline.push({
   type: simon,
-  colors: [colorFromOrder.get(1), colorFromOrder.get(3), colorFromOrder.get(1)],
+  colors: [orderedColors.get(1), orderedColors.get(3), orderedColors.get(1)],
 });
 pushHtmlKeyboardResponse(
   timeline,
