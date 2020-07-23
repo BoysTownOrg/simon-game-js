@@ -262,7 +262,8 @@ export function plugin() {
       },
     },
   };
-  const colorButtonOrder = shuffle([0, 1, 2, 3]);
+  // https://stackoverflow.com/a/10050831
+  const colorButtonOrder = shuffle([...Array(4).keys()]);
   const audioPlayer = new AudioPlayer(
     new WebAudioContext(),
     new Map([
