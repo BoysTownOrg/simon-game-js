@@ -1,6 +1,20 @@
 import { Simon } from "../lib/Simon.js";
 import { Color } from "../lib/Color.js";
 
+class TrialStub {
+  constructor() {
+    this.concluded_ = false;
+  }
+
+  conclude() {
+    this.concluded_ = true;
+  }
+
+  concluded() {
+    return this.concluded_;
+  }
+}
+
 class EventListenerStub {
   constructor() {
     this.notifiedThatTrialHasCompleted_ = false;
@@ -266,7 +280,8 @@ function setPlaying(player) {
 describe("Simon", function () {
   beforeEach(function () {
     this.audioPlayer = new AudioPlayerStub();
-    this.simon = new Simon(this.audioPlayer);
+    this.trial = new TrialStub();
+    this.simon = new Simon(this.audioPlayer, this.trial);
   });
 
   it("should play the color tones on say", function () {
@@ -377,5 +392,10 @@ describe("Simon", function () {
     this.simon.subscribe(listener);
     this.simon.submit();
     expectTrue(listener.notifiedThatTrialHasCompleted());
+  });
+
+  it("should conclude trial on submit", function () {
+    this.simon.submit();
+    expectTrue(this.trial.concluded());
   });
 });
