@@ -4,10 +4,16 @@ import { Color } from "../lib/Color.js";
 class TrialStub {
   constructor() {
     this.concluded_ = false;
+    this.correct_ = false;
   }
 
-  conclude() {
+  correct() {
+    return this.correct_;
+  }
+
+  conclude(result) {
     this.concluded_ = true;
+    this.correct_ = result.correct;
   }
 
   concluded() {
@@ -401,5 +407,15 @@ describe("Simon", function () {
   it("should conclude trial on submit", function () {
     submit(this.simon);
     expectTrue(this.trial.concluded());
+  });
+
+  it("should evaluate a correct trial", function () {
+    say(this.simon, [Color.red, Color.green, Color.blue, Color.yellow]);
+    enterRed(this.simon);
+    enterGreen(this.simon);
+    enterBlue(this.simon);
+    enterYellow(this.simon);
+    submit(this.simon);
+    expectTrue(this.trial.correct());
   });
 });
