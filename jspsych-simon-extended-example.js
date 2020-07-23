@@ -41,12 +41,16 @@ const test_procedure = {
 };
 timeline.push(test_procedure);
 
+function redcapUrl() {
+  return "https://study.boystown.org/api/";
+}
+
 jsPsych.init({
   timeline: timeline,
   on_finish: function () {
     const token = prompt("Enter API Token");
     // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
-    fetch("https://study.boystown.org/api/", {
+    fetch(redcapUrl(), {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -56,7 +60,7 @@ jsPsych.init({
     }).then(function (response) {
       response.text().then(function (text) {
         const id = text;
-        fetch("https://study.boystown.org/api/", {
+        fetch(redcapUrl(), {
           method: "POST",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -65,9 +69,9 @@ jsPsych.init({
           body:
             "token=" +
             token +
-            '&content=record&format=json&type=flat&overwriteBehavior=normal&forceAutoNumber=false&data=[{"record_id":' +
-            id +
-            ', "scent":"intriguing"}]&returnContent=count&returnFormat=json',
+            "&content=record&format=json&type=flat&overwriteBehavior=normal&forceAutoNumber=false&data=[" +
+            JSON.stringify({ record_id: id, scent: "horrifying" }) +
+            "]&returnContent=count&returnFormat=json",
         });
       });
     });
