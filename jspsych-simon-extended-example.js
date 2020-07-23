@@ -37,10 +37,39 @@ const trial = {
 
 const test_procedure = {
   timeline: [trial],
-  repetitions: 5,
+  repetitions: 1,
 };
 timeline.push(test_procedure);
 
 jsPsych.init({
   timeline: timeline,
+  on_finish: function () {
+    const token = prompt("Enter API Token");
+    // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
+    fetch("https://study.boystown.org/api/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Accept: "application/json",
+      },
+      body: "token=" + token + "&content=generateNextRecordName",
+    }).then(function (response) {
+      response.text().then(function (text) {
+        const id = text;
+        fetch("https://study.boystown.org/api/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Accept: "application/json",
+          },
+          body:
+            "token=" +
+            token +
+            '&content=record&format=json&type=flat&overwriteBehavior=normal&forceAutoNumber=false&data=[{"record_id":' +
+            id +
+            ', "scent":"intriguing"}]&returnContent=count&returnFormat=json',
+        });
+      });
+    });
+  },
 });
