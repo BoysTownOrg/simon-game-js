@@ -73,29 +73,6 @@ function clear(parent) {
   }
 }
 
-// https://stackoverflow.com/a/2450976
-function shuffle(array) {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-  return array;
-}
-
-function reorder(array, order) {
-  let reordered = [];
-  for (const index in order) {
-    reordered.push(array[index]);
-  }
-  return reordered;
-}
-
 class JsPsychTrial {
   conclude(result) {
     jsPsych.finishTrial(result);
@@ -103,16 +80,17 @@ class JsPsychTrial {
 }
 
 class CognitionScreen {
-  constructor(parent, colorButtonOrder) {
+  constructor(parent, colorOrderMap) {
     this.parent = parent;
     this.greenButton = borderedCircleButton();
     this.redButton = borderedCircleButton();
     this.blueButton = borderedCircleButton();
     this.yellowButton = borderedCircleButton();
-    const shuffledColorButtons = reorder(
-      [this.blueButton, this.redButton, this.greenButton, this.yellowButton],
-      colorButtonOrder
-    );
+    const colorButtons = new Array(4);
+    colorButtons[colorOrderMap.get(Color.red)] = this.redButton;
+    colorButtons[colorOrderMap.get(Color.green)] = this.greenButton;
+    colorButtons[colorOrderMap.get(Color.yellow)] = this.yellowButton;
+    colorButtons[colorOrderMap.get(Color.blue)] = this.blueButton;
     this.doneButton = element();
     this.doneButton.style.border = "solid";
     this.doneButton.textContent = "Done";
@@ -120,20 +98,20 @@ class CognitionScreen {
     const topRow = element();
     topRow.style.display = "inline-flex";
     adopt(parent, topRow);
-    adopt(topRow, shuffledColorButtons[0]);
+    adopt(topRow, colorButtons[0]);
     const middleRow = element();
     middleRow.style.display = "flex";
     adopt(parent, middleRow);
-    adopt(middleRow, shuffledColorButtons[1]);
+    adopt(middleRow, colorButtons[1]);
     const gap = element();
     gap.style.height = "200px";
     gap.style.width = "400px";
     adopt(middleRow, gap);
-    adopt(middleRow, shuffledColorButtons[2]);
+    adopt(middleRow, colorButtons[2]);
     const bottomRow = element();
     bottomRow.style.display = "inline-flex";
     adopt(parent, bottomRow);
-    adopt(bottomRow, shuffledColorButtons[3]);
+    adopt(bottomRow, colorButtons[3]);
     adopt(parent, this.doneButton);
     addClickEventListener(this.greenButton, (_e) => {
       this.listener.notifyThatGreenWasClicked();
@@ -268,7 +246,7 @@ function incorrectToneFrequencyHz() {
   return 48.9994;
 }
 
-export function plugin() {
+export function plugin(colorOrderMap) {
   let plugin = {};
   plugin.info = {
     parameters: {
@@ -279,8 +257,6 @@ export function plugin() {
       },
     },
   };
-  // https://stackoverflow.com/a/10050831
-  const colorButtonOrder = shuffle([...Array(4).keys()]);
   const audioPlayer = new AudioPlayer(
     new WebAudioContext(),
     toneFrequenciesHz(),
@@ -293,7 +269,7 @@ export function plugin() {
   simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
   plugin.trial = function (display_element, trial) {
     clear(display_element);
-    const screen = new CognitionScreen(display_element, colorButtonOrder);
+    const screen = new CognitionScreen(display_element, colorOrderMap);
     new ScreenResponder(screen, simon);
     const presenter = new ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);

@@ -10,7 +10,37 @@ function pushHtmlKeyboardResponse(timeline, stimulus) {
   });
 }
 
-jsPsych.plugins[simon] = plugin();
+// https://stackoverflow.com/a/2450976
+function shuffle(array) {
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
+
+// https://stackoverflow.com/a/10050831
+const colorButtonOrder = shuffle([...Array(4).keys()]);
+const colorFromOrder = new Map([
+  [colorButtonOrder[0], Color.red],
+  [colorButtonOrder[1], Color.green],
+  [colorButtonOrder[2], Color.blue],
+  [colorButtonOrder[3], Color.yellow],
+]);
+jsPsych.plugins[simon] = plugin(
+  new Map([
+    [colorFromOrder.get(colorButtonOrder[0]), colorButtonOrder[0]],
+    [colorFromOrder.get(colorButtonOrder[1]), colorButtonOrder[1]],
+    [colorFromOrder.get(colorButtonOrder[2]), colorButtonOrder[2]],
+    [colorFromOrder.get(colorButtonOrder[3]), colorButtonOrder[3]],
+  ])
+);
 const timeline = [];
 timeline.push({
   type: "fullscreen",
@@ -22,7 +52,7 @@ pushHtmlKeyboardResponse(
 );
 timeline.push({
   type: simon,
-  colors: [Color.green, Color.red, Color.red],
+  colors: [colorFromOrder.get(0), colorFromOrder.get(2), colorFromOrder.get(2)],
 });
 pushHtmlKeyboardResponse(
   timeline,
@@ -30,7 +60,7 @@ pushHtmlKeyboardResponse(
 );
 timeline.push({
   type: simon,
-  colors: [Color.blue, Color.yellow, Color.blue],
+  colors: [colorFromOrder.get(1), colorFromOrder.get(3), colorFromOrder.get(1)],
 });
 pushHtmlKeyboardResponse(
   timeline,
