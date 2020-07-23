@@ -70,8 +70,8 @@ function clear(parent) {
 }
 
 class JsPsychTrial {
-  conclude() {
-    jsPsych.finishTrial();
+  conclude(result) {
+    jsPsych.finishTrial(result);
   }
 }
 
