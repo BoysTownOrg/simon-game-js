@@ -4,6 +4,10 @@ import { ScreenPresenter } from "./lib/ScreenPresenter.js";
 import { ScreenResponder } from "./lib/ScreenResponder.js";
 import { Color } from "./lib/Color.js";
 
+function audioGain() {
+  return 0;
+}
+
 function addClickEventListener(button, f) {
   button.addEventListener("mousedown", f);
 }
@@ -243,7 +247,7 @@ class WebAudioContext {
     oscillator.frequency.value = frequencyHz;
     oscillator.onended = onEnd;
     const gain = this.audioContext.createGain();
-    gain.gain.value = 0.01;
+    gain.gain.value = audioGain();
     oscillator.connect(gain);
     gain.connect(this.audioContext.destination);
     oscillator.start(startTimeSeconds);
