@@ -263,27 +263,27 @@ export function plugin() {
     },
   };
   const colorButtonOrder = shuffle([0, 1, 2, 3]);
+  const audioPlayer = new AudioPlayer(
+    new WebAudioContext(),
+    new Map([
+      [Color.green, 391.995],
+      [Color.red, 329.628],
+      [Color.yellow, 261.626],
+      [Color.blue, 195.998],
+    ]),
+    48.9994
+  );
+  audioPlayer.setPlayDelaySeconds(0.003);
+  const simon = new Simon(audioPlayer, new JsPsychTrial());
+  simon.setLongToneDurationMilliseconds(700);
+  simon.setShortToneDurationMilliseconds(100);
+  simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
   plugin.trial = function (display_element, trial) {
     clear(display_element);
-    const audioPlayer = new AudioPlayer(
-      new WebAudioContext(),
-      new Map([
-        [Color.green, 391.995],
-        [Color.red, 329.628],
-        [Color.yellow, 261.626],
-        [Color.blue, 195.998],
-      ]),
-      48.9994
-    );
-    audioPlayer.setPlayDelaySeconds(0.003);
     const screen = new CognitionScreen(display_element, colorButtonOrder);
     const presenter = new ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
-    const simon = new Simon(audioPlayer, new JsPsychTrial());
     simon.subscribe(presenter);
-    simon.setLongToneDurationMilliseconds(700);
-    simon.setShortToneDurationMilliseconds(100);
-    simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
     new ScreenResponder(screen, simon);
     simon.say(trial.colors);
   };
