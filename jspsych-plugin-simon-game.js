@@ -200,6 +200,7 @@ class CognitionScreen {
 
 class WebAudioContext {
   constructor() {
+    // https://developer.mozilla.org/en-US/docs/Web/API/AudioContext
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     this.audioContext = new AudioContext();
   }
@@ -209,6 +210,7 @@ class WebAudioContext {
   }
 
   scheduleTone(startTimeSeconds, stopTimeSeconds, frequencyHz, onEnd) {
+    // https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode
     const oscillator = this.audioContext.createOscillator();
     oscillator.type = "square";
     oscillator.frequency.value = frequencyHz;
