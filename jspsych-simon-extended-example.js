@@ -2,25 +2,37 @@ import { plugin } from "./jspsych-plugin-simon-game.js";
 import { Color } from "./lib/Color.js";
 
 const simon = "simon-game";
-
 jsPsych.plugins[simon] = plugin();
-
 const timeline = [];
-
 timeline.push({
   type: "fullscreen",
   fullscreen_mode: true,
 });
-
-const instructions = {
+timeline.push({
   type: "html-keyboard-response",
   stimulus:
     '<p>You will see patterns of colored circles shown on the screen in different places, one at a time. After watching each pattern, you must correctly copy it by pressing the place/color where you saw it.</p><p>When you finish copying each pattern, press the "Done" button and then the next pattern will be shown.</p><p>For example, if you see the pattern BLUE-RED-GREEN, then you should press the colors blue, red, green in that order, and then press "Done" at the bottom.</p><p>If you don\'t know or can\'t remember what a pattern was, just make your best guess. Once you make a response, you cannot go back and correct it, so take your time in choosing the correct colors.</p><p>Watch me! Press spacebar to start.</p>',
-};
-timeline.push(instructions);
+});
+timeline.push({
+  type: simon,
+  colors: [Color.green, Color.red, Color.red],
+});
+timeline.push({
+  type: "html-keyboard-response",
+  stimulus:
+    "<p>Now it's your turn!</p><p>Press the spacebar when you're ready to start</p>",
+});
+timeline.push({
+  type: simon,
+  colors: [Color.blue, Color.yellow, Color.blue],
+});
+timeline.push({
+  type: "html-keyboard-response",
+  stimulus:
+    "<p>Good job!</p><p>Do you have any questions?</p><p>Press the spacebar to begin.</p>",
+});
 
 let seriesLength = 3;
-
 const trial = {
   type: simon,
   colors: function () {
@@ -35,11 +47,10 @@ const trial = {
   },
 };
 
-const test_procedure = {
+timeline.push({
   timeline: [trial],
-  repetitions: 1,
-};
-timeline.push(test_procedure);
+  repetitions: 15,
+});
 
 function redcapUrl() {
   return "https://study.boystown.org/api/";
