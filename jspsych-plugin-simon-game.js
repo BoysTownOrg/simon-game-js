@@ -112,7 +112,7 @@ class CognitionScreen {
     });
     addClickEventListener(this.doneButton, (_e) => {
       this.listener.notifyThatDoneWasClicked();
-      jsPsych.finishTrial();
+      jsPsych.finishTrial({ correct: true });
     });
   }
 
