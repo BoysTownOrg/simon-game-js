@@ -69,6 +69,29 @@ function clear(parent) {
   }
 }
 
+// https://stackoverflow.com/a/2450976
+function shuffle(array) {
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
+
+function reorder(array, order) {
+  let reordered = [];
+  for (const index in order) {
+    reordered.push(array[index]);
+  }
+  return reordered;
+}
+
 class JsPsychTrial {
   conclude(result) {
     jsPsych.finishTrial(result);
@@ -76,12 +99,16 @@ class JsPsychTrial {
 }
 
 class CognitionScreen {
-  constructor(parent) {
+  constructor(parent, colorButtonOrder) {
     this.parent = parent;
     this.greenButton = borderedCircleButton();
     this.redButton = borderedCircleButton();
     this.blueButton = borderedCircleButton();
     this.yellowButton = borderedCircleButton();
+    const shuffledColorButtons = reorder(
+      [this.blueButton, this.redButton, this.greenButton, this.yellowButton],
+      colorButtonOrder
+    );
     this.doneButton = element();
     this.doneButton.style.border = "solid";
     this.doneButton.textContent = "Done";
@@ -89,20 +116,20 @@ class CognitionScreen {
     const topRow = element();
     topRow.style.display = "inline-flex";
     adopt(parent, topRow);
-    adopt(topRow, this.greenButton);
+    adopt(topRow, shuffledColorButtons[0]);
     const middleRow = element();
     middleRow.style.display = "flex";
     adopt(parent, middleRow);
-    adopt(middleRow, this.redButton);
+    adopt(middleRow, shuffledColorButtons[1]);
     const gap = element();
     gap.style.height = "200px";
     gap.style.width = "400px";
     adopt(middleRow, gap);
-    adopt(middleRow, this.blueButton);
+    adopt(middleRow, shuffledColorButtons[2]);
     const bottomRow = element();
     bottomRow.style.display = "inline-flex";
     adopt(parent, bottomRow);
-    adopt(bottomRow, this.yellowButton);
+    adopt(bottomRow, shuffledColorButtons[3]);
     adopt(parent, this.doneButton);
     addClickEventListener(this.greenButton, (_e) => {
       this.listener.notifyThatGreenWasClicked();
@@ -235,6 +262,7 @@ export function plugin() {
       },
     },
   };
+  const colorButtonOrder = shuffle([0, 1, 2, 3]);
   plugin.trial = function (display_element, trial) {
     clear(display_element);
     const audioPlayer = new AudioPlayer(
@@ -248,7 +276,7 @@ export function plugin() {
       48.9994
     );
     audioPlayer.setPlayDelaySeconds(0.003);
-    const screen = new CognitionScreen(display_element);
+    const screen = new CognitionScreen(display_element, colorButtonOrder);
     const presenter = new ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
     const simon = new Simon(audioPlayer, new JsPsychTrial());
