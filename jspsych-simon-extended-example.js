@@ -3,10 +3,14 @@ import { Color } from "./lib/Color.js";
 
 const simon = "simon-game";
 
-function pushHtmlKeyboardResponse(timeline, stimulus) {
+function pushKeyboardResponse(timeline, lines) {
+  let html = "";
+  for (const line of lines) {
+    html += '<p style="font-size:32px">' + line + "</p>";
+  }
   timeline.push({
     type: "html-keyboard-response",
-    stimulus: stimulus,
+    stimulus: html,
   });
 }
 
@@ -55,10 +59,13 @@ timeline.push({
   type: "fullscreen",
   fullscreen_mode: true,
 });
-pushHtmlKeyboardResponse(
-  timeline,
-  '<p>You will see patterns of colored circles shown on the screen in different places, one at a time. After watching each pattern, you must correctly copy it by pressing the place/color where you saw it.</p><p>When you finish copying each pattern, press the "Done" button and then the next pattern will be shown.</p><p>For example, if you see the pattern BLUE-RED-GREEN, then you should press the colors blue, red, green in that order, and then press "Done" at the bottom.</p><p>If you don\'t know or can\'t remember what a pattern was, just make your best guess. Once you make a response, you cannot go back and correct it, so take your time in choosing the correct colors.</p><p>Watch me! Press spacebar to start.</p>'
-);
+pushKeyboardResponse(timeline, [
+  "You will see patterns of colored circles shown on the screen in different places, one at a time. After watching each pattern, you must correctly copy it by pressing the place/color where you saw it.",
+  'When you finish copying each pattern, press the "Done" button and then the next pattern will be shown.',
+  'For example, if you see the pattern BLUE-RED-GREEN, then you should press the colors blue, red, green in that order, and then press "Done" at the bottom.',
+  "If you don't know or can't remember what a pattern was, just make your best guess. Once you make a response, you cannot go back and correct it, so take your time in choosing the correct colors.",
+  "Watch me! Press spacebar to start.",
+]);
 const firstTrial = {
   type: simon,
   colors: [orderedColors.get(0), orderedColors.get(2), orderedColors.get(2)],
@@ -70,18 +77,19 @@ timeline.push({
     return !lastTrialCorrect();
   },
 });
-pushHtmlKeyboardResponse(
-  timeline,
-  "<p>Now it's your turn!</p><p>Press the spacebar when you're ready to start</p>"
-);
+pushKeyboardResponse(timeline, [
+  "Now it's your turn!",
+  "Press the spacebar when you're ready to start",
+]);
 timeline.push({
   type: simon,
   colors: [orderedColors.get(1), orderedColors.get(3), orderedColors.get(1)],
 });
-pushHtmlKeyboardResponse(
-  timeline,
-  "<p>Good job!</p><p>Do you have any questions?</p><p>Press the spacebar to begin.</p>"
-);
+pushKeyboardResponse(timeline, [
+  "Good job!",
+  "Do you have any questions?",
+  "Press the spacebar to begin.",
+]);
 
 let seriesLength = 3;
 const trial = {
