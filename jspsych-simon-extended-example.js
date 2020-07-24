@@ -38,6 +38,14 @@ function colorOrder(orderedColors, n) {
   return [orderedColors.get(n), n];
 }
 
+function sequencedColors(orderedColors, sequence) {
+  let colors = [];
+  for (const order of sequence) {
+    colors.push(orderedColors.get(order));
+  }
+  return colors;
+}
+
 // https://stackoverflow.com/a/10050831
 const order = shuffle([...Array(4).keys()]);
 const orderedColors = new Map([
@@ -68,7 +76,7 @@ pushKeyboardResponse(timeline, [
 ]);
 const firstTrial = {
   type: simon,
-  colors: [orderedColors.get(0), orderedColors.get(2), orderedColors.get(2)],
+  colors: sequencedColors(orderedColors, [0, 2, 2]),
 };
 timeline.push(firstTrial);
 timeline.push({
@@ -83,7 +91,7 @@ pushKeyboardResponse(timeline, [
 ]);
 timeline.push({
   type: simon,
-  colors: [orderedColors.get(1), orderedColors.get(3), orderedColors.get(1)],
+  colors: sequencedColors(orderedColors, [1, 3, 1]),
 });
 pushKeyboardResponse(timeline, [
   "Good job!",
