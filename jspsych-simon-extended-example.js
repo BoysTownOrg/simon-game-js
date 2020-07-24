@@ -91,7 +91,7 @@ pushSpacebarResponse(secondInstructions, [
   "Press the spacebar when you're ready to start",
 ]);
 timeline.push({
-  timeline: [secondInstructions[0]],
+  timeline: secondInstructions,
   conditional_function: function () {
     return lastTrialCorrect();
   },
