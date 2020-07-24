@@ -3,7 +3,7 @@ import { Color } from "./lib/Color.js";
 
 const simon = "simon-game";
 
-function pushKeyboardResponse(timeline, lines) {
+function pushSpacebarResponse(timeline, lines) {
   let html = "";
   for (const line of lines) {
     html += '<p style="font-size:32px">' + line + "</p>";
@@ -11,6 +11,7 @@ function pushKeyboardResponse(timeline, lines) {
   timeline.push({
     type: "html-keyboard-response",
     stimulus: html,
+    choices: [" "],
   });
 }
 
@@ -67,7 +68,7 @@ timeline.push({
   type: "fullscreen",
   fullscreen_mode: true,
 });
-pushKeyboardResponse(timeline, [
+pushSpacebarResponse(timeline, [
   "You will see patterns of colored circles shown on the screen in different places, one at a time. After watching each pattern, you must correctly copy it by pressing the place/color where you saw it.",
   'When you finish copying each pattern, press the "Done" button and then the next pattern will be shown.',
   'For example, if you see the pattern BLUE-RED-GREEN, then you should press the colors blue, red, green in that order, and then press "Done" at the bottom.',
@@ -85,7 +86,7 @@ timeline.push({
     return !lastTrialCorrect();
   },
 });
-pushKeyboardResponse(timeline, [
+pushSpacebarResponse(timeline, [
   "Now it's your turn!",
   "Press the spacebar when you're ready to start",
 ]);
@@ -93,7 +94,7 @@ timeline.push({
   type: simon,
   colors: sequencedColors(orderedColors, [1, 3, 1]),
 });
-pushKeyboardResponse(timeline, [
+pushSpacebarResponse(timeline, [
   "Good job!",
   "Do you have any questions?",
   "Press the spacebar to begin.",
