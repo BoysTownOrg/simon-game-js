@@ -1,6 +1,12 @@
 import { plugin } from "./jspsych-plugin-simon-game.js";
 import { Color } from "./lib/Color.js";
 
+async function readFile(filename) {
+  return await fetch(filename).then(function (response) {
+    return response.text();
+  });
+}
+
 function pushSpacebarResponse(timeline, lines) {
   let html = "";
   for (const line of lines) {
@@ -69,14 +75,8 @@ function sequencedColors(orderedColors, sequence) {
   }
   return colors;
 }
-let parametersFileContents = "";
-fetch("parameters.txt")
-  .then(function (response) {
-    return response.text();
-  })
-  .then(function (text) {
-    parametersFileContents = text;
-  });
+
+const parametersFileContents = readFile("parameters.txt");
 
 // https://stackoverflow.com/a/10050831
 const order = shuffle([...Array(4).keys()]);
