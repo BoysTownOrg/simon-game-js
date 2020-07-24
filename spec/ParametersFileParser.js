@@ -33,5 +33,6 @@ describe("ParametersFileParser", function () {
     expectTrials(result, 3, 16);
     expectFixed(result, 4);
     expectTrials(result, 4, 17);
+    expectEqual(5, result.length);
   });
 });
