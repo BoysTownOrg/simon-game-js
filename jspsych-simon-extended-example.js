@@ -38,7 +38,7 @@ function uploadToRedcap() {
     });
 }
 
-function readFile(filename) {
+function readPromisedFileContents(filename) {
   return fetch(filename).then(function (response) {
     return response.text();
   });
@@ -113,7 +113,9 @@ function sequencedColors(orderedColors, sequence) {
   return colors;
 }
 
-const promisedParameterFileContents = readFile("parameters.txt");
+const promisedParametersFileContents = readPromisedFileContents(
+  "parameters.txt"
+);
 
 // https://stackoverflow.com/a/10050831
 const order = shuffle([...Array(4).keys()]);
@@ -165,22 +167,40 @@ const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
   [Color.red, Color.green, Color.blue, Color.yellow],
   32
 );
-let fixedColorSequenceLength = 3;
-const trial = {
+let colorSequenceLength = 1;
+const fixedTrial = {
   type: simonPluginId,
   colors: function () {
-    return fixedColorSequence.slice(0, fixedColorSequenceLength);
+    return fixedColorSequence.slice(0, colorSequenceLength);
   },
   on_finish: function (data) {
-    if (data.correct) ++fixedColorSequenceLength;
-    else --fixedColorSequenceLength;
+    if (data.correct) ++colorSequenceLength;
+    else --colorSequenceLength;
+    if (fixedColorSequence == 0) fixedColorSequence = 1;
+  },
+};
+const randomTrial = {
+  type: simonPluginId,
+  colors: function () {
+    return jsPsych.randomization.sampleWithReplacement(
+      [Color.red, Color.green, Color.blue, Color.yellow],
+      colorSequenceLength
+    );
+  },
+  on_finish: function (data) {
+    if (data.correct) ++colorSequenceLength;
+    else --colorSequenceLength;
     if (fixedColorSequence == 0) fixedColorSequence = 1;
   },
 };
 
-promisedParameterFileContents.then(function (contents) {
+promisedParametersFileContents.then(function (contents) {
   const trialRounds = ParametersFileParser.parse(contents);
   for (let i = 2; i < trialRounds.length; ++i) {
+    const trial =
+      trialRounds[i].trialType == ParametersFileParser.TrialType.fixed
+        ? fixedTrial
+        : randomTrial;
     timeline.push({
       timeline: [trial],
       repetitions: trialRounds[i].trials,
