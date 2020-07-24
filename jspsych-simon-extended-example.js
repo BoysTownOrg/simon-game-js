@@ -13,6 +13,23 @@ function pushSpacebarResponse(timeline, lines) {
   });
 }
 
+function pushConditionalSubtimeline(timeline, subtimeline, condition) {
+  timeline.push({
+    timeline: subtimeline,
+    conditional_function: condition,
+  });
+}
+
+function pushConditionalTrial(timeline, trial, condition) {
+  pushConditionalSubtimeline(timeline, [trial], condition);
+}
+
+function pushConditionalSpacebarResponse(timeline, lines, condition) {
+  const response = [];
+  pushSpacebarResponse(response, lines);
+  pushConditionalSubtimeline(timeline, response, condition);
+}
+
 function lastTrialCorrect() {
   // https://www.jspsych.org/overview/trial/
   return jsPsych.data.getLastTrialData().values()[0].correct;
@@ -87,39 +104,22 @@ const firstTrial = {
   colors: sequencedColors(orderedColors, [0, 2, 2]),
 };
 timeline.push(firstTrial);
-timeline.push({
-  timeline: [firstTrial],
-  conditional_function: lastTrialIncorrect,
-});
-const secondInstructions = [];
-pushSpacebarResponse(secondInstructions, [
-  "Now it's your turn!",
-  "Press the spacebar when you're ready to start",
-]);
-timeline.push({
-  timeline: secondInstructions,
-  conditional_function: lastTrialCorrect,
-});
-timeline.push({
-  timeline: [
-    {
-      type: simonPluginId,
-      colors: sequencedColors(orderedColors, [1, 3, 1]),
-    },
-  ],
-  conditional_function: allEvaluatedTrialsCorrect,
-});
-const lastInstructions = [];
-pushSpacebarResponse(lastInstructions, [
-  "Good job!",
-  "Do you have any questions?",
-  "Press the spacebar to begin.",
-]);
-timeline.push({
-  timeline: lastInstructions,
-  conditional_function: allEvaluatedTrialsCorrect,
-});
-
+pushConditionalTrial(timeline, firstTrial, lastTrialIncorrect);
+pushConditionalSpacebarResponse(
+  timeline,
+  ["Now it's your turn!", "Press the spacebar when you're ready to start"],
+  lastTrialCorrect
+);
+const secondTrial = {
+  type: simonPluginId,
+  colors: sequencedColors(orderedColors, [1, 3, 1]),
+};
+pushConditionalTrial(timeline, secondTrial, allEvaluatedTrialsCorrect);
+pushConditionalSpacebarResponse(
+  timeline,
+  ["Good job!", "Do you have any questions?", "Press the spacebar to begin."],
+  allEvaluatedTrialsCorrect
+);
 let seriesLength = 3;
 const trial = {
   type: simonPluginId,
