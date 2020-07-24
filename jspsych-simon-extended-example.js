@@ -120,16 +120,19 @@ pushConditionalSpacebarResponse(
   ["Good job!", "Do you have any questions?", "Press the spacebar to begin."],
   allEvaluatedTrialsCorrect
 );
-let seriesLength = 3;
+const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
+  [Color.red, Color.green, Color.blue, Color.yellow],
+  32
+);
+let fixedColorSequenceLength = 3;
 const trial = {
   type: simonPluginId,
   colors: function () {
-    if (lastTrialCorrect()) ++seriesLength;
-    else --seriesLength;
-    return jsPsych.randomization.sampleWithReplacement(
-      [Color.red, Color.green, Color.blue, Color.yellow],
-      seriesLength
-    );
+    fixedColorSequence.slice(0, fixedColorSequenceLength);
+  },
+  on_finish: function (data) {
+    if (data.correct) ++fixedColorSequenceLength;
+    else --fixedColorSequenceLength;
   },
 };
 
