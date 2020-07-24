@@ -15,7 +15,15 @@ function pushSpacebarResponse(timeline, lines) {
 
 function lastTrialCorrect() {
   // https://www.jspsych.org/overview/trial/
-  return jsPsych.data.get().last(1).values()[0].correct;
+  return jsPsych.data.getLastTrialData().values()[0].correct;
+}
+
+function lastTrialIncorrect() {
+  return !lastTrialCorrect();
+}
+
+function allEvaluatedTrialsCorrect() {
+  return jsPsych.data.get().filter({ correct: false }).count() == 0;
 }
 
 // https://stackoverflow.com/a/2450976
@@ -81,9 +89,7 @@ const firstTrial = {
 timeline.push(firstTrial);
 timeline.push({
   timeline: [firstTrial],
-  conditional_function: function () {
-    return !lastTrialCorrect();
-  },
+  conditional_function: lastTrialIncorrect,
 });
 const secondInstructions = [];
 pushSpacebarResponse(secondInstructions, [
@@ -92,19 +98,27 @@ pushSpacebarResponse(secondInstructions, [
 ]);
 timeline.push({
   timeline: secondInstructions,
-  conditional_function: function () {
-    return lastTrialCorrect();
-  },
+  conditional_function: lastTrialCorrect,
 });
 timeline.push({
-  type: simonPluginId,
-  colors: sequencedColors(orderedColors, [1, 3, 1]),
+  timeline: [
+    {
+      type: simonPluginId,
+      colors: sequencedColors(orderedColors, [1, 3, 1]),
+    },
+  ],
+  conditional_function: allEvaluatedTrialsCorrect,
 });
-pushSpacebarResponse(timeline, [
+const lastInstructions = [];
+pushSpacebarResponse(lastInstructions, [
   "Good job!",
   "Do you have any questions?",
   "Press the spacebar to begin.",
 ]);
+timeline.push({
+  timeline: lastInstructions,
+  conditional_function: allEvaluatedTrialsCorrect,
+});
 
 let seriesLength = 3;
 const trial = {
