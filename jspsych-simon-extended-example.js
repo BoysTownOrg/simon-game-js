@@ -69,6 +69,14 @@ function sequencedColors(orderedColors, sequence) {
   }
   return colors;
 }
+let parametersFileContents = "";
+fetch("parameters.txt")
+  .then(function (response) {
+    return response.text();
+  })
+  .then(function (text) {
+    parametersFileContents = text;
+  });
 
 // https://stackoverflow.com/a/10050831
 const order = shuffle([...Array(4).keys()]);
@@ -157,8 +165,11 @@ jsPsych.init({
         Accept: "application/json",
       },
       body: "token=" + token + "&content=generateNextRecordName",
-    }).then(function (response) {
-      response.text().then(function (text) {
+    })
+      .then(function (response) {
+        return response.text();
+      })
+      .then(function (text) {
         const id = text;
         fetch(redcapUrl(), {
           method: "POST",
@@ -174,6 +185,5 @@ jsPsych.init({
             "]&returnContent=count&returnFormat=json",
         });
       });
-    });
   },
 });
