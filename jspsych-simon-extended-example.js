@@ -10,6 +10,11 @@ function pushHtmlKeyboardResponse(timeline, stimulus) {
   });
 }
 
+function lastTrialCorrect() {
+  // https://www.jspsych.org/overview/trial/
+  return jsPsych.data.get().last(1).values()[0].correct;
+}
+
 // https://stackoverflow.com/a/2450976
 function shuffle(array) {
   var currentIndex = array.length,
@@ -54,9 +59,16 @@ pushHtmlKeyboardResponse(
   timeline,
   '<p>You will see patterns of colored circles shown on the screen in different places, one at a time. After watching each pattern, you must correctly copy it by pressing the place/color where you saw it.</p><p>When you finish copying each pattern, press the "Done" button and then the next pattern will be shown.</p><p>For example, if you see the pattern BLUE-RED-GREEN, then you should press the colors blue, red, green in that order, and then press "Done" at the bottom.</p><p>If you don\'t know or can\'t remember what a pattern was, just make your best guess. Once you make a response, you cannot go back and correct it, so take your time in choosing the correct colors.</p><p>Watch me! Press spacebar to start.</p>'
 );
-timeline.push({
+const firstTrial = {
   type: simon,
   colors: [orderedColors.get(0), orderedColors.get(2), orderedColors.get(2)],
+};
+timeline.push(firstTrial);
+timeline.push({
+  timeline: [firstTrial],
+  conditional_function: function () {
+    return !lastTrialCorrect();
+  },
 });
 pushHtmlKeyboardResponse(
   timeline,
@@ -75,9 +87,7 @@ let seriesLength = 3;
 const trial = {
   type: simon,
   colors: function () {
-    // https://www.jspsych.org/overview/trial/
-    const data = jsPsych.data.get().last(1).values()[0];
-    if (data.correct) ++seriesLength;
+    if (lastTrialCorrect()) ++seriesLength;
     else --seriesLength;
     return jsPsych.randomization.sampleWithReplacement(
       [Color.red, Color.green, Color.blue, Color.yellow],
