@@ -1,8 +1,6 @@
 import { plugin } from "./jspsych-plugin-simon-game.js";
 import { Color } from "./lib/Color.js";
 
-const simon = "simon-game";
-
 function pushSpacebarResponse(timeline, lines) {
   let html = "";
   for (const line of lines) {
@@ -55,7 +53,8 @@ const orderedColors = new Map([
   [order[2], Color.blue],
   [order[3], Color.yellow],
 ]);
-jsPsych.plugins[simon] = plugin(
+const simonPluginId = "simon-game";
+jsPsych.plugins[simonPluginId] = plugin(
   new Map([
     colorOrder(orderedColors, order[0]),
     colorOrder(orderedColors, order[1]),
@@ -76,7 +75,7 @@ pushSpacebarResponse(timeline, [
   "Watch me! Press spacebar to start.",
 ]);
 const firstTrial = {
-  type: simon,
+  type: simonPluginId,
   colors: sequencedColors(orderedColors, [0, 2, 2]),
 };
 timeline.push(firstTrial);
@@ -86,12 +85,19 @@ timeline.push({
     return !lastTrialCorrect();
   },
 });
-pushSpacebarResponse(timeline, [
+const secondInstructions = [];
+pushSpacebarResponse(secondInstructions, [
   "Now it's your turn!",
   "Press the spacebar when you're ready to start",
 ]);
 timeline.push({
-  type: simon,
+  timeline: [secondInstructions[0]],
+  conditional_function: function () {
+    return lastTrialCorrect();
+  },
+});
+timeline.push({
+  type: simonPluginId,
   colors: sequencedColors(orderedColors, [1, 3, 1]),
 });
 pushSpacebarResponse(timeline, [
@@ -102,7 +108,7 @@ pushSpacebarResponse(timeline, [
 
 let seriesLength = 3;
 const trial = {
-  type: simon,
+  type: simonPluginId,
   colors: function () {
     if (lastTrialCorrect()) ++seriesLength;
     else --seriesLength;
