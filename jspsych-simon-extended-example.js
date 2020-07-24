@@ -1,8 +1,45 @@
 import { plugin } from "./jspsych-plugin-simon-game.js";
 import { Color } from "./lib/Color.js";
+import * as ParametersFileParser from "./lib/ParametersFileParser.js";
 
-async function readFile(filename) {
-  return await fetch(filename).then(function (response) {
+function redcapUrl() {
+  return "https://study.boystown.org/api/";
+}
+
+function uploadToRedcap() {
+  const token = prompt("Enter API Token");
+  // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
+  fetch(redcapUrl(), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Accept: "application/json",
+    },
+    body: "token=" + token + "&content=generateNextRecordName",
+  })
+    .then(function (response) {
+      return response.text();
+    })
+    .then(function (text) {
+      const id = text;
+      fetch(redcapUrl(), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Accept: "application/json",
+        },
+        body:
+          "token=" +
+          token +
+          "&content=record&format=json&type=flat&overwriteBehavior=normal&forceAutoNumber=false&data=[" +
+          JSON.stringify({ record_id: id, scent: "horrifying" }) +
+          "]&returnContent=count&returnFormat=json",
+      });
+    });
+}
+
+function readFile(filename) {
+  return fetch(filename).then(function (response) {
     return response.text();
   });
 }
@@ -76,7 +113,7 @@ function sequencedColors(orderedColors, sequence) {
   return colors;
 }
 
-const parametersFileContents = readFile("parameters.txt");
+const promisedParameterFileContents = readFile("parameters.txt");
 
 // https://stackoverflow.com/a/10050831
 const order = shuffle([...Array(4).keys()]);
@@ -132,54 +169,26 @@ let fixedColorSequenceLength = 3;
 const trial = {
   type: simonPluginId,
   colors: function () {
-    fixedColorSequence.slice(0, fixedColorSequenceLength);
+    return fixedColorSequence.slice(0, fixedColorSequenceLength);
   },
   on_finish: function (data) {
     if (data.correct) ++fixedColorSequenceLength;
     else --fixedColorSequenceLength;
+    if (fixedColorSequence == 0) fixedColorSequence = 1;
   },
 };
 
-timeline.push({
-  timeline: [trial],
-  repetitions: 15,
-});
+promisedParameterFileContents.then(function (contents) {
+  const trialRounds = ParametersFileParser.parse(contents);
+  for (let i = 2; i < trialRounds.length; ++i) {
+    timeline.push({
+      timeline: [trial],
+      repetitions: trialRounds[i].trials,
+    });
+  }
 
-function redcapUrl() {
-  return "https://study.boystown.org/api/";
-}
-
-jsPsych.init({
-  timeline: timeline,
-  on_finish: function () {
-    const token = prompt("Enter API Token");
-    // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
-    fetch(redcapUrl(), {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Accept: "application/json",
-      },
-      body: "token=" + token + "&content=generateNextRecordName",
-    })
-      .then(function (response) {
-        return response.text();
-      })
-      .then(function (text) {
-        const id = text;
-        fetch(redcapUrl(), {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Accept: "application/json",
-          },
-          body:
-            "token=" +
-            token +
-            "&content=record&format=json&type=flat&overwriteBehavior=normal&forceAutoNumber=false&data=[" +
-            JSON.stringify({ record_id: id, scent: "horrifying" }) +
-            "]&returnContent=count&returnFormat=json",
-        });
-      });
-  },
+  jsPsych.init({
+    timeline: timeline,
+    //on_finish: uploadToRedcap,
+  });
 });
