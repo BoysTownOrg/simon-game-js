@@ -1,8 +1,4 @@
-import { Simon } from "./lib/Simon.js";
-import { AudioPlayer } from "./lib/AudioPlayer.js";
-import { ScreenPresenter } from "./lib/ScreenPresenter.js";
-import { ScreenResponder } from "./lib/ScreenResponder.js";
-import { Color } from "./lib/Color.js";
+import * as simonGame from "../lib/index.js";
 
 function audioGain() {
   return 0;
@@ -86,15 +82,23 @@ class CognitionScreen {
     this.redButton = borderedCircleButton();
     this.blueButton = borderedCircleButton();
     this.yellowButton = borderedCircleButton();
-    const colorButtons = new Array(4);
-    colorButtons[colorOrderMap.get(Color.red)] = this.redButton;
-    colorButtons[colorOrderMap.get(Color.green)] = this.greenButton;
-    colorButtons[colorOrderMap.get(Color.yellow)] = this.yellowButton;
-    colorButtons[colorOrderMap.get(Color.blue)] = this.blueButton;
     this.doneButton = element();
     this.doneButton.style.border = "solid";
     this.doneButton.textContent = "Done";
-    this.doneButton.style.display = "none";
+    this.doneButton.style.visibility = "hidden";
+    this.doneButton.style.lineHeight = pixelsString(50);
+    this.doneButton.style.height = pixelsString(50);
+    this.doneButton.style.width = pixelsString(100);
+    this.doneButton.style.marginLeft = pixelsString(150);
+    this.doneButton.style.marginRight = pixelsString(150);
+    this.doneButton.style.fontSize = pixelsString(32);
+    this.doneButton.style.alignSelf = "center";
+    this.doneButton.style.cursor = "default";
+    const colorButtons = new Array(4);
+    colorButtons[colorOrderMap.get(simonGame.Color.red)] = this.redButton;
+    colorButtons[colorOrderMap.get(simonGame.Color.green)] = this.greenButton;
+    colorButtons[colorOrderMap.get(simonGame.Color.yellow)] = this.yellowButton;
+    colorButtons[colorOrderMap.get(simonGame.Color.blue)] = this.blueButton;
     const topRow = element();
     topRow.style.display = "inline-flex";
     adopt(parent, topRow);
@@ -103,16 +107,12 @@ class CognitionScreen {
     middleRow.style.display = "flex";
     adopt(parent, middleRow);
     adopt(middleRow, colorButtons[1]);
-    const gap = element();
-    gap.style.height = "200px";
-    gap.style.width = "400px";
-    adopt(middleRow, gap);
+    adopt(middleRow, this.doneButton);
     adopt(middleRow, colorButtons[2]);
     const bottomRow = element();
     bottomRow.style.display = "inline-flex";
     adopt(parent, bottomRow);
     adopt(bottomRow, colorButtons[3]);
-    adopt(parent, this.doneButton);
     addClickEventListener(this.greenButton, (_e) => {
       this.listener.notifyThatGreenWasClicked();
     });
@@ -199,7 +199,7 @@ class CognitionScreen {
   }
 
   showDoneButton() {
-    this.doneButton.style.display = "block";
+    this.doneButton.style.visibility = "visible";
   }
 
   clear() {
@@ -235,10 +235,10 @@ class WebAudioContext {
 
 function toneFrequenciesHz() {
   return new Map([
-    [Color.green, 391.995],
-    [Color.red, 329.628],
-    [Color.yellow, 261.626],
-    [Color.blue, 195.998],
+    [simonGame.Color.green, 391.995],
+    [simonGame.Color.red, 329.628],
+    [simonGame.Color.yellow, 261.626],
+    [simonGame.Color.blue, 195.998],
   ]);
 }
 
@@ -257,21 +257,21 @@ export function plugin(colorOrderMap) {
       },
     },
   };
-  const audioPlayer = new AudioPlayer(
+  const audioPlayer = new simonGame.AudioPlayer(
     new WebAudioContext(),
     toneFrequenciesHz(),
     incorrectToneFrequencyHz()
   );
   audioPlayer.setPlayDelaySeconds(0.003);
-  const simon = new Simon(audioPlayer, new JsPsychTrial());
+  const simon = new simonGame.Simon(audioPlayer, new JsPsychTrial());
   simon.setLongToneDurationMilliseconds(700);
   simon.setShortToneDurationMilliseconds(100);
   simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
   plugin.trial = function (display_element, trial) {
     clear(display_element);
     const screen = new CognitionScreen(display_element, colorOrderMap);
-    new ScreenResponder(screen, simon);
-    const presenter = new ScreenPresenter(screen);
+    new simonGame.ScreenResponder(screen, simon);
+    const presenter = new simonGame.ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
     simon.subscribe(presenter);
     simon.say(trial.colors);

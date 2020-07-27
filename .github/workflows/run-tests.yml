@@ -2,9 +2,9 @@ name: run tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   test:
@@ -14,8 +14,8 @@ jobs:
       matrix:
         os: [macOS-latest, ubuntu-latest, windows-latest]
     steps:
-    - uses: actions/checkout@v2
-    - name: run tests
-      run: |
-        yarn install
-        node run-tests.js
+      - uses: actions/checkout@v2
+      - name: run tests
+        run: |
+          yarn install
+          node run-tests.js

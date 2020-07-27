@@ -1,42 +1,6 @@
-import { plugin } from "./jspsych-plugin-simon-game.js";
-import { Color } from "./lib/Color.js";
-import * as ParametersFileParser from "./lib/ParametersFileParser.js";
-
-function redcapUrl() {
-  return "https://study.boystown.org/api/";
-}
-
-function uploadToRedcap() {
-  const token = prompt("Enter API Token");
-  // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
-  fetch(redcapUrl(), {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Accept: "application/json",
-    },
-    body: "token=" + token + "&content=generateNextRecordName",
-  })
-    .then(function (response) {
-      return response.text();
-    })
-    .then(function (text) {
-      const id = text;
-      fetch(redcapUrl(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Accept: "application/json",
-        },
-        body:
-          "token=" +
-          token +
-          "&content=record&format=json&type=flat&overwriteBehavior=normal&forceAutoNumber=false&data=[" +
-          JSON.stringify({ record_id: id, scent: "horrifying" }) +
-          "]&returnContent=count&returnFormat=json",
-      });
-    });
-}
+import * as simon from "../lib/index.js";
+import * as ParametersFileParser from "../lib/ParametersFileParser.js";
+import * as simonJsPsych from "./plugin.js";
 
 function readPromisedFileContents(filename) {
   return fetch(filename).then(function (response) {
@@ -47,7 +11,7 @@ function readPromisedFileContents(filename) {
 function pushSpacebarResponse(timeline, lines) {
   let html = "";
   for (const line of lines) {
-    html += '<p style="font-size:32px">' + line + "</p>";
+    html += '<p style="font-size:32px;line-height:normal">' + line + "</p>";
   }
   timeline.push({
     type: "html-keyboard-response",
@@ -120,13 +84,13 @@ const promisedParametersFileContents = readPromisedFileContents(
 // https://stackoverflow.com/a/10050831
 const order = shuffle([...Array(4).keys()]);
 const orderedColors = new Map([
-  [order[0], Color.red],
-  [order[1], Color.green],
-  [order[2], Color.blue],
-  [order[3], Color.yellow],
+  [order[0], simon.Color.red],
+  [order[1], simon.Color.green],
+  [order[2], simon.Color.blue],
+  [order[3], simon.Color.yellow],
 ]);
 const simonPluginId = "simon-game";
-jsPsych.plugins[simonPluginId] = plugin(
+jsPsych.plugins[simonPluginId] = simonJsPsych.plugin(
   new Map([
     colorOrder(orderedColors, order[0]),
     colorOrder(orderedColors, order[1]),
@@ -164,7 +128,7 @@ pushConditionalSpacebarResponse(
   allEvaluatedTrialsCorrect
 );
 const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
-  [Color.red, Color.green, Color.blue, Color.yellow],
+  [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
   32
 );
 let colorSequenceLength = 1;
@@ -183,7 +147,12 @@ const randomTrial = {
   type: simonPluginId,
   colors: function () {
     return jsPsych.randomization.sampleWithReplacement(
-      [Color.red, Color.green, Color.blue, Color.yellow],
+      [
+        simon.Color.red,
+        simon.Color.green,
+        simon.Color.blue,
+        simon.Color.yellow,
+      ],
       colorSequenceLength
     );
   },
@@ -209,6 +178,5 @@ promisedParametersFileContents.then(function (contents) {
 
   jsPsych.init({
     timeline: timeline,
-    //on_finish: uploadToRedcap,
   });
 });
