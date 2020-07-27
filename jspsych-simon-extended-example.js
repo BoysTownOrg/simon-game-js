@@ -2,42 +2,6 @@ import { plugin } from "./jspsych-plugin-simon-game.js";
 import { Color } from "./lib/Color.js";
 import * as ParametersFileParser from "./lib/ParametersFileParser.js";
 
-function redcapUrl() {
-  return "https://study.boystown.org/api/";
-}
-
-function uploadToRedcap() {
-  const token = prompt("Enter API Token");
-  // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
-  fetch(redcapUrl(), {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Accept: "application/json",
-    },
-    body: "token=" + token + "&content=generateNextRecordName",
-  })
-    .then(function (response) {
-      return response.text();
-    })
-    .then(function (text) {
-      const id = text;
-      fetch(redcapUrl(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Accept: "application/json",
-        },
-        body:
-          "token=" +
-          token +
-          "&content=record&format=json&type=flat&overwriteBehavior=normal&forceAutoNumber=false&data=[" +
-          JSON.stringify({ record_id: id, scent: "horrifying" }) +
-          "]&returnContent=count&returnFormat=json",
-      });
-    });
-}
-
 function readPromisedFileContents(filename) {
   return fetch(filename).then(function (response) {
     return response.text();
