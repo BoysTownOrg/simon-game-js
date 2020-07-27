@@ -11,7 +11,7 @@ function readPromisedFileContents(filename) {
 function pushSpacebarResponse(timeline, lines) {
   let html = "";
   for (const line of lines) {
-    html += '<p style="font-size:32px">' + line + "</p>";
+    html += '<p style="font-size:32px;line-height:normal">' + line + "</p>";
   }
   timeline.push({
     type: "html-keyboard-response",

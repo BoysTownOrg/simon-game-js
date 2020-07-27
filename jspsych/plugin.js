@@ -82,15 +82,23 @@ class CognitionScreen {
     this.redButton = borderedCircleButton();
     this.blueButton = borderedCircleButton();
     this.yellowButton = borderedCircleButton();
+    this.doneButton = element();
+    this.doneButton.style.border = "solid";
+    this.doneButton.textContent = "Done";
+    this.doneButton.style.visibility = "hidden";
+    this.doneButton.style.lineHeight = pixelsString(50);
+    this.doneButton.style.height = pixelsString(50);
+    this.doneButton.style.width = pixelsString(100);
+    this.doneButton.style.marginLeft = pixelsString(150);
+    this.doneButton.style.marginRight = pixelsString(150);
+    this.doneButton.style.fontSize = pixelsString(32);
+    this.doneButton.style.alignSelf = "center";
+    this.doneButton.style.cursor = "default";
     const colorButtons = new Array(4);
     colorButtons[colorOrderMap.get(simonGame.Color.red)] = this.redButton;
     colorButtons[colorOrderMap.get(simonGame.Color.green)] = this.greenButton;
     colorButtons[colorOrderMap.get(simonGame.Color.yellow)] = this.yellowButton;
     colorButtons[colorOrderMap.get(simonGame.Color.blue)] = this.blueButton;
-    this.doneButton = element();
-    this.doneButton.style.border = "solid";
-    this.doneButton.textContent = "Done";
-    this.doneButton.style.display = "none";
     const topRow = element();
     topRow.style.display = "inline-flex";
     adopt(parent, topRow);
@@ -99,16 +107,12 @@ class CognitionScreen {
     middleRow.style.display = "flex";
     adopt(parent, middleRow);
     adopt(middleRow, colorButtons[1]);
-    const gap = element();
-    gap.style.height = "200px";
-    gap.style.width = "400px";
-    adopt(middleRow, gap);
+    adopt(middleRow, this.doneButton);
     adopt(middleRow, colorButtons[2]);
     const bottomRow = element();
     bottomRow.style.display = "inline-flex";
     adopt(parent, bottomRow);
     adopt(bottomRow, colorButtons[3]);
-    adopt(parent, this.doneButton);
     addClickEventListener(this.greenButton, (_e) => {
       this.listener.notifyThatGreenWasClicked();
     });
@@ -195,7 +199,7 @@ class CognitionScreen {
   }
 
   showDoneButton() {
-    this.doneButton.style.display = "block";
+    this.doneButton.style.visibility = "visible";
   }
 
   clear() {
