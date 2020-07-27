@@ -1,6 +1,6 @@
 import * as simon from "./plugin.js";
 import * as simon from "../lib/Color.js";
-import * as ParametersFileParser from "../lib/ParametersFileParser.js";
+import * as simon from "../lib/ParametersFileParser.js";
 
 function readPromisedFileContents(filename) {
   return fetch(filename).then(function (response) {
@@ -159,7 +159,7 @@ const randomTrial = {
 };
 
 promisedParametersFileContents.then(function (contents) {
-  const trialRounds = ParametersFileParser.parse(contents);
+  const trialRounds = simon.ParametersFileParser.parse(contents);
   for (let i = 2; i < trialRounds.length; ++i) {
     const trial =
       trialRounds[i].trialType == ParametersFileParser.TrialType.fixed

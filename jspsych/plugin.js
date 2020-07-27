@@ -1,8 +1,8 @@
-import { Simon } from "./lib/Simon.js";
-import { AudioPlayer } from "./lib/AudioPlayer.js";
-import { ScreenPresenter } from "./lib/ScreenPresenter.js";
-import { ScreenResponder } from "./lib/ScreenResponder.js";
-import { Color } from "./lib/Color.js";
+import * as simon from "../lib/Simon.js";
+import * as simon from "../lib/AudioPlayer.js";
+import * as simon from "../lib/ScreenPresenter.js";
+import * as simon from "../lib/ScreenResponder.js";
+import * as simon from "../lib/Color.js";
 
 function audioGain() {
   return 0;
@@ -87,10 +87,10 @@ class CognitionScreen {
     this.blueButton = borderedCircleButton();
     this.yellowButton = borderedCircleButton();
     const colorButtons = new Array(4);
-    colorButtons[colorOrderMap.get(Color.red)] = this.redButton;
-    colorButtons[colorOrderMap.get(Color.green)] = this.greenButton;
-    colorButtons[colorOrderMap.get(Color.yellow)] = this.yellowButton;
-    colorButtons[colorOrderMap.get(Color.blue)] = this.blueButton;
+    colorButtons[colorOrderMap.get(simon.Color.red)] = this.redButton;
+    colorButtons[colorOrderMap.get(simon.Color.green)] = this.greenButton;
+    colorButtons[colorOrderMap.get(simon.Color.yellow)] = this.yellowButton;
+    colorButtons[colorOrderMap.get(simon.Color.blue)] = this.blueButton;
     this.doneButton = element();
     this.doneButton.style.border = "solid";
     this.doneButton.textContent = "Done";
@@ -235,10 +235,10 @@ class WebAudioContext {
 
 function toneFrequenciesHz() {
   return new Map([
-    [Color.green, 391.995],
-    [Color.red, 329.628],
-    [Color.yellow, 261.626],
-    [Color.blue, 195.998],
+    [simon.Color.green, 391.995],
+    [simon.Color.red, 329.628],
+    [simon.Color.yellow, 261.626],
+    [simon.Color.blue, 195.998],
   ]);
 }
 
@@ -257,21 +257,21 @@ export function plugin(colorOrderMap) {
       },
     },
   };
-  const audioPlayer = new AudioPlayer(
+  const audioPlayer = new simon.AudioPlayer(
     new WebAudioContext(),
     toneFrequenciesHz(),
     incorrectToneFrequencyHz()
   );
   audioPlayer.setPlayDelaySeconds(0.003);
-  const simon = new Simon(audioPlayer, new JsPsychTrial());
+  const simon = new simon.Simon(audioPlayer, new JsPsychTrial());
   simon.setLongToneDurationMilliseconds(700);
   simon.setShortToneDurationMilliseconds(100);
   simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
   plugin.trial = function (display_element, trial) {
     clear(display_element);
     const screen = new CognitionScreen(display_element, colorOrderMap);
-    new ScreenResponder(screen, simon);
-    const presenter = new ScreenPresenter(screen);
+    new simon.ScreenResponder(screen, simon);
+    const presenter = new simon.ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
     simon.subscribe(presenter);
     simon.say(trial.colors);
