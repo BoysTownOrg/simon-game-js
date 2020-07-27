@@ -1,6 +1,6 @@
-import * as simon from "./plugin.js";
-import * as simon from "../lib/Color.js";
-import * as simon from "../lib/ParametersFileParser.js";
+import * as simon from "../lib/index.js";
+import * as ParametersFileParser from "../lib/ParametersFileParser.js";
+import * as simonJsPsych from "./plugin.js";
 
 function readPromisedFileContents(filename) {
   return fetch(filename).then(function (response) {
@@ -90,7 +90,7 @@ const orderedColors = new Map([
   [order[3], simon.Color.yellow],
 ]);
 const simonPluginId = "simon-game";
-jsPsych.plugins[simonPluginId] = simon.plugin(
+jsPsych.plugins[simonPluginId] = simonJsPsych.plugin(
   new Map([
     colorOrder(orderedColors, order[0]),
     colorOrder(orderedColors, order[1]),
@@ -128,7 +128,7 @@ pushConditionalSpacebarResponse(
   allEvaluatedTrialsCorrect
 );
 const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
-  [Color.red, Color.green, Color.blue, Color.yellow],
+  [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
   32
 );
 let colorSequenceLength = 1;
@@ -147,7 +147,12 @@ const randomTrial = {
   type: simonPluginId,
   colors: function () {
     return jsPsych.randomization.sampleWithReplacement(
-      [Color.red, Color.green, Color.blue, Color.yellow],
+      [
+        simon.Color.red,
+        simon.Color.green,
+        simon.Color.blue,
+        simon.Color.yellow,
+      ],
       colorSequenceLength
     );
   },
@@ -159,7 +164,7 @@ const randomTrial = {
 };
 
 promisedParametersFileContents.then(function (contents) {
-  const trialRounds = simon.ParametersFileParser.parse(contents);
+  const trialRounds = ParametersFileParser.parse(contents);
   for (let i = 2; i < trialRounds.length; ++i) {
     const trial =
       trialRounds[i].trialType == ParametersFileParser.TrialType.fixed
