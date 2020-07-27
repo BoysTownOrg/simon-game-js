@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "type": "module",
   "devDependencies": {
-    "jasmine": "^3.5.0"
+    "jasmine": "^3.5.0",
+    "glob": "^7.1.6"
   }
 }
