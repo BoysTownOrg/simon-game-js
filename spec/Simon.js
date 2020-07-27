@@ -287,6 +287,14 @@ function submit(simon) {
   simon.submit();
 }
 
+function correct(trial) {
+  return trial.correct();
+}
+
+function expectIncorrectTrial(trial) {
+  expectFalse(correct(trial));
+}
+
 describe("Simon", function () {
   beforeEach(function () {
     this.audioPlayer = new AudioPlayerStub();
@@ -416,7 +424,7 @@ describe("Simon", function () {
     enterBlue(this.simon);
     enterYellow(this.simon);
     submit(this.simon);
-    expectTrue(this.trial.correct());
+    expectTrue(correct(this.trial));
   });
 
   it("should evaluate an incorrect trial", function () {
@@ -426,7 +434,7 @@ describe("Simon", function () {
     enterRed(this.simon);
     enterYellow(this.simon);
     submit(this.simon);
-    expectFalse(this.trial.correct());
+    expectIncorrectTrial(this.trial);
   });
 
   it("should evaluate a partially correct trial", function () {
@@ -435,6 +443,6 @@ describe("Simon", function () {
     enterGreen(this.simon);
     enterBlue(this.simon);
     submit(this.simon);
-    expectFalse(this.trial.correct());
+    expectIncorrectTrial(this.trial);
   });
 });
