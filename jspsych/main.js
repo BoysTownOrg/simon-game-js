@@ -140,7 +140,7 @@ const fixedTrial = {
   on_finish: function (data) {
     if (data.correct) ++colorSequenceLength;
     else --colorSequenceLength;
-    if (fixedColorSequence == 0) fixedColorSequence = 1;
+    if (colorSequenceLength == 0) colorSequenceLength = 1;
   },
 };
 const randomTrial = {
@@ -159,7 +159,7 @@ const randomTrial = {
   on_finish: function (data) {
     if (data.correct) ++colorSequenceLength;
     else --colorSequenceLength;
-    if (fixedColorSequence == 0) fixedColorSequence = 1;
+    if (colorSequenceLength == 0) colorSequenceLength = 1;
   },
 };
 
