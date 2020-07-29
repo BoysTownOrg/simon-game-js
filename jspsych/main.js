@@ -1,12 +1,5 @@
 import * as simon from "../lib/index.js";
-import * as ParametersFileParser from "../lib/ParametersFileParser.js";
 import * as simonJsPsych from "./plugin.js";
-
-function readPromisedFileContents(filename) {
-  return fetch(filename).then(function (response) {
-    return response.text();
-  });
-}
 
 function pushSpacebarResponse(timeline, lines) {
   let html = "";
@@ -76,10 +69,6 @@ function sequencedColors(orderedColors, sequence) {
   }
   return colors;
 }
-
-const promisedParametersFileContents = readPromisedFileContents(
-  "parameters.txt"
-);
 
 // https://stackoverflow.com/a/10050831
 const order = shuffle([...Array(4).keys()]);
@@ -163,20 +152,18 @@ const randomTrial = {
   },
 };
 
-promisedParametersFileContents.then(function (contents) {
-  const trialRounds = ParametersFileParser.parse(contents);
-  for (let i = 2; i < trialRounds.length; ++i) {
-    const trial =
-      trialRounds[i].trialType == ParametersFileParser.TrialType.fixed
-        ? fixedTrial
-        : randomTrial;
-    timeline.push({
-      timeline: [trial],
-      repetitions: trialRounds[i].trials,
-    });
-  }
-
-  jsPsych.init({
-    timeline: timeline,
-  });
+timeline.push({
+  timeline: [fixedTrial],
+  repetitions: 15,
+});
+timeline.push({
+  timeline: [randomTrial],
+  repetitions: 15,
+});
+timeline.push({
+  timeline: [fixedTrial],
+  repetitions: 15,
+});
+jsPsych.init({
+  timeline: timeline,
 });
