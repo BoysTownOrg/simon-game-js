@@ -1,6 +1,135 @@
 import { Simon } from "../lib/Simon.js";
 import { Color } from "../lib/Color.js";
 
+class ScreenStub {
+  constructor() {
+    this.redButtonLightTurnedOn_ = false;
+    this.redButtonLightTurnedOff_ = false;
+    this.blueButtonLightTurnedOn_ = false;
+    this.blueButtonLightTurnedOff_ = false;
+    this.greenButtonLightTurnedOn_ = false;
+    this.greenButtonLightTurnedOff_ = false;
+    this.yellowButtonLightTurnedOn_ = false;
+    this.yellowButtonLightTurnedOff_ = false;
+    this.blueButtonDarkened_ = false;
+    this.blueButtonUndarkened_ = false;
+    this.doneButtonShown_ = false;
+    this.cleared_ = false;
+  }
+
+  clear() {
+    this.cleared_ = true;
+  }
+
+  cleared() {
+    return this.cleared_;
+  }
+
+  doneButtonShown() {
+    return this.doneButtonShown_;
+  }
+
+  showDoneButton() {
+    this.doneButtonShown_ = true;
+  }
+
+  blueButtonDarkened() {
+    return this.blueButtonDarkened_;
+  }
+
+  darkenBlueButton() {
+    this.blueButtonDarkened_ = true;
+  }
+
+  blueButtonUndarkened() {
+    return this.blueButtonUndarkened_;
+  }
+
+  undarkenBlueButton() {
+    this.blueButtonUndarkened_ = true;
+  }
+
+  redButtonLightTurnedOn() {
+    return this.redButtonLightTurnedOn_;
+  }
+
+  turnOnRedButtonLight() {
+    this.redButtonLightTurnedOn_ = true;
+  }
+
+  redButtonLightTurnedOff() {
+    return this.redButtonLightTurnedOff_;
+  }
+
+  turnOffRedButtonLight() {
+    this.redButtonLightTurnedOff_ = true;
+  }
+
+  greenButtonLightTurnedOn() {
+    return this.greenButtonLightTurnedOn_;
+  }
+
+  turnOnGreenButtonLight() {
+    this.greenButtonLightTurnedOn_ = true;
+  }
+
+  greenButtonLightTurnedOff() {
+    return this.greenButtonLightTurnedOff_;
+  }
+
+  turnOffGreenButtonLight() {
+    this.greenButtonLightTurnedOff_ = true;
+  }
+
+  blueButtonLightTurnedOn() {
+    return this.blueButtonLightTurnedOn_;
+  }
+
+  turnOnBlueButtonLight() {
+    this.blueButtonLightTurnedOn_ = true;
+  }
+
+  blueButtonLightTurnedOff() {
+    return this.blueButtonLightTurnedOff_;
+  }
+
+  turnOffBlueButtonLight() {
+    this.blueButtonLightTurnedOff_ = true;
+  }
+
+  yellowButtonLightTurnedOn() {
+    return this.yellowButtonLightTurnedOn_;
+  }
+
+  turnOnYellowButtonLight() {
+    this.yellowButtonLightTurnedOn_ = true;
+  }
+
+  yellowButtonLightTurnedOff() {
+    return this.yellowButtonLightTurnedOff_;
+  }
+
+  turnOffYellowButtonLight() {
+    this.yellowButtonLightTurnedOff_ = true;
+  }
+}
+
+function expectRedButtonLightTurnedOn(screen) {
+  expectTrue(screen.redButtonLightTurnedOn());
+}
+
+function expectGreenButtonLightTurnedOn(screen) {
+  expectTrue(screen.greenButtonLightTurnedOn());
+}
+
+function expectBlueButtonLightTurnedOn(screen) {
+  expectTrue(screen.blueButtonLightTurnedOn());
+}
+
+function expectYellowButtonLightTurnedOn(screen) {
+  expectTrue(screen.yellowButtonLightTurnedOn());
+}
+
 class MonotonicTimerStub {
   setMilliseconds(ms) {
     this.milliseconds_ = ms;
@@ -205,6 +334,114 @@ class AudioPlayerStub {
     this.incorrectYellowToneDurationMilliseconds_ = s;
     this.incorrectYellowTonePlayed_ = true;
   }
+
+  subscribe(listener) {
+    this.listener = listener;
+  }
+
+  notifyThatRedToneStarted() {
+    this.listener.notifyThatRedToneStarted();
+  }
+
+  notifyThatRedToneEnded() {
+    this.listener.notifyThatRedToneEnded();
+  }
+
+  notifyThatGreenToneStarted() {
+    this.listener.notifyThatGreenToneStarted();
+  }
+
+  notifyThatGreenToneEnded() {
+    this.listener.notifyThatGreenToneEnded();
+  }
+
+  notifyThatBlueToneStarted() {
+    this.listener.notifyThatBlueToneStarted();
+  }
+
+  notifyThatBlueToneEnded() {
+    this.listener.notifyThatBlueToneEnded();
+  }
+
+  notifyThatYellowToneStarted() {
+    this.listener.notifyThatYellowToneStarted();
+  }
+
+  notifyThatYellowToneEnded() {
+    this.listener.notifyThatYellowToneEnded();
+  }
+
+  notifyThatToneSeriesEnded() {
+    this.listener.notifyThatToneSeriesEnded();
+  }
+
+  notifyThatCorrectBlueToneStarted() {
+    this.listener.notifyThatCorrectBlueToneStarted();
+  }
+
+  notifyThatCorrectBlueToneEnded() {
+    this.listener.notifyThatCorrectBlueToneEnded();
+  }
+
+  notifyThatCorrectRedToneStarted() {
+    this.listener.notifyThatCorrectRedToneStarted();
+  }
+
+  notifyThatCorrectRedToneEnded() {
+    this.listener.notifyThatCorrectRedToneEnded();
+  }
+
+  notifyThatCorrectGreenToneStarted() {
+    this.listener.notifyThatCorrectGreenToneStarted();
+  }
+
+  notifyThatCorrectGreenToneEnded() {
+    this.listener.notifyThatCorrectGreenToneEnded();
+  }
+
+  notifyThatCorrectYellowToneStarted() {
+    this.listener.notifyThatCorrectYellowToneStarted();
+  }
+
+  notifyThatCorrectYellowToneEnded() {
+    this.listener.notifyThatCorrectYellowToneEnded();
+  }
+
+  notifyThatIncorrectBlueToneStarted() {
+    this.listener.notifyThatIncorrectBlueToneStarted();
+  }
+
+  notifyThatIncorrectBlueToneEnded() {
+    this.listener.notifyThatIncorrectBlueToneEnded();
+  }
+
+  notifyThatIncorrectRedToneStarted() {
+    this.listener.notifyThatIncorrectRedToneStarted();
+  }
+
+  notifyThatIncorrectRedToneEnded() {
+    this.listener.notifyThatIncorrectRedToneEnded();
+  }
+
+  notifyThatIncorrectGreenToneStarted() {
+    this.listener.notifyThatIncorrectGreenToneStarted();
+  }
+
+  notifyThatIncorrectGreenToneEnded() {
+    this.listener.notifyThatIncorrectGreenToneEnded();
+  }
+
+  notifyThatIncorrectYellowToneStarted() {
+    this.listener.notifyThatIncorrectYellowToneStarted();
+  }
+
+  notifyThatIncorrectYellowToneEnded() {
+    this.listener.notifyThatIncorrectYellowToneEnded();
+  }
+
+  notifyThatTrialHasCompleted() {
+    this.listener.notifyThatTrialHasCompleted();
+  }
 }
 
 function say(simon, colors) {
@@ -331,12 +568,78 @@ function expectNthUserResponseId(trial, n, id) {
   expectEqual(id, userResponses(trial)[n].id);
 }
 
+function notifyThatRedToneStarted(audioPlayer) {
+  audioPlayer.notifyThatRedToneStarted();
+}
+
+function notifyThatRedToneEnded(audioPlayer) {
+  audioPlayer.notifyThatRedToneEnded();
+}
+
+function notifyThatGreenToneStarted(audioPlayer) {
+  audioPlayer.notifyThatGreenToneStarted();
+}
+
+function notifyThatGreenToneEnded(audioPlayer) {
+  audioPlayer.notifyThatGreenToneEnded();
+}
+
+function notifyThatBlueToneStarted(audioPlayer) {
+  audioPlayer.notifyThatBlueToneStarted();
+}
+
+function notifyThatBlueToneEnded(audioPlayer) {
+  audioPlayer.notifyThatBlueToneEnded();
+}
+
+function notifyThatYellowToneStarted(audioPlayer) {
+  audioPlayer.notifyThatYellowToneStarted();
+}
+
+function notifyThatYellowToneEnded(audioPlayer) {
+  audioPlayer.notifyThatYellowToneEnded();
+}
+
+function notifyThatToneSeriesEnded(audioPlayer) {
+  audioPlayer.notifyThatToneSeriesEnded();
+}
+
+function notifyThatCorrectBlueToneStarted(audioPlayer) {
+  audioPlayer.notifyThatCorrectBlueToneStarted();
+}
+
+function notifyThatCorrectBlueToneEnded(audioPlayer) {
+  audioPlayer.notifyThatCorrectBlueToneEnded();
+}
+
+function notifyThatCorrectRedToneStarted(audioPlayer) {
+  audioPlayer.notifyThatCorrectRedToneStarted();
+}
+
+function notifyThatIncorrectBlueToneStarted(audioPlayer) {
+  audioPlayer.notifyThatIncorrectBlueToneStarted();
+}
+
+function notifyThatIncorrectBlueToneEnded(audioPlayer) {
+  audioPlayer.notifyThatIncorrectBlueToneEnded();
+}
+
+function notifyThatTrialHasCompleted(audioPlayer) {
+  audioPlayer.notifyThatTrialHasCompleted();
+}
+
 describe("Simon", function () {
   beforeEach(function () {
     this.audioPlayer = new AudioPlayerStub();
+    this.screen = new ScreenStub();
     this.trial = new TrialStub();
     this.timer = new MonotonicTimerStub();
-    this.simon = new Simon(this.audioPlayer, this.trial, this.timer);
+    this.simon = new Simon(
+      this.audioPlayer,
+      this.screen,
+      this.trial,
+      this.timer
+    );
   });
 
   it("should play the color tones on say", function () {
@@ -522,5 +825,83 @@ describe("Simon", function () {
     expectNthUserResponseId(this.trial, 1, Color.blue);
     expectNthUserResponseTimeMilliseconds(this.trial, 2, 16);
     expectNthUserResponseId(this.trial, 2, Color.yellow);
+  });
+
+  it("should light red button when red tone starts", function () {
+    notifyThatRedToneStarted(this.audioPlayer);
+    expectRedButtonLightTurnedOn(this.screen);
+  });
+
+  it("should turn off red button light when red tone ends", function () {
+    notifyThatRedToneEnded(this.audioPlayer);
+    expectTrue(this.screen.redButtonLightTurnedOff());
+  });
+
+  it("should light green button when green tone starts", function () {
+    notifyThatGreenToneStarted(this.audioPlayer);
+    expectGreenButtonLightTurnedOn(this.screen);
+  });
+
+  it("should turn off green button light when green tone ends", function () {
+    notifyThatGreenToneEnded(this.audioPlayer);
+    expectTrue(this.screen.greenButtonLightTurnedOff());
+  });
+
+  it("should light blue button when blue tone starts", function () {
+    notifyThatBlueToneStarted(this.audioPlayer);
+    expectBlueButtonLightTurnedOn(this.screen);
+  });
+
+  it("should turn off blue button light when blue tone ends", function () {
+    notifyThatBlueToneEnded(this.audioPlayer);
+    expectTrue(this.screen.blueButtonLightTurnedOff());
+  });
+
+  it("should light yellow button when yellow tone starts", function () {
+    notifyThatYellowToneStarted(this.audioPlayer);
+    expectYellowButtonLightTurnedOn(this.screen);
+  });
+
+  it("should turn off yellow button light when yellow tone ends", function () {
+    notifyThatYellowToneEnded(this.audioPlayer);
+    expectTrue(this.screen.yellowButtonLightTurnedOff());
+  });
+
+  it("should turn on all button lights when tone series ends", function () {
+    notifyThatToneSeriesEnded(this.audioPlayer);
+    expectYellowButtonLightTurnedOn(this.screen);
+    expectRedButtonLightTurnedOn(this.screen);
+    expectGreenButtonLightTurnedOn(this.screen);
+    expectBlueButtonLightTurnedOn(this.screen);
+  });
+
+  it("should show done button when tone series ends", function () {
+    notifyThatToneSeriesEnded(this.audioPlayer);
+    expectTrue(this.screen.doneButtonShown());
+  });
+
+  it("should darken blue button when correct blue tone starts", function () {
+    notifyThatCorrectBlueToneStarted(this.audioPlayer);
+    expectTrue(this.screen.blueButtonDarkened());
+  });
+
+  it("should undarken blue button when correct blue tone ends", function () {
+    notifyThatCorrectBlueToneEnded(this.audioPlayer);
+    expectTrue(this.screen.blueButtonUndarkened());
+  });
+
+  it("should darken blue button when incorrect blue tone starts", function () {
+    notifyThatIncorrectBlueToneStarted(this.audioPlayer);
+    expectTrue(this.screen.blueButtonDarkened());
+  });
+
+  it("should undarken blue button when incorrect blue tone ends", function () {
+    notifyThatIncorrectBlueToneEnded(this.audioPlayer);
+    expectTrue(this.screen.blueButtonUndarkened());
+  });
+
+  it("should clear screen when trial completes", function () {
+    notifyThatTrialHasCompleted(this.audioPlayer);
+    expectTrue(this.screen.cleared());
   });
 });
