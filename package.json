@@ -1,6 +1,6 @@
 {
   "name": "jspsych-plugin-simon-game",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "devDependencies": {
     "jasmine": "^3.5.0",
