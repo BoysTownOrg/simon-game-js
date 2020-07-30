@@ -24,11 +24,15 @@ const firstTrial = {
   colors: [simon.Color.red, simon.Color.blue, simon.Color.blue],
 };
 timeline.push(firstTrial);
-jsPsychUtility.pushConditionalTrial(timeline, firstTrial, lastTrialIncorrect);
+jsPsychUtility.pushConditionalTrial(
+  timeline,
+  firstTrial,
+  jsPsychUtility.lastTrialIncorrect
+);
 jsPsychUtility.pushConditionalSpacebarResponse(
   timeline,
   ["Now it's your turn!", "Press the spacebar when you're ready to start"],
-  lastTrialCorrect
+  jsPsychUtility.lastTrialCorrect
 );
 const secondTrial = {
   type: simonPluginId,
@@ -37,12 +41,12 @@ const secondTrial = {
 jsPsychUtility.pushConditionalTrial(
   timeline,
   secondTrial,
-  allEvaluatedTrialsCorrect
+  jsPsychUtility.allEvaluatedTrialsCorrect
 );
 jsPsychUtility.pushConditionalSpacebarResponse(
   timeline,
   ["Good job!", "Do you have any questions?", "Press the spacebar to begin."],
-  allEvaluatedTrialsCorrect
+  jsPsychUtility.allEvaluatedTrialsCorrect
 );
 const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
   [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
