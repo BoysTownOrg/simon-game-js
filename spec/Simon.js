@@ -151,6 +151,10 @@ class TrialStub {
     return this.userResponses_;
   }
 
+  simonToneSeries() {
+    return this.simonToneSeries_;
+  }
+
   correct() {
     return this.correct_;
   }
@@ -159,6 +163,7 @@ class TrialStub {
     this.concluded_ = true;
     this.correct_ = result.correct;
     this.userResponses_ = result.responses;
+    this.simonToneSeries_ = result.simon;
   }
 
   concluded() {
@@ -542,8 +547,24 @@ function userResponses(trial) {
   return trial.userResponses();
 }
 
+function simonToneSeries(trial) {
+  return trial.simonToneSeries();
+}
+
 function expectUserResponses(trial, n) {
   expectEqual(n, userResponses(trial).length);
+}
+
+function expectSimonToneSeriesLength(trial, n) {
+  expectEqual(n, simonToneSeries(trial).length);
+}
+
+function expectNthSimonToneTimeMilliseconds(trial, n, ms) {
+  expectEqual(ms, simonToneSeries(trial)[n].milliseconds);
+}
+
+function expectNthSimonToneId(trial, n, id) {
+  expectEqual(id, simonToneSeries(trial)[n].id);
 }
 
 function expectNthUserResponseTimeMilliseconds(trial, n, ms) {
@@ -796,6 +817,27 @@ describe("Simon", function () {
     expectNthUserResponseId(this.trial, 1, Color.blue);
     expectNthUserResponseTimeMilliseconds(this.trial, 2, 16);
     expectNthUserResponseId(this.trial, 2, Color.yellow);
+  });
+
+  it("should mark the time and ID of each sequenced simon tone", function () {
+    setTimerMilliseconds(this.timer, 1);
+    notifyThatRedToneStarted(this.audioPlayer);
+    setTimerMilliseconds(this.timer, 3);
+    notifyThatGreenToneStarted(this.audioPlayer);
+    setTimerMilliseconds(this.timer, 7);
+    notifyThatBlueToneStarted(this.audioPlayer);
+    setTimerMilliseconds(this.timer, 16);
+    notifyThatYellowToneStarted(this.audioPlayer);
+    submit(this.simon);
+    expectSimonToneSeriesLength(this.trial, 4);
+    expectNthSimonToneTimeMilliseconds(this.trial, 0, 1);
+    expectNthSimonToneId(this.trial, 0, Color.red);
+    expectNthSimonToneTimeMilliseconds(this.trial, 1, 3);
+    expectNthSimonToneId(this.trial, 1, Color.green);
+    expectNthSimonToneTimeMilliseconds(this.trial, 2, 7);
+    expectNthSimonToneId(this.trial, 2, Color.blue);
+    expectNthSimonToneTimeMilliseconds(this.trial, 3, 16);
+    expectNthSimonToneId(this.trial, 3, Color.yellow);
   });
 
   it("should light red button when red tone starts", function () {
