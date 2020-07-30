@@ -439,9 +439,6 @@ function plugin(colorOrderMap, Screen) {
     simon.setShortToneDurationMilliseconds(100);
     simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
     new simonGame.ScreenResponder(screen, simon);
-    const presenter = new simonGame.ScreenPresenter(screen);
-    audioPlayer.subscribe(presenter);
-    simon.subscribe(presenter);
     simon.say(trial.colors);
   };
   return plugin;
