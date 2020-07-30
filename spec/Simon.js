@@ -166,20 +166,6 @@ class TrialStub {
   }
 }
 
-class EventListenerStub {
-  constructor() {
-    this.notifiedThatTrialHasCompleted_ = false;
-  }
-
-  notifiedThatTrialHasCompleted() {
-    return this.notifiedThatTrialHasCompleted_;
-  }
-
-  notifyThatTrialHasCompleted() {
-    this.notifiedThatTrialHasCompleted_ = true;
-  }
-}
-
 class AudioPlayerStub {
   constructor() {
     this.correctRedTonePlayed_ = false;
@@ -612,20 +598,12 @@ function notifyThatCorrectBlueToneEnded(audioPlayer) {
   audioPlayer.notifyThatCorrectBlueToneEnded();
 }
 
-function notifyThatCorrectRedToneStarted(audioPlayer) {
-  audioPlayer.notifyThatCorrectRedToneStarted();
-}
-
 function notifyThatIncorrectBlueToneStarted(audioPlayer) {
   audioPlayer.notifyThatIncorrectBlueToneStarted();
 }
 
 function notifyThatIncorrectBlueToneEnded(audioPlayer) {
   audioPlayer.notifyThatIncorrectBlueToneEnded();
-}
-
-function notifyThatTrialHasCompleted(audioPlayer) {
-  audioPlayer.notifyThatTrialHasCompleted();
 }
 
 describe("Simon", function () {
