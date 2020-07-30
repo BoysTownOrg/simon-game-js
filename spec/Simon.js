@@ -745,13 +745,6 @@ describe("Simon", function () {
     expectFalse(correctRedTonePlayed(this.audioPlayer));
   });
 
-  it("should notify that trial is complete on submit", function () {
-    const listener = new EventListenerStub();
-    this.simon.subscribe(listener);
-    submit(this.simon);
-    expectTrue(listener.notifiedThatTrialHasCompleted());
-  });
-
   it("should conclude trial on submit", function () {
     submit(this.simon);
     expectTrue(this.trial.concluded());
@@ -901,7 +894,7 @@ describe("Simon", function () {
   });
 
   it("should clear screen when trial completes", function () {
-    notifyThatTrialHasCompleted(this.audioPlayer);
+    submit(this.simon);
     expectTrue(this.screen.cleared());
   });
 });
