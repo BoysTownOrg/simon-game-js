@@ -75,6 +75,12 @@ class JsPsychTrial {
   }
 }
 
+class PerformanceTimer {
+  milliseconds() {
+    return performance.now();
+  }
+}
+
 class CognitionScreenColoredCircles {
   constructor(parent, colorOrderMap) {
     this.parent = parent;
@@ -420,7 +426,11 @@ function plugin(colorOrderMap, Screen) {
     incorrectToneFrequencyHz()
   );
   audioPlayer.setPlayDelaySeconds(0.003);
-  const simon = new simonGame.Simon(audioPlayer, new JsPsychTrial());
+  const simon = new simonGame.Simon(
+    audioPlayer,
+    new JsPsychTrial(),
+    new PerformanceTimer()
+  );
   simon.setLongToneDurationMilliseconds(700);
   simon.setShortToneDurationMilliseconds(100);
   simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
