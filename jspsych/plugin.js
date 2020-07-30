@@ -75,7 +75,7 @@ class JsPsychTrial {
   }
 }
 
-class CognitionScreen {
+class CognitionScreenColoredCircles {
   constructor(parent, colorOrderMap) {
     this.parent = parent;
     this.greenButton = borderedCircleButton();
@@ -207,6 +207,163 @@ class CognitionScreen {
   }
 }
 
+function borderedSquareButton() {
+  const button = element();
+  const width = 300;
+  const borderWidthPixels = 4;
+  button.style.height = pixelsString(width);
+  button.style.width = pixelsString(width);
+  button.style.border = pixelsString(borderWidthPixels) + " solid black";
+  button.style.margin = pixelsString(20);
+  return button;
+}
+
+function gap() {
+  const gap = element();
+  const gapWidth = 300;
+  gap.style.height = pixelsString(gapWidth);
+  gap.style.width = pixelsString(gapWidth);
+  gap.style.margin = pixelsString(20);
+  return gap;
+}
+
+class CognitionScreenBlackSquares {
+  constructor(parent, colorOrderMap) {
+    this.parent = parent;
+    this.greenButton = borderedSquareButton();
+    this.redButton = borderedSquareButton();
+    this.blueButton = borderedSquareButton();
+    this.yellowButton = borderedSquareButton();
+    this.doneButton = element();
+    this.doneButton.style.border = "solid";
+    this.doneButton.textContent = "Done";
+    this.doneButton.style.visibility = "hidden";
+    this.doneButton.style.lineHeight = pixelsString(50);
+    this.doneButton.style.height = pixelsString(50);
+    this.doneButton.style.width = pixelsString(100);
+    this.doneButton.style.marginLeft = pixelsString(150);
+    this.doneButton.style.marginRight = pixelsString(150);
+    this.doneButton.style.fontSize = pixelsString(32);
+    this.doneButton.style.alignSelf = "center";
+    this.doneButton.style.cursor = "default";
+    const colorButtons = new Array(4);
+    colorButtons[colorOrderMap.get(simonGame.Color.red)] = this.redButton;
+    colorButtons[colorOrderMap.get(simonGame.Color.green)] = this.greenButton;
+    colorButtons[colorOrderMap.get(simonGame.Color.yellow)] = this.yellowButton;
+    colorButtons[colorOrderMap.get(simonGame.Color.blue)] = this.blueButton;
+    const topRow = element();
+    topRow.style.display = "inline-flex";
+    adopt(parent, topRow);
+    adopt(topRow, colorButtons[0]);
+    adopt(topRow, gap());
+    adopt(topRow, colorButtons[1]);
+    const middleRow = element();
+    middleRow.style.display = "flex";
+    middleRow.style.justifyContent = "center";
+    adopt(parent, middleRow);
+    adopt(middleRow, gap());
+    adopt(middleRow, this.doneButton);
+    adopt(middleRow, gap());
+    const bottomRow = element();
+    bottomRow.style.display = "inline-flex";
+    adopt(parent, bottomRow);
+    adopt(bottomRow, colorButtons[2]);
+    adopt(bottomRow, gap());
+    adopt(bottomRow, colorButtons[3]);
+    addClickEventListener(this.greenButton, (_e) => {
+      this.listener.notifyThatGreenWasClicked();
+    });
+    addClickEventListener(this.redButton, (_e) => {
+      this.listener.notifyThatRedWasClicked();
+    });
+    addClickEventListener(this.blueButton, (_e) => {
+      this.listener.notifyThatBlueWasClicked();
+    });
+    addClickEventListener(this.yellowButton, (_e) => {
+      this.listener.notifyThatYellowWasClicked();
+    });
+    addClickEventListener(this.doneButton, (_e) => {
+      this.listener.notifyThatDoneWasClicked();
+    });
+  }
+
+  subscribe(e) {
+    this.listener = e;
+  }
+
+  turnOnRedButtonLight() {
+    darken(this.redButton);
+  }
+
+  turnOffRedButtonLight() {
+    clearBackgroundColor(this.redButton);
+  }
+
+  turnOnGreenButtonLight() {
+    darken(this.greenButton);
+  }
+
+  turnOffGreenButtonLight() {
+    clearBackgroundColor(this.greenButton);
+  }
+
+  turnOnBlueButtonLight() {
+    darken(this.blueButton);
+  }
+
+  turnOffBlueButtonLight() {
+    clearBackgroundColor(this.blueButton);
+  }
+
+  turnOnYellowButtonLight() {
+    darken(this.yellowButton);
+  }
+
+  turnOffYellowButtonLight() {
+    clearBackgroundColor(this.yellowButton);
+  }
+
+  darkenBlueButton() {
+    clearBackgroundColor(this.blueButton);
+  }
+
+  undarkenBlueButton() {
+    darken(this.blueButton);
+  }
+
+  darkenRedButton() {
+    clearBackgroundColor(this.redButton);
+  }
+
+  undarkenRedButton() {
+    darken(this.redButton);
+  }
+
+  darkenGreenButton() {
+    clearBackgroundColor(this.greenButton);
+  }
+
+  undarkenGreenButton() {
+    darken(this.greenButton);
+  }
+
+  darkenYellowButton() {
+    clearBackgroundColor(this.yellowButton);
+  }
+
+  undarkenYellowButton() {
+    darken(this.yellowButton);
+  }
+
+  showDoneButton() {
+    this.doneButton.style.visibility = "visible";
+  }
+
+  clear() {
+    clear(this.parent);
+  }
+}
+
 class WebAudioContext {
   constructor() {
     // https://developer.mozilla.org/en-US/docs/Web/API/AudioContext
@@ -246,7 +403,7 @@ function incorrectToneFrequencyHz() {
   return 48.9994;
 }
 
-export function plugin(colorOrderMap) {
+function plugin(colorOrderMap, Screen) {
   let plugin = {};
   plugin.info = {
     parameters: {
@@ -269,7 +426,7 @@ export function plugin(colorOrderMap) {
   simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
   plugin.trial = function (display_element, trial) {
     clear(display_element);
-    const screen = new CognitionScreen(display_element, colorOrderMap);
+    const screen = new Screen(display_element, colorOrderMap);
     new simonGame.ScreenResponder(screen, simon);
     const presenter = new simonGame.ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
@@ -277,4 +434,12 @@ export function plugin(colorOrderMap) {
     simon.say(trial.colors);
   };
   return plugin;
+}
+
+export function coloredCircles(colorOrderMap) {
+  return plugin(colorOrderMap, CognitionScreenColoredCircles);
+}
+
+export function blackSquares(colorOrderMap) {
+  return plugin(colorOrderMap, CognitionScreenBlackSquares);
 }
