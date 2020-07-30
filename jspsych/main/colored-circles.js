@@ -122,14 +122,17 @@ const randomTrial = {
 timeline.push({
   timeline: [fixedTrial],
   repetitions: 15,
+  data: { block: 1, isRandom: false },
 });
 timeline.push({
   timeline: [randomTrial],
   repetitions: 15,
+  data: { block: 2, isRandom: true },
 });
 timeline.push({
   timeline: [fixedTrial],
   repetitions: 15,
+  data: { block: 3, isRandom: false },
 });
 jsPsych.init({
   timeline: timeline,
