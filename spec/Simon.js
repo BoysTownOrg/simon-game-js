@@ -503,4 +503,24 @@ describe("Simon", function () {
     expectNthUserResponseTimeMilliseconds(this.trial, 3, 16);
     expectNthUserResponseId(this.trial, 3, Color.yellow);
   });
+
+  it("should mark the time and ID of each response per trial", function () {
+    setTimerMilliseconds(this.timer, 1);
+    enterRed(this.simon);
+    submit(this.simon);
+    setTimerMilliseconds(this.timer, 3);
+    enterGreen(this.simon);
+    setTimerMilliseconds(this.timer, 7);
+    enterBlue(this.simon);
+    setTimerMilliseconds(this.timer, 16);
+    enterYellow(this.simon);
+    submit(this.simon);
+    expectUserResponses(this.trial, 3);
+    expectNthUserResponseTimeMilliseconds(this.trial, 0, 3);
+    expectNthUserResponseId(this.trial, 0, Color.green);
+    expectNthUserResponseTimeMilliseconds(this.trial, 1, 7);
+    expectNthUserResponseId(this.trial, 1, Color.blue);
+    expectNthUserResponseTimeMilliseconds(this.trial, 2, 16);
+    expectNthUserResponseId(this.trial, 2, Color.yellow);
+  });
 });
