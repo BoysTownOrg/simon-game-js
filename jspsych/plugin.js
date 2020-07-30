@@ -403,7 +403,7 @@ function incorrectToneFrequencyHz() {
   return 48.9994;
 }
 
-export function plugin(colorOrderMap) {
+export function coloredCircles(colorOrderMap) {
   let plugin = {};
   plugin.info = {
     parameters: {
