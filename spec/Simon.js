@@ -1,10 +1,25 @@
 import { Simon } from "../lib/Simon.js";
 import { Color } from "../lib/Color.js";
 
+class MonotonicTimerStub {
+  setMilliseconds(ms) {
+    this.milliseconds_ = ms;
+  }
+
+  milliseconds() {
+    return this.milliseconds_;
+  }
+}
+
 class TrialStub {
   constructor() {
     this.concluded_ = false;
     this.correct_ = false;
+    this.userResponses_ = [];
+  }
+
+  userResponses() {
+    return this.userResponses_;
   }
 
   correct() {
@@ -14,6 +29,7 @@ class TrialStub {
   conclude(result) {
     this.concluded_ = true;
     this.correct_ = result.correct;
+    this.userResponses_ = result.responses;
   }
 
   concluded() {
@@ -295,11 +311,28 @@ function expectIncorrectTrial(trial) {
   expectFalse(correct(trial));
 }
 
+function setTimerMilliseconds(timer, milliseconds) {
+  timer.setMilliseconds(milliseconds);
+}
+
+function userResponses(trial) {
+  return trial.userResponses();
+}
+
+function expectUserResponses(trial, n) {
+  expectEqual(n, userResponses(trial).length);
+}
+
+function expectNthUserResponseTimeMilliseconds(trial, n, ms) {
+  expectEqual(ms, userResponses(trial)[n].milliseconds);
+}
+
 describe("Simon", function () {
   beforeEach(function () {
     this.audioPlayer = new AudioPlayerStub();
     this.trial = new TrialStub();
-    this.simon = new Simon(this.audioPlayer, this.trial);
+    this.timer = new MonotonicTimerStub();
+    this.simon = new Simon(this.audioPlayer, this.trial, this.timer);
   });
 
   it("should play the color tones on say", function () {
@@ -444,5 +477,22 @@ describe("Simon", function () {
     enterBlue(this.simon);
     submit(this.simon);
     expectIncorrectTrial(this.trial);
+  });
+
+  it("should mark the time of each response that occurs when the audio player is not playing", function () {
+    setTimerMilliseconds(this.timer, 1);
+    enterRed(this.simon);
+    setTimerMilliseconds(this.timer, 3);
+    enterGreen(this.simon);
+    setTimerMilliseconds(this.timer, 7);
+    enterBlue(this.simon);
+    setTimerMilliseconds(this.timer, 16);
+    enterYellow(this.simon);
+    submit(this.simon);
+    expectUserResponses(this.trial, 4);
+    expectNthUserResponseTimeMilliseconds(this.trial, 0, 1);
+    expectNthUserResponseTimeMilliseconds(this.trial, 1, 3);
+    expectNthUserResponseTimeMilliseconds(this.trial, 2, 7);
+    expectNthUserResponseTimeMilliseconds(this.trial, 3, 16);
   });
 });
