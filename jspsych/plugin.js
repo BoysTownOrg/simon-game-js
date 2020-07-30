@@ -249,13 +249,14 @@ class CognitionScreenBlackSquares {
     adopt(topRow, colorButtons[1]);
     const middleRow = element();
     middleRow.style.display = "flex";
+    middleRow.style.justifyContent = "center";
     adopt(parent, middleRow);
     adopt(middleRow, this.doneButton);
     const bottomRow = element();
     bottomRow.style.display = "inline-flex";
     adopt(parent, bottomRow);
-    adopt(middleRow, colorButtons[2]);
-    adopt(middleRow, colorButtons[3]);
+    adopt(bottomRow, colorButtons[2]);
+    adopt(bottomRow, colorButtons[3]);
     addClickEventListener(this.greenButton, (_e) => {
       this.listener.notifyThatGreenWasClicked();
     });
@@ -310,7 +311,7 @@ class CognitionScreenBlackSquares {
   }
 
   darkenBlueButton() {
-    darken(this.blueButton);
+    clearBackgroundColor(this.blueButton);
   }
 
   undarkenBlueButton() {
@@ -318,7 +319,7 @@ class CognitionScreenBlackSquares {
   }
 
   darkenRedButton() {
-    darken(this.redButton);
+    clearBackgroundColor(this.redButton);
   }
 
   undarkenRedButton() {
@@ -326,7 +327,7 @@ class CognitionScreenBlackSquares {
   }
 
   darkenGreenButton() {
-    darken(this.greenButton);
+    clearBackgroundColor(this.greenButton);
   }
 
   undarkenGreenButton() {
@@ -334,7 +335,7 @@ class CognitionScreenBlackSquares {
   }
 
   darkenYellowButton() {
-    darken(this.yellowButton);
+    clearBackgroundColor(this.yellowButton);
   }
 
   undarkenYellowButton() {
