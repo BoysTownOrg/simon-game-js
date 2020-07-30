@@ -218,6 +218,15 @@ function borderedSquareButton() {
   return button;
 }
 
+function gap() {
+  const gap = element();
+  const gapWidth = 300;
+  gap.style.height = pixelsString(gapWidth);
+  gap.style.width = pixelsString(gapWidth);
+  gap.style.margin = pixelsString(20);
+  return gap;
+}
+
 class CognitionScreenBlackSquares {
   constructor(parent, colorOrderMap) {
     this.parent = parent;
@@ -246,16 +255,20 @@ class CognitionScreenBlackSquares {
     topRow.style.display = "inline-flex";
     adopt(parent, topRow);
     adopt(topRow, colorButtons[0]);
+    adopt(topRow, gap());
     adopt(topRow, colorButtons[1]);
     const middleRow = element();
     middleRow.style.display = "flex";
     middleRow.style.justifyContent = "center";
     adopt(parent, middleRow);
+    adopt(middleRow, gap());
     adopt(middleRow, this.doneButton);
+    adopt(middleRow, gap());
     const bottomRow = element();
     bottomRow.style.display = "inline-flex";
     adopt(parent, bottomRow);
     adopt(bottomRow, colorButtons[2]);
+    adopt(bottomRow, gap());
     adopt(bottomRow, colorButtons[3]);
     addClickEventListener(this.greenButton, (_e) => {
       this.listener.notifyThatGreenWasClicked();
