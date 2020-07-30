@@ -327,6 +327,10 @@ function expectNthUserResponseTimeMilliseconds(trial, n, ms) {
   expectEqual(ms, userResponses(trial)[n].milliseconds);
 }
 
+function expectNthUserResponseColor(trial, n, color) {
+  expectEqual(color, userResponses(trial)[n].color);
+}
+
 describe("Simon", function () {
   beforeEach(function () {
     this.audioPlayer = new AudioPlayerStub();
@@ -479,7 +483,7 @@ describe("Simon", function () {
     expectIncorrectTrial(this.trial);
   });
 
-  it("should mark the time of each response that occurs when the audio player is not playing", function () {
+  it("should mark the time and color of each response that occurs when the audio player is not playing", function () {
     setTimerMilliseconds(this.timer, 1);
     enterRed(this.simon);
     setTimerMilliseconds(this.timer, 3);
@@ -491,8 +495,12 @@ describe("Simon", function () {
     submit(this.simon);
     expectUserResponses(this.trial, 4);
     expectNthUserResponseTimeMilliseconds(this.trial, 0, 1);
+    expectNthUserResponseColor(this.trial, 0, Color.red);
     expectNthUserResponseTimeMilliseconds(this.trial, 1, 3);
+    expectNthUserResponseColor(this.trial, 1, Color.green);
     expectNthUserResponseTimeMilliseconds(this.trial, 2, 7);
+    expectNthUserResponseColor(this.trial, 2, Color.blue);
     expectNthUserResponseTimeMilliseconds(this.trial, 3, 16);
+    expectNthUserResponseColor(this.trial, 3, Color.yellow);
   });
 });
