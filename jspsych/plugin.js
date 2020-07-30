@@ -75,7 +75,7 @@ class JsPsychTrial {
   }
 }
 
-class CognitionScreen {
+class CognitionScreenColoredCircles {
   constructor(parent, colorOrderMap) {
     this.parent = parent;
     this.greenButton = borderedCircleButton();
@@ -403,7 +403,7 @@ function incorrectToneFrequencyHz() {
   return 48.9994;
 }
 
-export function coloredCircles(colorOrderMap) {
+function plugin(colorOrderMap, Screen) {
   let plugin = {};
   plugin.info = {
     parameters: {
@@ -426,7 +426,7 @@ export function coloredCircles(colorOrderMap) {
   simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
   plugin.trial = function (display_element, trial) {
     clear(display_element);
-    const screen = new CognitionScreen(display_element, colorOrderMap);
+    const screen = new Screen(display_element, colorOrderMap);
     new simonGame.ScreenResponder(screen, simon);
     const presenter = new simonGame.ScreenPresenter(screen);
     audioPlayer.subscribe(presenter);
@@ -436,38 +436,10 @@ export function coloredCircles(colorOrderMap) {
   return plugin;
 }
 
+export function coloredCircles(colorOrderMap) {
+  return plugin(colorOrderMap, CognitionScreenColoredCircles);
+}
+
 export function blackSquares(colorOrderMap) {
-  let plugin = {};
-  plugin.info = {
-    parameters: {
-      colors: {
-        type: jsPsych.plugins.parameterType.INT,
-        default: undefined,
-        array: true,
-      },
-    },
-  };
-  const audioPlayer = new simonGame.AudioPlayer(
-    new WebAudioContext(),
-    toneFrequenciesHz(),
-    incorrectToneFrequencyHz()
-  );
-  audioPlayer.setPlayDelaySeconds(0.003);
-  const simon = new simonGame.Simon(audioPlayer, new JsPsychTrial());
-  simon.setLongToneDurationMilliseconds(700);
-  simon.setShortToneDurationMilliseconds(100);
-  simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
-  plugin.trial = function (display_element, trial) {
-    clear(display_element);
-    const screen = new CognitionScreenBlackSquares(
-      display_element,
-      colorOrderMap
-    );
-    new simonGame.ScreenResponder(screen, simon);
-    const presenter = new simonGame.ScreenPresenter(screen);
-    audioPlayer.subscribe(presenter);
-    simon.subscribe(presenter);
-    simon.say(trial.colors);
-  };
-  return plugin;
+  return plugin(colorOrderMap, CognitionScreenBlackSquares);
 }
