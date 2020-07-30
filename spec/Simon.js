@@ -840,6 +840,26 @@ describe("Simon", function () {
     expectNthSimonToneId(this.trial, 3, Color.yellow);
   });
 
+  it("should mark the time and ID of each sequenced simon tone per trial", function () {
+    setTimerMilliseconds(this.timer, 1);
+    notifyThatRedToneStarted(this.audioPlayer);
+    submit(this.simon);
+    setTimerMilliseconds(this.timer, 3);
+    notifyThatGreenToneStarted(this.audioPlayer);
+    setTimerMilliseconds(this.timer, 7);
+    notifyThatBlueToneStarted(this.audioPlayer);
+    setTimerMilliseconds(this.timer, 16);
+    notifyThatYellowToneStarted(this.audioPlayer);
+    submit(this.simon);
+    expectSimonToneSeriesLength(this.trial, 3);
+    expectNthSimonToneTimeMilliseconds(this.trial, 0, 3);
+    expectNthSimonToneId(this.trial, 0, Color.green);
+    expectNthSimonToneTimeMilliseconds(this.trial, 1, 7);
+    expectNthSimonToneId(this.trial, 1, Color.blue);
+    expectNthSimonToneTimeMilliseconds(this.trial, 2, 16);
+    expectNthSimonToneId(this.trial, 2, Color.yellow);
+  });
+
   it("should light red button when red tone starts", function () {
     notifyThatRedToneStarted(this.audioPlayer);
     expectRedButtonLightTurnedOn(this.screen);
