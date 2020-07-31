@@ -100,14 +100,12 @@ class CognitionScreenColoredCircles {
     this.doneButton.style.border = "solid";
     this.doneButton.textContent = "Done";
     this.doneButton.style.visibility = "hidden";
-    this.doneButton.style.lineHeight = pixelsString(50);
-    this.doneButton.style.height = pixelsString(50);
-    this.doneButton.style.width = pixelsString(100);
     this.doneButton.style.marginLeft = "auto";
     this.doneButton.style.marginRight = "auto";
     this.doneButton.style.fontSize = pixelsString(32);
     this.doneButton.style.alignSelf = "center";
     this.doneButton.style.cursor = "default";
+    this.doneButton.style.padding = pixelsString(10);
     const colorButtons = new Array(4);
     colorButtons[colorOrderMap.get(simonGame.Color.red)] = this.redButton;
     colorButtons[colorOrderMap.get(simonGame.Color.green)] = this.greenButton;
