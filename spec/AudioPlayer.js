@@ -199,6 +199,10 @@ function setPlayDelaySeconds(player, x) {
   player.setPlayDelaySeconds(x);
 }
 
+function setToneSeriesDelaySeconds(player, x) {
+  player.setToneSeriesDelaySeconds(x);
+}
+
 function setCurrentTimeSeconds(audioEnvironment, x) {
   audioEnvironment.setCurrentTimeSeconds(x);
 }
@@ -374,13 +378,14 @@ describe("AudioPlayer", function () {
   it("should schedule silent tone before first color tone on play", function () {
     setPlayDelaySeconds(this.player, 5);
     setCurrentTimeSeconds(this.audioEnvironment, 6);
+    setToneSeriesDelaySeconds(this.player, 9);
     play(
       this.player,
       [Color.red, Color.green, Color.blue, Color.yellow],
       7000,
       8000
     );
-    expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6, 0);
+    expectScheduledTonesContains(this.audioEnvironment, 6, 5 + 6 + 9, 0);
   });
 
   it("should schedule first color tone on play", function () {
