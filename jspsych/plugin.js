@@ -16,9 +16,13 @@ function pixelsString(a) {
   return a + "px";
 }
 
+function toneButtonWidthPixels() {
+  return 300;
+}
+
 function borderedCircleButton() {
   const button = element();
-  const diameterPixels = 300;
+  const diameterPixels = toneButtonWidthPixels();
   const borderWidthPixels = 4;
   button.style.height = pixelsString(diameterPixels);
   button.style.width = pixelsString(diameterPixels);
@@ -84,6 +88,10 @@ class PerformanceTimer {
 class CognitionScreenColoredCircles {
   constructor(parent, colorOrderMap) {
     this.parent = parent;
+    const grid = element();
+    grid.style.display = "grid";
+    grid.style.gridTemplateColumns = "repeat(3, 1fr)";
+    grid.style.gridTemplateRows = "repeat(3, 1fr)";
     this.greenButton = borderedCircleButton();
     this.redButton = borderedCircleButton();
     this.blueButton = borderedCircleButton();
@@ -95,8 +103,8 @@ class CognitionScreenColoredCircles {
     this.doneButton.style.lineHeight = pixelsString(50);
     this.doneButton.style.height = pixelsString(50);
     this.doneButton.style.width = pixelsString(100);
-    this.doneButton.style.marginLeft = pixelsString(150);
-    this.doneButton.style.marginRight = pixelsString(150);
+    this.doneButton.style.marginLeft = "auto";
+    this.doneButton.style.marginRight = "auto";
     this.doneButton.style.fontSize = pixelsString(32);
     this.doneButton.style.alignSelf = "center";
     this.doneButton.style.cursor = "default";
@@ -105,20 +113,22 @@ class CognitionScreenColoredCircles {
     colorButtons[colorOrderMap.get(simonGame.Color.green)] = this.greenButton;
     colorButtons[colorOrderMap.get(simonGame.Color.yellow)] = this.yellowButton;
     colorButtons[colorOrderMap.get(simonGame.Color.blue)] = this.blueButton;
-    const topRow = element();
-    topRow.style.display = "inline-flex";
-    adopt(parent, topRow);
-    adopt(topRow, colorButtons[0]);
-    const middleRow = element();
-    middleRow.style.display = "flex";
-    adopt(parent, middleRow);
-    adopt(middleRow, colorButtons[1]);
-    adopt(middleRow, this.doneButton);
-    adopt(middleRow, colorButtons[2]);
-    const bottomRow = element();
-    bottomRow.style.display = "inline-flex";
-    adopt(parent, bottomRow);
-    adopt(bottomRow, colorButtons[3]);
+    adopt(parent, grid);
+    colorButtons[0].style.gridRow = 1;
+    colorButtons[0].style.gridColumn = 2;
+    adopt(grid, colorButtons[0]);
+    colorButtons[1].style.gridRow = 2;
+    colorButtons[1].style.gridColumn = 1;
+    adopt(grid, colorButtons[1]);
+    this.doneButton.style.gridRow = 2;
+    this.doneButton.style.gridColumn = 2;
+    adopt(grid, this.doneButton);
+    colorButtons[2].style.gridRow = 2;
+    colorButtons[2].style.gridColumn = 3;
+    adopt(grid, colorButtons[2]);
+    colorButtons[3].style.gridRow = 3;
+    colorButtons[3].style.gridColumn = 2;
+    adopt(grid, colorButtons[3]);
     addClickEventListener(this.greenButton, (_e) => {
       this.listener.notifyThatGreenWasClicked();
     });
