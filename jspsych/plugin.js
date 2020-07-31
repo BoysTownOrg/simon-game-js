@@ -16,9 +16,13 @@ function pixelsString(a) {
   return a + "px";
 }
 
+function toneButtonWidthPixels() {
+  return 200;
+}
+
 function borderedCircleButton() {
   const button = element();
-  const diameterPixels = 300;
+  const diameterPixels = toneButtonWidthPixels();
   const borderWidthPixels = 4;
   button.style.height = pixelsString(diameterPixels);
   button.style.width = pixelsString(diameterPixels);
@@ -26,7 +30,7 @@ function borderedCircleButton() {
     diameterPixels / 2 + borderWidthPixels
   );
   button.style.border = pixelsString(borderWidthPixels) + " solid black";
-  button.style.margin = pixelsString(20);
+  button.style.margin = "auto";
   return button;
 }
 
@@ -84,6 +88,10 @@ class PerformanceTimer {
 class CognitionScreenColoredCircles {
   constructor(parent, colorOrderMap) {
     this.parent = parent;
+    const grid = element();
+    grid.style.display = "grid";
+    grid.style.gridTemplateColumns = "repeat(3, 1fr)";
+    grid.style.gridTemplateRows = "repeat(3, 1fr)";
     this.greenButton = borderedCircleButton();
     this.redButton = borderedCircleButton();
     this.blueButton = borderedCircleButton();
@@ -92,33 +100,31 @@ class CognitionScreenColoredCircles {
     this.doneButton.style.border = "solid";
     this.doneButton.textContent = "Done";
     this.doneButton.style.visibility = "hidden";
-    this.doneButton.style.lineHeight = pixelsString(50);
-    this.doneButton.style.height = pixelsString(50);
-    this.doneButton.style.width = pixelsString(100);
-    this.doneButton.style.marginLeft = pixelsString(150);
-    this.doneButton.style.marginRight = pixelsString(150);
-    this.doneButton.style.fontSize = pixelsString(32);
+    this.doneButton.style.margin = "auto";
     this.doneButton.style.alignSelf = "center";
     this.doneButton.style.cursor = "default";
+    this.doneButton.style.padding = pixelsString(10);
     const colorButtons = new Array(4);
     colorButtons[colorOrderMap.get(simonGame.Color.red)] = this.redButton;
     colorButtons[colorOrderMap.get(simonGame.Color.green)] = this.greenButton;
     colorButtons[colorOrderMap.get(simonGame.Color.yellow)] = this.yellowButton;
     colorButtons[colorOrderMap.get(simonGame.Color.blue)] = this.blueButton;
-    const topRow = element();
-    topRow.style.display = "inline-flex";
-    adopt(parent, topRow);
-    adopt(topRow, colorButtons[0]);
-    const middleRow = element();
-    middleRow.style.display = "flex";
-    adopt(parent, middleRow);
-    adopt(middleRow, colorButtons[1]);
-    adopt(middleRow, this.doneButton);
-    adopt(middleRow, colorButtons[2]);
-    const bottomRow = element();
-    bottomRow.style.display = "inline-flex";
-    adopt(parent, bottomRow);
-    adopt(bottomRow, colorButtons[3]);
+    adopt(parent, grid);
+    colorButtons[0].style.gridRow = 1;
+    colorButtons[0].style.gridColumn = 2;
+    adopt(grid, colorButtons[0]);
+    colorButtons[1].style.gridRow = 2;
+    colorButtons[1].style.gridColumn = 1;
+    adopt(grid, colorButtons[1]);
+    this.doneButton.style.gridRow = 2;
+    this.doneButton.style.gridColumn = 2;
+    adopt(grid, this.doneButton);
+    colorButtons[2].style.gridRow = 2;
+    colorButtons[2].style.gridColumn = 3;
+    adopt(grid, colorButtons[2]);
+    colorButtons[3].style.gridRow = 3;
+    colorButtons[3].style.gridColumn = 2;
+    adopt(grid, colorButtons[3]);
     addClickEventListener(this.greenButton, (_e) => {
       this.listener.notifyThatGreenWasClicked();
     });
@@ -215,27 +221,22 @@ class CognitionScreenColoredCircles {
 
 function borderedSquareButton() {
   const button = element();
-  const width = 300;
+  const width = toneButtonWidthPixels();
   const borderWidthPixels = 4;
   button.style.height = pixelsString(width);
   button.style.width = pixelsString(width);
   button.style.border = pixelsString(borderWidthPixels) + " solid black";
-  button.style.margin = pixelsString(20);
+  button.style.margin = "auto";
   return button;
-}
-
-function gap() {
-  const gap = element();
-  const gapWidth = 300;
-  gap.style.height = pixelsString(gapWidth);
-  gap.style.width = pixelsString(gapWidth);
-  gap.style.margin = pixelsString(20);
-  return gap;
 }
 
 class CognitionScreenBlackSquares {
   constructor(parent, colorOrderMap) {
     this.parent = parent;
+    const grid = element();
+    grid.style.display = "grid";
+    grid.style.gridTemplateColumns = "repeat(3, 1fr)";
+    grid.style.gridTemplateRows = "repeat(3, 1fr)";
     this.greenButton = borderedSquareButton();
     this.redButton = borderedSquareButton();
     this.blueButton = borderedSquareButton();
@@ -244,38 +245,31 @@ class CognitionScreenBlackSquares {
     this.doneButton.style.border = "solid";
     this.doneButton.textContent = "Done";
     this.doneButton.style.visibility = "hidden";
-    this.doneButton.style.lineHeight = pixelsString(50);
-    this.doneButton.style.height = pixelsString(50);
-    this.doneButton.style.width = pixelsString(100);
-    this.doneButton.style.marginLeft = pixelsString(150);
-    this.doneButton.style.marginRight = pixelsString(150);
-    this.doneButton.style.fontSize = pixelsString(32);
+    this.doneButton.style.margin = "auto";
     this.doneButton.style.alignSelf = "center";
     this.doneButton.style.cursor = "default";
+    this.doneButton.style.padding = pixelsString(10);
     const colorButtons = new Array(4);
     colorButtons[colorOrderMap.get(simonGame.Color.red)] = this.redButton;
     colorButtons[colorOrderMap.get(simonGame.Color.green)] = this.greenButton;
     colorButtons[colorOrderMap.get(simonGame.Color.yellow)] = this.yellowButton;
     colorButtons[colorOrderMap.get(simonGame.Color.blue)] = this.blueButton;
-    const topRow = element();
-    topRow.style.display = "inline-flex";
-    adopt(parent, topRow);
-    adopt(topRow, colorButtons[0]);
-    adopt(topRow, gap());
-    adopt(topRow, colorButtons[1]);
-    const middleRow = element();
-    middleRow.style.display = "flex";
-    middleRow.style.justifyContent = "center";
-    adopt(parent, middleRow);
-    adopt(middleRow, gap());
-    adopt(middleRow, this.doneButton);
-    adopt(middleRow, gap());
-    const bottomRow = element();
-    bottomRow.style.display = "inline-flex";
-    adopt(parent, bottomRow);
-    adopt(bottomRow, colorButtons[2]);
-    adopt(bottomRow, gap());
-    adopt(bottomRow, colorButtons[3]);
+    adopt(parent, grid);
+    colorButtons[0].style.gridRow = 1;
+    colorButtons[0].style.gridColumn = 1;
+    adopt(grid, colorButtons[0]);
+    colorButtons[1].style.gridRow = 1;
+    colorButtons[1].style.gridColumn = 3;
+    adopt(grid, colorButtons[1]);
+    this.doneButton.style.gridRow = 2;
+    this.doneButton.style.gridColumn = 2;
+    adopt(grid, this.doneButton);
+    colorButtons[2].style.gridRow = 3;
+    colorButtons[2].style.gridColumn = 1;
+    adopt(grid, colorButtons[2]);
+    colorButtons[3].style.gridRow = 3;
+    colorButtons[3].style.gridColumn = 3;
+    adopt(grid, colorButtons[3]);
     addClickEventListener(this.greenButton, (_e) => {
       this.listener.notifyThatGreenWasClicked();
     });
@@ -426,6 +420,7 @@ function plugin(colorOrderMap, Screen) {
     incorrectToneFrequencyHz()
   );
   audioPlayer.setPlayDelaySeconds(0.003);
+  audioPlayer.setToneSeriesDelaySeconds(0.5);
   plugin.trial = function (display_element, trial) {
     clear(display_element);
     const screen = new Screen(display_element, colorOrderMap);
