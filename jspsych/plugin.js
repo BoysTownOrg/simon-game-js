@@ -422,6 +422,7 @@ function plugin(colorOrderMap, Screen) {
     incorrectToneFrequencyHz()
   );
   audioPlayer.setPlayDelaySeconds(0.003);
+  audioPlayer.setToneSeriesDelaySeconds(0.5);
   plugin.trial = function (display_element, trial) {
     clear(display_element);
     const screen = new Screen(display_element, colorOrderMap);
