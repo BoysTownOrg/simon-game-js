@@ -101,7 +101,6 @@ class CognitionScreenColoredCircles {
     this.doneButton.textContent = "Done";
     this.doneButton.style.visibility = "hidden";
     this.doneButton.style.margin = "auto";
-    this.doneButton.style.fontSize = pixelsString(32);
     this.doneButton.style.alignSelf = "center";
     this.doneButton.style.cursor = "default";
     this.doneButton.style.padding = pixelsString(10);
@@ -247,7 +246,6 @@ class CognitionScreenBlackSquares {
     this.doneButton.textContent = "Done";
     this.doneButton.style.visibility = "hidden";
     this.doneButton.style.margin = "auto";
-    this.doneButton.style.fontSize = pixelsString(32);
     this.doneButton.style.alignSelf = "center";
     this.doneButton.style.cursor = "default";
     this.doneButton.style.padding = pixelsString(10);
