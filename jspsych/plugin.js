@@ -17,7 +17,7 @@ function pixelsString(a) {
 }
 
 function toneButtonWidthPixels() {
-  return 300;
+  return 200;
 }
 
 function borderedCircleButton() {
@@ -30,7 +30,7 @@ function borderedCircleButton() {
     diameterPixels / 2 + borderWidthPixels
   );
   button.style.border = pixelsString(borderWidthPixels) + " solid black";
-  button.style.margin = pixelsString(20);
+  button.style.margin = "auto";
   return button;
 }
 
@@ -100,8 +100,7 @@ class CognitionScreenColoredCircles {
     this.doneButton.style.border = "solid";
     this.doneButton.textContent = "Done";
     this.doneButton.style.visibility = "hidden";
-    this.doneButton.style.marginLeft = "auto";
-    this.doneButton.style.marginRight = "auto";
+    this.doneButton.style.margin = "auto";
     this.doneButton.style.fontSize = pixelsString(32);
     this.doneButton.style.alignSelf = "center";
     this.doneButton.style.cursor = "default";
