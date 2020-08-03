@@ -62,24 +62,21 @@ auto convert(const std::string &json) -> std::string {
         conversion += formattedMilliseconds(simon["milliseconds"].dump());
         ++rowCount;
     }
-    const auto firstTrialFirstResponse{firstTrial["responses"].front()};
-    auto responseLengthPresented{rowCount - 1};
+    const auto responseLengthPresented{rowCount - 1};
     auto responsePosition{1};
     for (auto response : firstTrial["responses"]) {
         if (rowCount != 1)
             conversion += '\n';
-        const auto responseMilliseconds{response["milliseconds"].dump()};
-        const auto responseId{response["id"].dump()};
         addValueWithComma(conversion, firstTrialBlock);
         addValueWithComma(conversion, rowCount);
         addValueWithComma(conversion, responsePosition);
         addValueWithComma(conversion, responseLengthPresented);
-        addValueWithComma(conversion, responseId);
+        addValueWithComma(conversion, response["id"].dump());
         addBooleanStringValueWithComma(conversion, firstTrialCorrect);
         addValueWithComma(conversion, "0");
         addBooleanStringValueWithComma(conversion, firstTrialIsRandom);
         addValueWithComma(conversion, "1");
-        conversion += formattedMilliseconds(responseMilliseconds);
+        conversion += formattedMilliseconds(response["milliseconds"].dump());
         ++rowCount;
         ++responsePosition;
     }
