@@ -24,8 +24,10 @@ auto convert(const std::string &json) -> std::string {
     auto correct{firstTrial["correct"].dump()};
     auto firstSimonMilliseconds{
         firstTrial["simon"].front()["milliseconds"].dump()};
+    auto firstSimonCircle{firstTrial["simon"].front()["id"].dump()};
     auto firstResponseMilliseconds{
         firstTrial["responses"].front()["milliseconds"].dump()};
+    auto firstResponseId{firstTrial["responses"].front()["id"].dump()};
     auto isRandom{firstTrial["isRandom"].dump()};
     std::string conversion;
     addValueWithComma(conversion, "Block");
@@ -38,21 +40,30 @@ auto convert(const std::string &json) -> std::string {
     addValueWithComma(conversion, "isRandom");
     addValueWithComma(conversion, "TrialCount");
     conversion += "time\n";
+    auto rowCount{1};
+    for (auto simon : firstTrial["simon"]) {
+        addValueWithComma(conversion, block);
+        addValueWithComma(conversion, std::to_string(rowCount));
+        auto position{rowCount};
+        addValueWithComma(conversion, std::to_string(position));
+        auto lengthPresented{rowCount};
+        addValueWithComma(conversion, std::to_string(lengthPresented));
+        addValueWithComma(conversion, simon["id"].dump());
+        addValueWithComma(conversion, booleanStringToIntegerString(correct));
+        addValueWithComma(conversion, "1");
+        addValueWithComma(conversion, booleanStringToIntegerString(isRandom));
+        addValueWithComma(conversion, "1");
+        conversion +=
+            formattedMilliseconds(simon["milliseconds"].dump()) + "\n";
+        ++rowCount;
+    }
     addValueWithComma(conversion, block);
-    addValueWithComma(conversion, "1");
-    addValueWithComma(conversion, "1");
-    addValueWithComma(conversion, "1");
-    addValueWithComma(conversion, "2");
-    addValueWithComma(conversion, booleanStringToIntegerString(correct));
-    addValueWithComma(conversion, "1");
-    addValueWithComma(conversion, "0");
-    addValueWithComma(conversion, "1");
-    conversion += formattedMilliseconds(firstSimonMilliseconds) + "\n";
-    addValueWithComma(conversion, block);
-    addValueWithComma(conversion, "2");
-    addValueWithComma(conversion, "1");
-    addValueWithComma(conversion, "1");
-    addValueWithComma(conversion, "2");
+    addValueWithComma(conversion, std::to_string(rowCount));
+    auto position{1};
+    addValueWithComma(conversion, std::to_string(position));
+    auto lengthPresented{firstTrial["simon"].size()};
+    addValueWithComma(conversion, std::to_string(lengthPresented));
+    addValueWithComma(conversion, firstResponseId);
     addValueWithComma(conversion, booleanStringToIntegerString(correct));
     addValueWithComma(conversion, "0");
     addValueWithComma(conversion, booleanStringToIntegerString(isRandom));

@@ -8,5 +8,7 @@ struct TestResult;
 void emptyYieldsEmpty(testcpplite::TestResult &);
 void oneTrialWithOneSimonToneAndOneResponseYieldsTwoRows(
     testcpplite::TestResult &);
+void oneTrialWithTwoSimonTonesAndOneResponseYieldsThreeRows(
+    testcpplite::TestResult &);
 
 #endif
