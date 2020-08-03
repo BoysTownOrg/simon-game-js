@@ -4,6 +4,8 @@ project(
   VERSION 0.0.1
   LANGUAGES CXX)
 
+add_subdirectory(lib)
+
 if(${SIMON_GAME_JS_OUTPUT_TO_CSV_ENABLE_TESTS})
   include(FetchContent)
   FetchContent_Declare(
