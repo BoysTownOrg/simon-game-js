@@ -4,5 +4,8 @@
 
 int main() {
     return testcpplite::test(
-        {{emptyYieldsEmpty, "emptyYieldsEmpty"}}, std::cout);
+        {{emptyYieldsEmpty, "emptyYieldsEmpty"},
+            {oneTrialWithOneSimonToneAndOneResponseYieldsTwoRows,
+                "oneTrialWithOneSimonToneAndOneResponseYieldsTwoRows"}},
+        std::cout);
 }
