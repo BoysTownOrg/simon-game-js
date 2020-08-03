@@ -17,7 +17,8 @@ auto convert(const std::string &json) -> std::string {
     return "Block,RowCount,position,lengthPresented,circleNum,correct,source,"
            "isRandom,TrialCount,time\n" +
         block + ",1,1,1,2," + std::string{correct == "true" ? '1' : '0'} +
-        ",1,0,1," + firstSimonMilliseconds + ".0" + "\n1,2,1,1,2,1,0," +
+        ",1,0,1," + firstSimonMilliseconds + ".0" + "\n" + block + ",2,1,1,2," +
+        std::string{correct == "true" ? '1' : '0'} + ",0," +
         std::string{isRandom == "true" ? '1' : '0'} + ",1," +
         firstResponseMilliseconds + ".0";
 }
