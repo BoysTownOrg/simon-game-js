@@ -4,10 +4,17 @@ project(
   VERSION 0.0.1
   LANGUAGES CXX)
 
+include(FetchContent)
+
+FetchContent_Declare(
+  json
+  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_TAG v3.9.0)
+FetchContent_MakeAvailable(json)
+
 add_subdirectory(lib)
 
 if(${SIMON_GAME_JS_OUTPUT_TO_CSV_ENABLE_TESTS})
-  include(FetchContent)
   FetchContent_Declare(
     testcpplite
     GIT_REPOSITORY https://github.com/sbash64/testcpplite
