@@ -10,5 +10,7 @@ void oneTrialWithOneSimonToneAndOneResponseYieldsTwoRows(
     testcpplite::TestResult &);
 void oneTrialWithTwoSimonTonesAndOneResponseYieldsThreeRows(
     testcpplite::TestResult &);
+void oneTrialWithTwoSimonTonesAndTwoResponsesYieldsFourRows(
+    testcpplite::TestResult &);
 
 #endif

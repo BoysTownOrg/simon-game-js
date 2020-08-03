@@ -46,6 +46,8 @@ auto convert(const std::string &json) -> std::string {
     const auto firstTrialSimon{firstTrial["simon"]};
     auto rowCount{1};
     for (auto simon : firstTrialSimon) {
+        if (rowCount != 1)
+            conversion += '\n';
         addValueWithComma(conversion, firstTrialBlock);
         addValueWithComma(conversion, rowCount);
         auto position{rowCount};
@@ -57,25 +59,29 @@ auto convert(const std::string &json) -> std::string {
         addValueWithComma(conversion, "1");
         addBooleanStringValueWithComma(conversion, firstTrialIsRandom);
         addValueWithComma(conversion, "1");
-        conversion +=
-            formattedMilliseconds(simon["milliseconds"].dump()) + "\n";
+        conversion += formattedMilliseconds(simon["milliseconds"].dump());
         ++rowCount;
     }
     const auto firstTrialFirstResponse{firstTrial["responses"].front()};
-    const auto firstTrialFirstResponseMilliseconds{
-        firstTrialFirstResponse["milliseconds"].dump()};
-    const auto firstTrialFirstResponseId{firstTrialFirstResponse["id"].dump()};
-    addValueWithComma(conversion, firstTrialBlock);
-    addValueWithComma(conversion, rowCount);
-    const auto position{1};
-    addValueWithComma(conversion, position);
-    const auto lengthPresented{firstTrialSimon.size()};
-    addValueWithComma(conversion, std::to_string(lengthPresented));
-    addValueWithComma(conversion, firstTrialFirstResponseId);
-    addBooleanStringValueWithComma(conversion, firstTrialCorrect);
-    addValueWithComma(conversion, "0");
-    addBooleanStringValueWithComma(conversion, firstTrialIsRandom);
-    addValueWithComma(conversion, "1");
-    conversion += formattedMilliseconds(firstTrialFirstResponseMilliseconds);
+    auto responseLengthPresented{rowCount - 1};
+    auto responsePosition{1};
+    for (auto response : firstTrial["responses"]) {
+        if (rowCount != 1)
+            conversion += '\n';
+        const auto responseMilliseconds{response["milliseconds"].dump()};
+        const auto responseId{response["id"].dump()};
+        addValueWithComma(conversion, firstTrialBlock);
+        addValueWithComma(conversion, rowCount);
+        addValueWithComma(conversion, responsePosition);
+        addValueWithComma(conversion, responseLengthPresented);
+        addValueWithComma(conversion, responseId);
+        addBooleanStringValueWithComma(conversion, firstTrialCorrect);
+        addValueWithComma(conversion, "0");
+        addBooleanStringValueWithComma(conversion, firstTrialIsRandom);
+        addValueWithComma(conversion, "1");
+        conversion += formattedMilliseconds(responseMilliseconds);
+        ++rowCount;
+        ++responsePosition;
+    }
     return conversion;
 }
