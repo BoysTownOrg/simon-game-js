@@ -18,17 +18,6 @@ auto convert(const std::string &json) -> std::string {
     if (json.empty())
         return {};
 
-    auto parsed{nlohmann::json::parse(json)};
-    auto firstTrial{parsed.front()};
-    auto block{firstTrial["block"].dump()};
-    auto correct{firstTrial["correct"].dump()};
-    auto firstSimonMilliseconds{
-        firstTrial["simon"].front()["milliseconds"].dump()};
-    auto firstSimonCircle{firstTrial["simon"].front()["id"].dump()};
-    auto firstResponseMilliseconds{
-        firstTrial["responses"].front()["milliseconds"].dump()};
-    auto firstResponseId{firstTrial["responses"].front()["id"].dump()};
-    auto isRandom{firstTrial["isRandom"].dump()};
     std::string conversion;
     addValueWithComma(conversion, "Block");
     addValueWithComma(conversion, "RowCount");
@@ -40,34 +29,48 @@ auto convert(const std::string &json) -> std::string {
     addValueWithComma(conversion, "isRandom");
     addValueWithComma(conversion, "TrialCount");
     conversion += "time\n";
+    const auto parsed{nlohmann::json::parse(json)};
+    const auto firstTrial{parsed.front()};
+    const auto firstTrialBlock{firstTrial["block"].dump()};
+    const auto firstTrialCorrect{firstTrial["correct"].dump()};
+    const auto firstTrialIsRandom{firstTrial["isRandom"].dump()};
+    const auto firstTrialSimon{firstTrial["simon"]};
     auto rowCount{1};
-    for (auto simon : firstTrial["simon"]) {
-        addValueWithComma(conversion, block);
+    for (auto simon : firstTrialSimon) {
+        addValueWithComma(conversion, firstTrialBlock);
         addValueWithComma(conversion, std::to_string(rowCount));
         auto position{rowCount};
         addValueWithComma(conversion, std::to_string(position));
         auto lengthPresented{rowCount};
         addValueWithComma(conversion, std::to_string(lengthPresented));
         addValueWithComma(conversion, simon["id"].dump());
-        addValueWithComma(conversion, booleanStringToIntegerString(correct));
+        addValueWithComma(
+            conversion, booleanStringToIntegerString(firstTrialCorrect));
         addValueWithComma(conversion, "1");
-        addValueWithComma(conversion, booleanStringToIntegerString(isRandom));
+        addValueWithComma(
+            conversion, booleanStringToIntegerString(firstTrialIsRandom));
         addValueWithComma(conversion, "1");
         conversion +=
             formattedMilliseconds(simon["milliseconds"].dump()) + "\n";
         ++rowCount;
     }
-    addValueWithComma(conversion, block);
+    const auto firstTrialFirstResponse{firstTrial["responses"].front()};
+    const auto firstTrialFirstResponseMilliseconds{
+        firstTrialFirstResponse["milliseconds"].dump()};
+    const auto firstTrialFirstResponseId{firstTrialFirstResponse["id"].dump()};
+    addValueWithComma(conversion, firstTrialBlock);
     addValueWithComma(conversion, std::to_string(rowCount));
     auto position{1};
     addValueWithComma(conversion, std::to_string(position));
-    auto lengthPresented{firstTrial["simon"].size()};
+    auto lengthPresented{firstTrialSimon.size()};
     addValueWithComma(conversion, std::to_string(lengthPresented));
-    addValueWithComma(conversion, firstResponseId);
-    addValueWithComma(conversion, booleanStringToIntegerString(correct));
+    addValueWithComma(conversion, firstTrialFirstResponseId);
+    addValueWithComma(
+        conversion, booleanStringToIntegerString(firstTrialCorrect));
     addValueWithComma(conversion, "0");
-    addValueWithComma(conversion, booleanStringToIntegerString(isRandom));
+    addValueWithComma(
+        conversion, booleanStringToIntegerString(firstTrialIsRandom));
     addValueWithComma(conversion, "1");
-    conversion += formattedMilliseconds(firstResponseMilliseconds);
+    conversion += formattedMilliseconds(firstTrialFirstResponseMilliseconds);
     return conversion;
 }
