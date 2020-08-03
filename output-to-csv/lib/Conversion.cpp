@@ -2,6 +2,10 @@
 #include <nlohmann/json.hpp>
 #include <string>
 
+static auto booleanStringToIntegerString(const std::string &s) -> std::string {
+    return std::string{s == "true" ? '1' : '0'};
+}
+
 auto convert(const std::string &json) -> std::string {
     if (json.empty())
         return {};
@@ -16,9 +20,9 @@ auto convert(const std::string &json) -> std::string {
     auto isRandom{first["isRandom"].dump()};
     return "Block,RowCount,position,lengthPresented,circleNum,correct,source,"
            "isRandom,TrialCount,time\n" +
-        block + ",1,1,1,2," + std::string{correct == "true" ? '1' : '0'} +
+        block + ",1,1,1,2," + booleanStringToIntegerString(correct) +
         ",1,0,1," + firstSimonMilliseconds + ".0" + "\n" + block + ",2,1,1,2," +
-        std::string{correct == "true" ? '1' : '0'} + ",0," +
-        std::string{isRandom == "true" ? '1' : '0'} + ",1," +
+        booleanStringToIntegerString(correct) + ",0," +
+        booleanStringToIntegerString(isRandom) + ",1," +
         firstResponseMilliseconds + ".0";
 }
