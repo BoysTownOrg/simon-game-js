@@ -73,8 +73,18 @@ function clear(parent) {
   }
 }
 
+// https://stackoverflow.com/a/28191966
+function getKeyByValue(map, value) {
+  return Array.from(map.keys()).find((key) => map.get(key) === value);
+}
+
 class JsPsychTrial {
+  constructor(screen) {
+    this.screen = screen;
+  }
+
   conclude(result) {
+    this.screen.addVisualDescription(result);
     jsPsych.finishTrial(result);
   }
 }
@@ -88,6 +98,7 @@ class PerformanceTimer {
 class CognitionScreenColoredCircles {
   constructor(parent, colorOrderMap) {
     this.parent = parent;
+    this.colorOrderMap = colorOrderMap;
     const grid = element();
     grid.style.display = "grid";
     grid.style.gridTemplateColumns = "repeat(3, 1fr)";
@@ -140,6 +151,21 @@ class CognitionScreenColoredCircles {
     addClickEventListener(this.doneButton, (_e) => {
       this.listener.notifyThatDoneWasClicked();
     });
+  }
+
+  addVisualDescription(result) {
+    result.color_key = {
+      red: simonGame.Color.red,
+      green: simonGame.Color.green,
+      yellow: simonGame.Color.yellow,
+      blue: simonGame.Color.blue,
+    };
+    result.color_locations = {
+      top: getKeyByValue(this.colorOrderMap, 0),
+      left: getKeyByValue(this.colorOrderMap, 1),
+      right: getKeyByValue(this.colorOrderMap, 2),
+      bottom: getKeyByValue(this.colorOrderMap, 3),
+    };
   }
 
   subscribe(e) {
@@ -287,6 +313,15 @@ class CognitionScreenBlackSquares {
     });
   }
 
+  addVisualDescription(result) {
+    result.response_key = {
+      top_left: simonGame.Color.red,
+      top_right: simonGame.Color.green,
+      bottom_left: simonGame.Color.yellow,
+      bottom_right: simonGame.Color.blue,
+    };
+  }
+
   subscribe(e) {
     this.listener = e;
   }
@@ -427,7 +462,7 @@ function plugin(colorOrderMap, Screen) {
     const simon = new simonGame.Simon(
       audioPlayer,
       screen,
-      new JsPsychTrial(),
+      new JsPsychTrial(screen),
       new PerformanceTimer()
     );
     simon.setLongToneDurationMilliseconds(700);
