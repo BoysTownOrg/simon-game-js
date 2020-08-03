@@ -6,6 +6,10 @@ static auto booleanStringToIntegerString(const std::string &s) -> std::string {
     return std::string{s == "true" ? '1' : '0'};
 }
 
+static auto formattedMilliseconds(const std::string &s) -> std::string {
+    return s + ".0";
+}
+
 auto convert(const std::string &json) -> std::string {
     if (json.empty())
         return {};
@@ -21,8 +25,8 @@ auto convert(const std::string &json) -> std::string {
     return "Block,RowCount,position,lengthPresented,circleNum,correct,source,"
            "isRandom,TrialCount,time\n" +
         block + ",1,1,1,2," + booleanStringToIntegerString(correct) +
-        ",1,0,1," + firstSimonMilliseconds + ".0" + "\n" + block + ",2,1,1,2," +
-        booleanStringToIntegerString(correct) + ",0," +
+        ",1,0,1," + formattedMilliseconds(firstSimonMilliseconds) + "\n" +
+        block + ",2,1,1,2," + booleanStringToIntegerString(correct) + ",0," +
         booleanStringToIntegerString(isRandom) + ",1," +
-        firstResponseMilliseconds + ".0";
+        formattedMilliseconds(firstResponseMilliseconds);
 }
