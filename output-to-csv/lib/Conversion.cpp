@@ -14,6 +14,10 @@ static void addValueWithComma(std::string &s, const std::string &value) {
     s += value + ',';
 }
 
+static void addValueWithComma(std::string &s, int value) {
+    addValueWithComma(s, std::to_string(value));
+}
+
 auto convert(const std::string &json) -> std::string {
     if (json.empty())
         return {};
@@ -38,11 +42,11 @@ auto convert(const std::string &json) -> std::string {
     auto rowCount{1};
     for (auto simon : firstTrialSimon) {
         addValueWithComma(conversion, firstTrialBlock);
-        addValueWithComma(conversion, std::to_string(rowCount));
+        addValueWithComma(conversion, rowCount);
         auto position{rowCount};
-        addValueWithComma(conversion, std::to_string(position));
+        addValueWithComma(conversion, position);
         auto lengthPresented{rowCount};
-        addValueWithComma(conversion, std::to_string(lengthPresented));
+        addValueWithComma(conversion, lengthPresented);
         addValueWithComma(conversion, simon["id"].dump());
         addValueWithComma(
             conversion, booleanStringToIntegerString(firstTrialCorrect));
@@ -59,10 +63,10 @@ auto convert(const std::string &json) -> std::string {
         firstTrialFirstResponse["milliseconds"].dump()};
     const auto firstTrialFirstResponseId{firstTrialFirstResponse["id"].dump()};
     addValueWithComma(conversion, firstTrialBlock);
-    addValueWithComma(conversion, std::to_string(rowCount));
-    auto position{1};
-    addValueWithComma(conversion, std::to_string(position));
-    auto lengthPresented{firstTrialSimon.size()};
+    addValueWithComma(conversion, rowCount);
+    const auto position{1};
+    addValueWithComma(conversion, position);
+    const auto lengthPresented{firstTrialSimon.size()};
     addValueWithComma(conversion, std::to_string(lengthPresented));
     addValueWithComma(conversion, firstTrialFirstResponseId);
     addValueWithComma(
