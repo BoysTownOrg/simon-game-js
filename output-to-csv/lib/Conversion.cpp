@@ -9,10 +9,12 @@ auto convert(const std::string &json) -> std::string {
     auto parsed{nlohmann::json::parse(json)};
     auto first{parsed.front()};
     auto block{first["block"].dump()};
-    bool correct{first["correct"]};
+    auto correct{first["correct"].dump()};
+    auto firstSimonMilliseconds{first["simon"].front()["milliseconds"].dump()};
     return "Block,RowCount,position,lengthPresented,circleNum,correct,source,"
            "isRandom,TrialCount,time\n" +
-        block + ",1,1,1,2," + std::to_string(correct ? 1 : 0) +
-        ",1,0,1,21835.0\n1,2,1,1,2,1,0,"
+        block + ",1,1,1,2," + std::to_string(correct == "true" ? 1 : 0) +
+        ",1,0,1," + firstSimonMilliseconds + ".0" +
+        "\n1,2,1,1,2,1,0,"
         "0,1,24003.0";
 }
