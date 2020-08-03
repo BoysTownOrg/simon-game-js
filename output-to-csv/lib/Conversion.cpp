@@ -43,10 +43,18 @@ auto convert(const std::string &json) -> std::string {
     addValueWithComma(conversion, "1");
     addValueWithComma(conversion, "1");
     addValueWithComma(conversion, "2");
-    conversion += booleanStringToIntegerString(correct) + ",1,0,1," +
-        formattedMilliseconds(firstSimonMilliseconds) + "\n" + block +
-        ",2,1,1,2," + booleanStringToIntegerString(correct) + ",0," +
-        booleanStringToIntegerString(isRandom) + ",1," +
+    addValueWithComma(conversion, booleanStringToIntegerString(correct));
+    addValueWithComma(conversion, "1");
+    addValueWithComma(conversion, "0");
+    addValueWithComma(conversion, "1");
+    conversion += formattedMilliseconds(firstSimonMilliseconds) + "\n";
+    addValueWithComma(conversion, block);
+    addValueWithComma(conversion, "2");
+    addValueWithComma(conversion, "1");
+    addValueWithComma(conversion, "1");
+    addValueWithComma(conversion, "2");
+    addValueWithComma(conversion, booleanStringToIntegerString(correct));
+    conversion += "0," + booleanStringToIntegerString(isRandom) + ",1," +
         formattedMilliseconds(firstResponseMilliseconds);
     return conversion;
 }
