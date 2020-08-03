@@ -18,6 +18,11 @@ static void addValueWithComma(std::string &s, int value) {
     addValueWithComma(s, std::to_string(value));
 }
 
+static void addBooleanStringValueWithComma(
+    std::string &s, const std::string &value) {
+    addValueWithComma(s, booleanStringToIntegerString(value));
+}
+
 auto convert(const std::string &json) -> std::string {
     if (json.empty())
         return {};
@@ -48,11 +53,9 @@ auto convert(const std::string &json) -> std::string {
         auto lengthPresented{rowCount};
         addValueWithComma(conversion, lengthPresented);
         addValueWithComma(conversion, simon["id"].dump());
-        addValueWithComma(
-            conversion, booleanStringToIntegerString(firstTrialCorrect));
+        addBooleanStringValueWithComma(conversion, firstTrialCorrect);
         addValueWithComma(conversion, "1");
-        addValueWithComma(
-            conversion, booleanStringToIntegerString(firstTrialIsRandom));
+        addBooleanStringValueWithComma(conversion, firstTrialIsRandom);
         addValueWithComma(conversion, "1");
         conversion +=
             formattedMilliseconds(simon["milliseconds"].dump()) + "\n";
@@ -69,11 +72,9 @@ auto convert(const std::string &json) -> std::string {
     const auto lengthPresented{firstTrialSimon.size()};
     addValueWithComma(conversion, std::to_string(lengthPresented));
     addValueWithComma(conversion, firstTrialFirstResponseId);
-    addValueWithComma(
-        conversion, booleanStringToIntegerString(firstTrialCorrect));
+    addBooleanStringValueWithComma(conversion, firstTrialCorrect);
     addValueWithComma(conversion, "0");
-    addValueWithComma(
-        conversion, booleanStringToIntegerString(firstTrialIsRandom));
+    addBooleanStringValueWithComma(conversion, firstTrialIsRandom);
     addValueWithComma(conversion, "1");
     conversion += formattedMilliseconds(firstTrialFirstResponseMilliseconds);
     return conversion;
