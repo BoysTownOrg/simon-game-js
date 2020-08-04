@@ -1,0 +1,19 @@
+on: workflow_dispatch
+
+jobs:
+  test:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: generate build system
+        run: cmake -S ./output-to-csv -B ./output-to-csv/build -DSIMON_GAME_JS_OUTPUT_TO_CSV_ENABLE_TESTS=1 -DCMAKE_BUILD_TYPE=Release
+      - name: build
+        run: cmake --build ./output-to-csv/build --config Release
+      - name: test
+        run: |
+          cd ./output-to-csv/build 
+          ctest -C Release
