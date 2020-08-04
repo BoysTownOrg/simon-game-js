@@ -6,13 +6,26 @@ project(
 
 include(FetchContent)
 
+set(JSON_BuildTests
+    OFF
+    CACHE INTERNAL "")
 FetchContent_Declare(
   json
-  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_REPOSITORY
+    https://github.com/ArthurSonzogni/nlohmann_json_cmake_fetchcontent
   GIT_TAG v3.9.0)
 FetchContent_MakeAvailable(json)
 
 add_subdirectory(lib)
+
+add_executable(simon-game-js-output-to-csv-main main.cpp)
+set_target_properties(simon-game-js-output-to-csv-main
+                      PROPERTIES OUTPUT_NAME simon-game-js-output-to-csv)
+target_link_libraries(simon-game-js-output-to-csv-main
+                      PRIVATE simon-game-js-output-to-csv)
+target_compile_options(simon-game-js-output-to-csv-main
+                       PRIVATE ${SIMON_GAME_JS_OUTPUT_TO_CSV_WARNINGS})
+target_compile_features(simon-game-js-output-to-csv-main PRIVATE cxx_std_17)
 
 if(${SIMON_GAME_JS_OUTPUT_TO_CSV_ENABLE_TESTS})
   FetchContent_Declare(
