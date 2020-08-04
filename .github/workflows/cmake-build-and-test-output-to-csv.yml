@@ -16,4 +16,4 @@ jobs:
       - name: test
         run: |
           cd ./output-to-csv/build 
-          ctest -C Release
+          ctest -C Release -V

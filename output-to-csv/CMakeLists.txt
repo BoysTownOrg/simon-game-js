@@ -30,6 +30,8 @@ target_compile_features(
                                            cxx_uniform_initialization)
 
 if(${SIMON_GAME_JS_OUTPUT_TO_CSV_ENABLE_TESTS})
+  enable_testing()
+
   FetchContent_Declare(
     testcpplite
     GIT_REPOSITORY https://github.com/sbash64/testcpplite
