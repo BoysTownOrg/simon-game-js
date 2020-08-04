@@ -10,6 +10,8 @@ int main() {
             {oneTrialWithTwoSimonTonesAndOneResponseYieldsThreeRows,
                 "oneTrialWithTwoSimonTonesAndOneResponseYieldsThreeRows"},
             {oneTrialWithTwoSimonTonesAndTwoResponsesYieldsFourRows,
-                "oneTrialWithTwoSimonTonesAndTwoResponsesYieldsFourRows"}},
+                "oneTrialWithTwoSimonTonesAndTwoResponsesYieldsFourRows"},
+            {twoTrialsWithOneSimonToneAndOneResponseEachYieldsFourRows,
+                "twoTrialsWithOneSimonToneAndOneResponseEachYieldsFourRows"}},
         std::cout);
 }

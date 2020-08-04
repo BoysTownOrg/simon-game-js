@@ -92,3 +92,41 @@ void oneTrialWithTwoSimonTonesAndTwoResponsesYieldsFourRows(
   }
 ])");
 }
+
+void twoTrialsWithOneSimonToneAndOneResponseEachYieldsFourRows(
+    testcpplite::TestResult &result) {
+    assertConversion(result,
+        R"(Block,RowCount,position,lengthPresented,circleNum,correct,source,isRandom,TrialCount,time
+1,1,1,1,3,0,1,0,1,12.0
+1,2,1,1,4,0,0,0,1,56.0
+1,3,1,1,2,1,1,0,2,78.0
+1,4,1,1,2,1,0,0,2,99.0)",
+        R"([
+  {
+    "simon": [{ "milliseconds": 12, "id": 3 }],
+    "responses": [{ "milliseconds": 56, "id": 4 }],
+    "correct": false,
+    "isRandom": false,
+    "block": 1,
+    "color_key": { "red": 1, "green": 3, "yellow": 2, "blue": 4 },
+    "color_locations": { "top": 1, "left": 3, "right": 4, "bottom": 2 },
+    "trial_type": "simon-game-colored-circles",
+    "trial_index": 1,
+    "time_elapsed": 100,
+    "internal_node_id": "0.0-1.0-0.0"
+  },
+  {
+    "simon": [{ "milliseconds": 78, "id": 2 }],
+    "responses": [{ "milliseconds": 99, "id": 2 }],
+    "correct": true,
+    "isRandom": false,
+    "block": 1,
+    "color_key": { "red": 1, "green": 3, "yellow": 2, "blue": 4 },
+    "color_locations": { "top": 1, "left": 3, "right": 4, "bottom": 2 },
+    "trial_type": "simon-game-colored-circles",
+    "trial_index": 2,
+    "time_elapsed": 50000,
+    "internal_node_id": "0.0-1.0-0.1"
+  }
+])");
+}

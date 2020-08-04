@@ -39,46 +39,52 @@ auto convert(const std::string &json) -> std::string {
     addValueWithComma(conversion, "TrialCount");
     conversion += "time\n";
     const auto parsed{nlohmann::json::parse(json)};
-    const auto firstTrial{parsed.front()};
-    const auto firstTrialBlock{firstTrial["block"].dump()};
-    const auto firstTrialCorrect{firstTrial["correct"].dump()};
-    const auto firstTrialIsRandom{firstTrial["isRandom"].dump()};
-    const auto firstTrialSimon{firstTrial["simon"]};
     auto rowCount{1};
-    for (auto simon : firstTrialSimon) {
-        if (rowCount != 1)
-            conversion += '\n';
-        addValueWithComma(conversion, firstTrialBlock);
-        addValueWithComma(conversion, rowCount);
-        auto position{rowCount};
-        addValueWithComma(conversion, position);
-        auto lengthPresented{rowCount};
-        addValueWithComma(conversion, lengthPresented);
-        addValueWithComma(conversion, simon["id"].dump());
-        addBooleanStringValueWithComma(conversion, firstTrialCorrect);
-        addValueWithComma(conversion, "1");
-        addBooleanStringValueWithComma(conversion, firstTrialIsRandom);
-        addValueWithComma(conversion, "1");
-        conversion += formattedMilliseconds(simon["milliseconds"].dump());
-        ++rowCount;
-    }
-    const auto responseLengthPresented{rowCount - 1};
-    auto responsePosition{1};
-    for (auto response : firstTrial["responses"]) {
-        if (rowCount != 1)
-            conversion += '\n';
-        addValueWithComma(conversion, firstTrialBlock);
-        addValueWithComma(conversion, rowCount);
-        addValueWithComma(conversion, responsePosition);
-        addValueWithComma(conversion, responseLengthPresented);
-        addValueWithComma(conversion, response["id"].dump());
-        addBooleanStringValueWithComma(conversion, firstTrialCorrect);
-        addValueWithComma(conversion, "0");
-        addBooleanStringValueWithComma(conversion, firstTrialIsRandom);
-        addValueWithComma(conversion, "1");
-        conversion += formattedMilliseconds(response["milliseconds"].dump());
-        ++rowCount;
-        ++responsePosition;
+    auto trialCount{1};
+    for (auto trial : parsed) {
+        const auto trialBlock{trial["block"].dump()};
+        const auto trialCorrect{trial["correct"].dump()};
+        const auto trialIsRandom{trial["isRandom"].dump()};
+        const auto trialSimon{trial["simon"]};
+        auto simonCount{1};
+        for (auto simon : trialSimon) {
+            if (rowCount != 1)
+                conversion += '\n';
+            addValueWithComma(conversion, trialBlock);
+            addValueWithComma(conversion, rowCount);
+            auto position{simonCount};
+            addValueWithComma(conversion, position);
+            auto lengthPresented{simonCount};
+            addValueWithComma(conversion, lengthPresented);
+            addValueWithComma(conversion, simon["id"].dump());
+            addBooleanStringValueWithComma(conversion, trialCorrect);
+            addValueWithComma(conversion, "1");
+            addBooleanStringValueWithComma(conversion, trialIsRandom);
+            addValueWithComma(conversion, trialCount);
+            conversion += formattedMilliseconds(simon["milliseconds"].dump());
+            ++rowCount;
+            ++simonCount;
+        }
+        const auto responseLengthPresented{simonCount - 1};
+        auto responsePosition{1};
+        for (auto response : trial["responses"]) {
+            if (rowCount != 1)
+                conversion += '\n';
+            addValueWithComma(conversion, trialBlock);
+            addValueWithComma(conversion, rowCount);
+            addValueWithComma(conversion, responsePosition);
+            addValueWithComma(conversion, responseLengthPresented);
+            addValueWithComma(conversion, response["id"].dump());
+            addBooleanStringValueWithComma(conversion, trialCorrect);
+            addValueWithComma(conversion, "0");
+            addBooleanStringValueWithComma(conversion, trialIsRandom);
+            addValueWithComma(conversion, trialCount);
+            conversion +=
+                formattedMilliseconds(response["milliseconds"].dump());
+            ++rowCount;
+            ++responsePosition;
+        }
+        ++trialCount;
     }
     return conversion;
 }
