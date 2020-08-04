@@ -1,10 +1,10 @@
 #include <simon-game-js/output-to-csv/Conversion.hpp>
 #include <iostream>
 #include <fstream>
-#include <filesystem>
+#include <string>
 
 // https://stackoverflow.com/a/116220
-static auto read_file(const std::filesystem::path &url) -> std::string {
+static auto read_file(const std::string &url) -> std::string {
     constexpr auto read_size = std::size_t{4096};
     auto stream = std::ifstream{url};
     stream.exceptions(std::ios_base::badbit);

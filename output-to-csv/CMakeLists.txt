@@ -25,7 +25,6 @@ target_link_libraries(simon-game-js-output-to-csv-main
                       PRIVATE simon-game-js-output-to-csv)
 target_compile_options(simon-game-js-output-to-csv-main
                        PRIVATE ${SIMON_GAME_JS_OUTPUT_TO_CSV_WARNINGS})
-target_compile_features(simon-game-js-output-to-csv-main PRIVATE cxx_std_17)
 
 if(${SIMON_GAME_JS_OUTPUT_TO_CSV_ENABLE_TESTS})
   FetchContent_Declare(
