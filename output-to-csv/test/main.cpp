@@ -12,6 +12,7 @@ int main() {
             {oneTrialWithTwoSimonTonesAndTwoResponsesYieldsFourRows,
                 "oneTrialWithTwoSimonTonesAndTwoResponsesYieldsFourRows"},
             {twoTrialsWithOneSimonToneAndOneResponseEachYieldsFourRows,
-                "twoTrialsWithOneSimonToneAndOneResponseEachYieldsFourRows"}},
+                "twoTrialsWithOneSimonToneAndOneResponseEachYieldsFourRows"},
+            {ignoresNonsimonTrials, "ignoresNonsimonTrials"}},
         std::cout);
 }

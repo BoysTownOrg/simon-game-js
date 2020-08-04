@@ -42,6 +42,8 @@ auto convert(const std::string &json) -> std::string {
     auto rowCount{1};
     auto trialCount{1};
     for (auto trial : parsed) {
+        if (!trial.contains("simon"))
+            continue;
         const auto trialBlock{trial["block"].dump()};
         const auto trialCorrect{trial["correct"].dump()};
         const auto trialIsRandom{trial["isRandom"].dump()};

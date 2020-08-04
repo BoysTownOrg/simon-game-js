@@ -14,5 +14,6 @@ void oneTrialWithTwoSimonTonesAndTwoResponsesYieldsFourRows(
     testcpplite::TestResult &);
 void twoTrialsWithOneSimonToneAndOneResponseEachYieldsFourRows(
     testcpplite::TestResult &);
+void ignoresNonsimonTrials(testcpplite::TestResult &);
 
 #endif
