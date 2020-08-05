@@ -85,6 +85,8 @@ class JsPsychTrial {
 
   conclude(result) {
     this.screen.addVisualDescription(result);
+    result.responses = JSON.stringify(result.responses);
+    result.simon = JSON.stringify(result.simon);
     jsPsych.finishTrial(result);
   }
 }
@@ -154,18 +156,18 @@ class CognitionScreenColoredCircles {
   }
 
   addVisualDescription(result) {
-    result.color_key = {
+    result.color_key = JSON.stringify({
       red: simonGame.Color.red,
       green: simonGame.Color.green,
       yellow: simonGame.Color.yellow,
       blue: simonGame.Color.blue,
-    };
-    result.color_locations = {
+    });
+    result.color_locations = JSON.stringify({
       top: getKeyByValue(this.colorOrderMap, 0),
       left: getKeyByValue(this.colorOrderMap, 1),
       right: getKeyByValue(this.colorOrderMap, 2),
       bottom: getKeyByValue(this.colorOrderMap, 3),
-    };
+    });
   }
 
   subscribe(e) {
@@ -314,12 +316,12 @@ class CognitionScreenBlackSquares {
   }
 
   addVisualDescription(result) {
-    result.response_key = {
+    result.response_key = JSON.stringify({
       top_left: simonGame.Color.red,
       top_right: simonGame.Color.green,
       bottom_left: simonGame.Color.yellow,
       bottom_right: simonGame.Color.blue,
-    };
+    });
   }
 
   subscribe(e) {
