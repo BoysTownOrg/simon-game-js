@@ -38,7 +38,7 @@ auto convert(const std::string &json) -> std::string {
     addValueWithComma(conversion, "isRandom");
     addValueWithComma(conversion, "TrialCount");
     conversion += "time\n";
-    const auto parsed{nlohmann::json::parse(json)};
+    const auto parsed = nlohmann::json::parse(json);
     auto rowCount{1};
     auto trialCount{1};
     for (auto trial : parsed) {
@@ -47,7 +47,7 @@ auto convert(const std::string &json) -> std::string {
         const auto trialBlock{trial["block"].dump()};
         const auto trialCorrect{trial["correct"].dump()};
         const auto trialIsRandom{trial["isRandom"].dump()};
-        const auto trialSimon{trial["simon"]};
+        const auto trialSimon = trial["simon"];
         auto simonCount{1};
         for (auto simon : trialSimon) {
             if (rowCount != 1)
