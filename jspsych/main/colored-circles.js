@@ -47,6 +47,11 @@ jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.coloredCircles(
   ])
 );
 const timeline = [];
+timeline.push({
+  type: 'survey-html-form',
+  preamble: '<p> Enter ID </p>',
+  html: '<p> <input name="participant_id" type="text" /> </p>'
+});
 jsPsychUtility.pushSpacebarResponse(timeline, [
   "You will see patterns of colored circles shown on the screen in different places, one at a time. After watching each pattern, you must correctly copy it by pressing the place/color where you saw it.",
   'When you finish copying each pattern, press the "Done" button and then the next pattern will be shown.',
@@ -134,6 +139,11 @@ timeline.push({
   repetitions: 15,
   data: { block: 3, isRandom: false },
 });
+
+jsPsychUtility.pushAnyKeyResponse(timeline, [
+  "Finished.",
+  "Thank you for your participation. Press any key to close."
+]);
 jsPsych.init({
   timeline: timeline,
 });

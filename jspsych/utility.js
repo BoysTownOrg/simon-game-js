@@ -10,6 +10,17 @@ export function pushSpacebarResponse(timeline, lines) {
   });
 }
 
+export function pushAnyKeyResponse(timeline, lines) {
+  let html = "";
+  for (const line of lines) {
+    html += '<p style="line-height:normal">' + line + "</p>";
+  }
+  timeline.push({
+    type: "html-keyboard-response",
+    stimulus: html,
+  });
+}
+
 export function pushConditionalSubtimeline(timeline, subtimeline, condition) {
   timeline.push({
     timeline: subtimeline,
