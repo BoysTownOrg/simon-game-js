@@ -51,11 +51,7 @@ jsPsych.data.addProperties({
   version : package.version
 });
 const timeline = [];
-timeline.push({
-  type: 'survey-html-form',
-  preamble: '<p> Enter ID </p>',
-  html: '<p> <input name="participant_id" type="text" /> </p>'
-});
+jsPsychUtility.pushSingleInput(timeline, "Enter ID", "participant_id");
 jsPsychUtility.pushSpacebarResponse(timeline, [
   "You will see patterns of colored circles shown on the screen in different places, one at a time. After watching each pattern, you must correctly copy it by pressing the place/color where you saw it.",
   'When you finish copying each pattern, press the "Done" button and then the next pattern will be shown.',

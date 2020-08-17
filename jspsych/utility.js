@@ -21,6 +21,18 @@ export function pushAnyKeyResponse(timeline, lines) {
   });
 }
 
+export function pushSingleInput(timeline, preamble, id) {
+  let html = "";
+  for (const line of lines) {
+    html += '<p style="line-height:normal">' + line + "</p>";
+  }
+  timeline.push({
+    type: 'survey-html-form',
+    preamble: '<p>' + preamble + "</p>",
+    html: '<p> <input name="+' + id + '" type="text" /> </p>'
+  });
+}
+
 export function pushConditionalSubtimeline(timeline, subtimeline, condition) {
   timeline.push({
     timeline: subtimeline,
