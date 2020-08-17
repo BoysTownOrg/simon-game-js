@@ -1,7 +1,7 @@
 import * as simon from "../../lib/index.js";
 import * as simonJsPsychPlugins from "../plugin.js";
 import * as jsPsychUtility from "../utility.js";
-import * as package from "../../package.json"
+import * as project from "../../package.json"
 
 // https://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -48,7 +48,7 @@ jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.coloredCircles(
   ])
 );
 jsPsych.data.addProperties({
-  version : package.version
+  version : project.version
 });
 const timeline = [];
 jsPsychUtility.pushSingleInput(timeline, "Enter ID", "participant_id");
