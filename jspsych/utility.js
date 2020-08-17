@@ -25,7 +25,7 @@ export function pushSingleInput(timeline, preamble, id) {
   timeline.push({
     type: "survey-html-form",
     preamble: "<p>" + preamble + "</p>",
-    html: '<p> <input name="+' + id + '" type="text" /> </p>',
+    html: '<p> <input name="' + id + '" type="text" /> </p>',
   });
 }
 
