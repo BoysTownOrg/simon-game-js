@@ -1,7 +1,6 @@
 import * as simon from "../../lib/index.js";
 import * as simonJsPsychPlugins from "../plugin.js";
 import * as jsPsychUtility from "../utility.js";
-import * as project from "../../package.json"
 
 // https://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -47,9 +46,6 @@ jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.coloredCircles(
     colorOrder(orderedColors, order[3]),
   ])
 );
-jsPsych.data.addProperties({
-  version : project.version
-});
 const timeline = [];
 jsPsychUtility.pushSingleInput(timeline, "Enter ID", "participant_id");
 jsPsychUtility.pushSpacebarResponse(timeline, [
@@ -139,10 +135,9 @@ timeline.push({
   repetitions: 15,
   data: { block: 3, isRandom: false },
 });
-
 jsPsychUtility.pushAnyKeyResponse(timeline, [
   "Finished.",
-  "Thank you for your participation. Press any key to close."
+  "Thank you for your participation. Press any key to close.",
 ]);
 jsPsych.init({
   timeline: timeline,
