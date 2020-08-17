@@ -1,12 +1,31 @@
-export function pushSpacebarResponse(timeline, lines) {
+function arrayToHtml(lines) {
   let html = "";
   for (const line of lines) {
     html += '<p style="line-height:normal">' + line + "</p>";
   }
+  return html;
+}
+
+export function pushSpacebarResponse(timeline, lines) {
   timeline.push({
     type: "html-keyboard-response",
-    stimulus: html,
+    stimulus: arrayToHtml(lines),
     choices: [" "],
+  });
+}
+
+export function pushAnyKeyResponse(timeline, lines) {
+  timeline.push({
+    type: "html-keyboard-response",
+    stimulus: arrayToHtml(lines),
+  });
+}
+
+export function pushSingleInput(timeline, preamble, id) {
+  timeline.push({
+    type: "survey-html-form",
+    preamble: "<p>" + preamble + "</p>",
+    html: '<p> <input name="+' + id + '" type="text" /> </p>',
   });
 }
 
