@@ -91,37 +91,18 @@ jsPsychUtility.pushConditionalSpacebarResponse(
 
 const trials = new jsPsychUtility.Trials();
 
-const fixedTrial = {
-  type: simonPluginId,
-  colors: function () {
-    return trials.fixedColors();
-  },
-  on_finish: function (data) {
-    trials.update(data);
-  },
-};
-const randomTrial = {
-  type: simonPluginId,
-  colors: function () {
-    return trials.randomColors();
-  },
-  on_finish: function (data) {
-    trials.update(data);
-  },
-};
-
 timeline.push({
-  timeline: [fixedTrial],
+  timeline: [jsPsychUtility.fixedTrial(trials, simonPluginId)],
   repetitions: 15,
   data: { block: 1, isRandom: false },
 });
 timeline.push({
-  timeline: [randomTrial],
+  timeline: [jsPsychUtility.randomTrial(trials, simonPluginId)],
   repetitions: 15,
   data: { block: 2, isRandom: true },
 });
 timeline.push({
-  timeline: [fixedTrial],
+  timeline: [jsPsychUtility.fixedTrial(trials, simonPluginId)],
   repetitions: 15,
   data: { block: 3, isRandom: false },
 });

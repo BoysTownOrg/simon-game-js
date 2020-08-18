@@ -91,3 +91,27 @@ export class Trials {
     if (this.colorSequenceLength == 0) this.colorSequenceLength = 1;
   }
 }
+
+export function randomTrial(trials, id) {
+  return {
+    type: id,
+    colors: function () {
+      return trials.randomColors();
+    },
+    on_finish: function (data) {
+      trials.update(data);
+    },
+  };
+}
+
+export function fixedTrial(trials, id) {
+  return {
+    type: id,
+    colors: function () {
+      return trials.fixedColors();
+    },
+    on_finish: function (data) {
+      trials.update(data);
+    },
+  };
+}
