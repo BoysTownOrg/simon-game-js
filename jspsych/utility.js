@@ -23,11 +23,10 @@ export function pushAnyKeyResponse(timeline, lines) {
   });
 }
 
-export function pushSingleInput(timeline, preamble, id) {
+export function pushSingleInput(timeline, label, id) {
   timeline.push({
     type: "survey-html-form",
-    preamble: "<p>" + preamble + "</p>",
-    html: '<p> <input name="' + id + '" type="text" /> </p>',
+    html: "<p> " + label + '<input name="' + id + '" type="text" /> </p>',
   });
 }
 

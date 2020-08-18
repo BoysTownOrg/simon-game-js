@@ -12,7 +12,11 @@ jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.blackSquares(
   ])
 );
 const timeline = [];
-jsPsychUtility.pushSingleInput(timeline, "Enter ID", "participant_id");
+jsPsychUtility.pushSingleInput(
+  timeline,
+  "Participant ID number: ",
+  "participant_id"
+);
 jsPsychUtility.pushSpacebarResponse(timeline, [
   "You will see patterns of black squares shown on the screen in different places, one at a time. After watching each pattern, you must correctly copy it by pressing the place where you saw it.",
   'When you finish copying each pattern, press the "Done" button and then the next pattern will be shown.',
