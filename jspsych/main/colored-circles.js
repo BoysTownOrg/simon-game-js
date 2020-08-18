@@ -84,39 +84,25 @@ jsPsychUtility.pushConditionalSpacebarResponse(
   ["Good job!", "Do you have any questions?", "Press the spacebar to begin."],
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
-const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
-  [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
-  32
-);
-let colorSequenceLength = 1;
+
+const trials = new jsPsychUtility.Trials();
+
 const fixedTrial = {
   type: simonPluginId,
   colors: function () {
-    return fixedColorSequence.slice(0, colorSequenceLength);
+    return trials.fixedColors();
   },
   on_finish: function (data) {
-    if (data.correct) ++colorSequenceLength;
-    else --colorSequenceLength;
-    if (colorSequenceLength == 0) colorSequenceLength = 1;
+    trials.update(data);
   },
 };
 const randomTrial = {
   type: simonPluginId,
   colors: function () {
-    return jsPsych.randomization.sampleWithReplacement(
-      [
-        simon.Color.red,
-        simon.Color.green,
-        simon.Color.blue,
-        simon.Color.yellow,
-      ],
-      colorSequenceLength
-    );
+    return trials.randomColors();
   },
   on_finish: function (data) {
-    if (data.correct) ++colorSequenceLength;
-    else --colorSequenceLength;
-    if (colorSequenceLength == 0) colorSequenceLength = 1;
+    trials.update(data);
   },
 };
 

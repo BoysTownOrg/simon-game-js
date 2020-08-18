@@ -1,3 +1,5 @@
+import * as simon from "../lib/index.js";
+
 function arrayToHtml(lines) {
   let html = "";
   for (const line of lines) {
@@ -57,4 +59,36 @@ export function lastTrialIncorrect() {
 
 export function allEvaluatedTrialsCorrect() {
   return jsPsych.data.get().filter({ correct: false }).count() == 0;
+}
+const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
+  [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
+  32
+);
+
+export class Trials {
+  constructor() {
+    this.colorSequenceLength = 1;
+  }
+
+  fixedColors() {
+    return fixedColorSequence.slice(0, this.colorSequenceLength);
+  }
+
+  randomColors() {
+    return jsPsych.randomization.sampleWithReplacement(
+      [
+        simon.Color.red,
+        simon.Color.green,
+        simon.Color.blue,
+        simon.Color.yellow,
+      ],
+      this.colorSequenceLength
+    );
+  }
+
+  update(data) {
+    if (data.correct) ++this.colorSequenceLength;
+    else --this.colorSequenceLength;
+    if (this.colorSequenceLength == 0) this.colorSequenceLength = 1;
+  }
 }
