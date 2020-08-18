@@ -135,10 +135,14 @@ timeline.push({
   repetitions: 15,
   data: { block: 3, isRandom: false },
 });
-jsPsychUtility.pushAnyKeyResponse(timeline, [
-  "Finished.",
-  "Thank you for your participation. Press any key to close.",
-]);
-jsPsych.init({
-  timeline: timeline,
-});
+fetch("final-screen-text.txt")
+  .then((p) => p.text())
+  .then((text) => {
+    jsPsychUtility.pushAnyKeyResponse(timeline, [
+      text,
+      "Press any key to close.",
+    ]);
+    jsPsych.init({
+      timeline: timeline,
+    });
+  });
