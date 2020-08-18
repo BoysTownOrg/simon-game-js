@@ -47,7 +47,11 @@ jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.coloredCircles(
   ])
 );
 const timeline = [];
-jsPsychUtility.pushSingleInput(timeline, "Enter ID", "participant_id");
+jsPsychUtility.pushSingleInput(
+  timeline,
+  "Participant ID number: ",
+  "participant_id"
+);
 jsPsychUtility.pushSpacebarResponse(timeline, [
   "You will see patterns of colored circles shown on the screen in different places, one at a time. After watching each pattern, you must correctly copy it by pressing the place/color where you saw it.",
   'When you finish copying each pattern, press the "Done" button and then the next pattern will be shown.',
@@ -84,61 +88,32 @@ jsPsychUtility.pushConditionalSpacebarResponse(
   ["Good job!", "Do you have any questions?", "Press the spacebar to begin."],
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
-const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
-  [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
-  32
-);
-let colorSequenceLength = 1;
-const fixedTrial = {
-  type: simonPluginId,
-  colors: function () {
-    return fixedColorSequence.slice(0, colorSequenceLength);
-  },
-  on_finish: function (data) {
-    if (data.correct) ++colorSequenceLength;
-    else --colorSequenceLength;
-    if (colorSequenceLength == 0) colorSequenceLength = 1;
-  },
-};
-const randomTrial = {
-  type: simonPluginId,
-  colors: function () {
-    return jsPsych.randomization.sampleWithReplacement(
-      [
-        simon.Color.red,
-        simon.Color.green,
-        simon.Color.blue,
-        simon.Color.yellow,
-      ],
-      colorSequenceLength
-    );
-  },
-  on_finish: function (data) {
-    if (data.correct) ++colorSequenceLength;
-    else --colorSequenceLength;
-    if (colorSequenceLength == 0) colorSequenceLength = 1;
-  },
-};
+
+const trials = new jsPsychUtility.BlockTrials();
 
 timeline.push({
-  timeline: [fixedTrial],
+  timeline: [jsPsychUtility.fixedTrial(trials, simonPluginId)],
   repetitions: 15,
   data: { block: 1, isRandom: false },
 });
 timeline.push({
-  timeline: [randomTrial],
+  timeline: [jsPsychUtility.randomTrial(trials, simonPluginId)],
   repetitions: 15,
   data: { block: 2, isRandom: true },
 });
 timeline.push({
-  timeline: [fixedTrial],
+  timeline: [jsPsychUtility.fixedTrial(trials, simonPluginId)],
   repetitions: 15,
   data: { block: 3, isRandom: false },
 });
-jsPsychUtility.pushAnyKeyResponse(timeline, [
-  "Finished.",
-  "Thank you for your participation. Press any key to close.",
-]);
-jsPsych.init({
-  timeline: timeline,
-});
+fetch("final-screen-text.txt")
+  .then((p) => p.text())
+  .then((text) => {
+    jsPsychUtility.pushAnyKeyResponse(timeline, [
+      text,
+      "Press any key to close.",
+    ]);
+    jsPsych.init({
+      timeline: timeline,
+    });
+  });
