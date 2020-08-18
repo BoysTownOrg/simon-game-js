@@ -54,7 +54,7 @@ jsPsychUtility.pushConditionalSpacebarResponse(
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
 
-const trials = new jsPsychUtility.Trials();
+const trials = new jsPsychUtility.BlockTrials();
 
 timeline.push({
   timeline: [jsPsychUtility.fixedTrial(trials, simonPluginId)],

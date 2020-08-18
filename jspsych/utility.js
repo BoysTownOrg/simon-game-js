@@ -64,7 +64,7 @@ const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
   32
 );
 
-export class Trials {
+export class BlockTrials {
   constructor() {
     this.colorSequenceLength = 1;
   }
