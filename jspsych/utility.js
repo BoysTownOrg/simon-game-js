@@ -1,6 +1,6 @@
 import * as simon from "../lib/index.js";
 
-function arrayToHtml(lines) {
+export function arrayToHtml(lines) {
   let html = "";
   for (const line of lines) {
     html += '<p style="line-height:normal">' + line + "</p>";

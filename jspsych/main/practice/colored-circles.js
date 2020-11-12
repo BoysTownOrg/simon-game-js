@@ -51,7 +51,8 @@ jsPsychUtility.pushSpacebarResponse(timeline, [
   "If you don't know or can't remember what a pattern was, just make your best guess. Once you make a response, you cannot go back and correct it, so take your time in choosing the correct colors.",
   "Watch me! Press spacebar to start.",
 ]);
-timeline.push({
+const trials = [];
+trials.push({
   type: simonPluginId,
   colors: function () {
     return jsPsych.randomization.sampleWithReplacement(
@@ -65,16 +66,17 @@ timeline.push({
     );
   },
 });
-jsPsychUtility.pushConditionalSpacebarResponse(
-  timeline,
-  ["Try again.", "Press the spacebar to continue."],
-  jsPsychUtility.lastTrialIncorrect
-);
-jsPsychUtility.pushConditionalSpacebarResponse(
-  timeline,
-  ["Good job!", "Press the spacebar to continue."],
-  jsPsychUtility.lastTrialCorrect
-);
+trials.push({
+  type: "html-keyboard-response",
+  stimulus: function () {
+    return jsPsychUtility.arrayToHtml([
+      jsPsychUtility.lastTrialCorrect() ? "Good job!" : "Try again.",
+      "Press the spacebar to continue.",
+    ]);
+  },
+  choices: [" "],
+});
+timeline.push({ timeline: trials, repetitions: 10 });
 fetch("final-screen-text.txt")
   .then((p) => p.text())
   .then((text) => {
@@ -83,9 +85,6 @@ fetch("final-screen-text.txt")
       "Press any key to close.",
     ]);
     jsPsych.init({
-      timeline: {
-        timeline: timeline,
-        repetitions: 10,
-      },
+      timeline: timeline,
     });
   });
