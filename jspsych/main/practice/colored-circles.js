@@ -1,6 +1,6 @@
-import * as simon from "../../lib/index.js";
-import * as simonJsPsychPlugins from "../plugin.js";
-import * as jsPsychUtility from "../utility.js";
+import * as simon from "../../../lib/index.js";
+import * as simonJsPsychPlugins from "../../plugin.js";
+import * as jsPsychUtility from "../../utility.js";
 
 // https://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -21,14 +21,6 @@ function colorOrder(orderedColors, n) {
   return [orderedColors.get(n), n];
 }
 
-function sequencedColors(orderedColors, sequence) {
-  let colors = [];
-  for (const order of sequence) {
-    colors.push(orderedColors.get(order));
-  }
-  return colors;
-}
-
 // https://stackoverflow.com/a/10050831
 const order = shuffle([...Array(4).keys()]);
 const orderedColors = new Map([
@@ -37,7 +29,7 @@ const orderedColors = new Map([
   [order[2], simon.Color.blue],
   [order[3], simon.Color.yellow],
 ]);
-const simonPluginId = "simon-game-colored-circles";
+const simonPluginId = "simon-game-practice-colored-circles";
 jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.coloredCircles(
   new Map([
     colorOrder(orderedColors, order[0]),
@@ -59,53 +51,30 @@ jsPsychUtility.pushSpacebarResponse(timeline, [
   "If you don't know or can't remember what a pattern was, just make your best guess. Once you make a response, you cannot go back and correct it, so take your time in choosing the correct colors.",
   "Watch me! Press spacebar to start.",
 ]);
-const firstTrial = {
+timeline.push({
   type: simonPluginId,
-  colors: sequencedColors(orderedColors, [0, 2, 2]),
-};
-timeline.push(firstTrial);
-jsPsychUtility.pushConditionalTrial(
+  colors: function () {
+    return jsPsych.randomization.sampleWithReplacement(
+      [
+        simon.Color.red,
+        simon.Color.green,
+        simon.Color.blue,
+        simon.Color.yellow,
+      ],
+      3
+    );
+  },
+});
+jsPsychUtility.pushConditionalSpacebarResponse(
   timeline,
-  firstTrial,
+  ["Try again.", "Press the spacebar to continue."],
   jsPsychUtility.lastTrialIncorrect
 );
 jsPsychUtility.pushConditionalSpacebarResponse(
   timeline,
-  ["Now it's your turn!", "Press the spacebar when you're ready to start"],
+  ["Good job!", "Press the spacebar to continue."],
   jsPsychUtility.lastTrialCorrect
 );
-const secondTrial = {
-  type: simonPluginId,
-  colors: sequencedColors(orderedColors, [1, 3, 1]),
-};
-jsPsychUtility.pushConditionalTrial(
-  timeline,
-  secondTrial,
-  jsPsychUtility.allEvaluatedTrialsCorrect
-);
-jsPsychUtility.pushConditionalSpacebarResponse(
-  timeline,
-  ["Good job!", "Do you have any questions?", "Press the spacebar to begin."],
-  jsPsychUtility.allEvaluatedTrialsCorrect
-);
-
-const trials = new jsPsychUtility.BlockTrials();
-
-timeline.push({
-  timeline: [jsPsychUtility.fixedTrial(trials, simonPluginId)],
-  repetitions: 15,
-  data: { block: 1, isRandom: false },
-});
-timeline.push({
-  timeline: [jsPsychUtility.randomTrial(trials, simonPluginId)],
-  repetitions: 15,
-  data: { block: 2, isRandom: true },
-});
-timeline.push({
-  timeline: [jsPsychUtility.fixedTrial(trials, simonPluginId)],
-  repetitions: 15,
-  data: { block: 3, isRandom: false },
-});
 fetch("final-screen-text.txt")
   .then((p) => p.text())
   .then((text) => {
@@ -114,6 +83,9 @@ fetch("final-screen-text.txt")
       "Press any key to close.",
     ]);
     jsPsych.init({
-      timeline: timeline,
+      timeline: {
+        timeline: timeline,
+        repetitions: 10,
+      },
     });
   });

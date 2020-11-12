@@ -1,8 +1,8 @@
-import * as simon from "../../lib/index.js";
-import * as simonJsPsychPlugins from "../plugin.js";
-import * as jsPsychUtility from "../utility.js";
+import * as simon from "../../../lib/index.js";
+import * as simonJsPsychPlugins from "../../plugin.js";
+import * as jsPsychUtility from "../../utility.js";
 
-const simonPluginId = "simon-game-black-squares";
+const simonPluginId = "simon-game-practice-black-squares";
 jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.blackSquares(
   new Map([
     [simon.Color.red, 0],
