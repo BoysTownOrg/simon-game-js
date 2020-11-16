@@ -2,13 +2,11 @@ import * as simon from "../lib/index.js";
 
 // https://stackoverflow.com/a/2450976
 function shuffle(array) {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
+  let currentIndex = array.length;
+  while (currentIndex !== 0) {
+    const randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
-    temporaryValue = array[currentIndex];
+    const temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }
@@ -20,7 +18,7 @@ function colorOrder(orderedColors, n) {
 }
 
 function sequencedColors(orderedColors, sequence) {
-  let colors = [];
+  const colors = [];
   for (const order of sequence) {
     colors.push(orderedColors.get(order));
   }
