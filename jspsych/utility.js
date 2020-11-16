@@ -3,7 +3,7 @@ import * as simon from "../lib/index.js";
 export function arrayToHtml(lines) {
   let html = "";
   for (const line of lines) {
-    html += '<p style="line-height:normal">' + line + "</p>";
+    html += `<p style="line-height:normal">${line}</p>`;
   }
   return html;
 }
@@ -38,7 +38,7 @@ export function pushAnyKeyResponse(timeline, lines) {
 function pushSingleInput(timeline, label, id) {
   timeline.push({
     type: "survey-html-form",
-    html: "<p> " + label + '<input name="' + id + '" type="text" /> </p>',
+    html: `<p> ${label}<input name="${id}" type="text" /> </p>`,
   });
 }
 
@@ -92,8 +92,9 @@ export function lastTrialIncorrect() {
 }
 
 export function allEvaluatedTrialsCorrect() {
-  return jsPsych.data.get().filter({ correct: false }).count() == 0;
+  return jsPsych.data.get().filter({ correct: false }).count() === 0;
 }
+
 const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
   [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
   32
@@ -121,19 +122,24 @@ class BlockTrials {
   }
 
   update(data) {
-    if (data.correct) ++this.colorSequenceLength;
-    else --this.colorSequenceLength;
-    if (this.colorSequenceLength == 0) this.colorSequenceLength = 1;
+    if (data.correct) {
+      this.colorSequenceLength += 1;
+    } else {
+      this.colorSequenceLength -= 1;
+    }
+    if (this.colorSequenceLength === 0) {
+      this.colorSequenceLength = 1;
+    }
   }
 }
 
 function randomTrial(trials, id) {
   return {
     type: id,
-    colors: function () {
+    colors() {
       return trials.randomColors();
     },
-    on_finish: function (data) {
+    on_finish(data) {
       trials.update(data);
     },
   };
@@ -142,10 +148,10 @@ function randomTrial(trials, id) {
 function fixedTrial(trials, id) {
   return {
     type: id,
-    colors: function () {
+    colors() {
       return trials.fixedColors();
     },
-    on_finish: function (data) {
+    on_finish(data) {
       trials.update(data);
     },
   };
