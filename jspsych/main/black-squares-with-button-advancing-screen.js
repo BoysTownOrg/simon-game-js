@@ -57,6 +57,6 @@ fetch("final-screen-text.txt")
   .then((text) => {
     jsPsychUtility.pushContinueButtonResponse(timeline, [text]);
     jsPsych.init({
-      timeline: timeline,
+      timeline,
     });
   });
