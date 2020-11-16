@@ -1,11 +1,11 @@
 import * as simon from "../../../lib/index.js";
 import * as simonJsPsychPlugins from "../../plugin.js";
 import * as jsPsychUtility from "../../utility.js";
-import * as shuffledColors from "../shuffled-colors.js";
+import * as coloredCircles from "../shuffled-colors.js";
 
 const simonPluginId = "simon-game-colored-circles";
 jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.coloredCircles(
-  shuffledColors.colorOrderMap()
+  coloredCircles.colorOrderMap()
 );
 const timeline = [];
 jsPsychUtility.pushSingleInput(

@@ -22,7 +22,7 @@ const orderedColors = new Map([
   [order[3], simon.Color.yellow],
 ]);
 
-export function colorOrderMap() {
+export function orderMap() {
   return new Map([
     colorOrder(orderedColors, order[0]),
     colorOrder(orderedColors, order[1]),
@@ -31,10 +31,10 @@ export function colorOrderMap() {
   ]);
 }
 
-export function firstTrialColors() {
+export function firstTrialSequence() {
   return sequencedColors(orderedColors, [0, 2, 2]);
 }
 
-export function secondTrialColors() {
+export function secondTrialSequence() {
   return sequencedColors(orderedColors, [1, 3, 1]);
 }

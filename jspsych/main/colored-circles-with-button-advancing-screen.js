@@ -1,10 +1,10 @@
 import * as simonJsPsychPlugins from "../plugin.js";
 import * as jsPsychUtility from "../utility.js";
-import * as shuffledColors from "../shuffled-colors.js";
+import * as coloredCircles from "../colored-circles.js";
 
 const simonPluginId = "simon-game-colored-circles";
 jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.coloredCircles(
-  shuffledColors.colorOrderMap()
+  coloredCircles.orderMap()
 );
 const timeline = [];
 jsPsychUtility.pushSingleInput(
@@ -21,7 +21,7 @@ jsPsychUtility.pushContinueButtonResponse(timeline, [
 ]);
 const firstTrial = {
   type: simonPluginId,
-  colors: shuffledColors.firstTrialColors(),
+  colors: coloredCircles.firstTrialSequence(),
 };
 timeline.push(firstTrial);
 jsPsychUtility.pushConditionalTrial(
@@ -36,7 +36,7 @@ jsPsychUtility.pushConditionalContinueButtonResponse(
 );
 const secondTrial = {
   type: simonPluginId,
-  colors: shuffledColors.secondTrialColors(),
+  colors: coloredCircles.secondTrialSequence(),
 };
 jsPsychUtility.pushConditionalTrial(
   timeline,
