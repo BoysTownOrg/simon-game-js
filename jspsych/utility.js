@@ -85,6 +85,14 @@ export function pushConditionalButtonResponse(
   pushConditionalSubtimeline(timeline, response, condition);
 }
 
+export function pushConditionalContinueButtonResponse(
+  timeline,
+  lines,
+  condition
+) {
+  pushConditionalButtonResponse(timeline, lines, "Continue", condition);
+}
+
 export function lastTrialCorrect() {
   // https://www.jspsych.org/overview/trial/
   return jsPsych.data.getLastTrialData().values()[0].correct;

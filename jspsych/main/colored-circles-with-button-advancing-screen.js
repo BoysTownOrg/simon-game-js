@@ -69,10 +69,9 @@ jsPsychUtility.pushConditionalTrial(
   firstTrial,
   jsPsychUtility.lastTrialIncorrect
 );
-jsPsychUtility.pushConditionalButtonResponse(
+jsPsychUtility.pushConditionalContinueButtonResponse(
   timeline,
   ["Now it's your turn!"],
-  "Continue",
   jsPsychUtility.lastTrialCorrect
 );
 const secondTrial = {
@@ -84,10 +83,9 @@ jsPsychUtility.pushConditionalTrial(
   secondTrial,
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
-jsPsychUtility.pushConditionalButtonResponse(
+jsPsychUtility.pushConditionalContinueButtonResponse(
   timeline,
   ["Good job!", "Do you have any questions?"],
-  "Continue",
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
 
