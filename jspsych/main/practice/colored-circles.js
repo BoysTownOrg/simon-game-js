@@ -1,27 +1,11 @@
 import * as simon from "../../../lib/index.js";
 import * as simonJsPsychPlugins from "../../plugin.js";
 import * as jsPsychUtility from "../../utility.js";
+import * as shuffledColors from "../shuffled-colors.js";
 
-function colorOrder(orderedColors, n) {
-  return [orderedColors.get(n), n];
-}
-
-// https://stackoverflow.com/a/10050831
-const order = jsPsychUtility.shuffle([...Array(4).keys()]);
-const orderedColors = new Map([
-  [order[0], simon.Color.red],
-  [order[1], simon.Color.green],
-  [order[2], simon.Color.blue],
-  [order[3], simon.Color.yellow],
-]);
-const simonPluginId = "simon-game-practice-colored-circles";
+const simonPluginId = "simon-game-colored-circles";
 jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.coloredCircles(
-  new Map([
-    colorOrder(orderedColors, order[0]),
-    colorOrder(orderedColors, order[1]),
-    colorOrder(orderedColors, order[2]),
-    colorOrder(orderedColors, order[3]),
-  ])
+  shuffledColors.colorOrderMap()
 );
 const timeline = [];
 jsPsychUtility.pushSingleInput(
