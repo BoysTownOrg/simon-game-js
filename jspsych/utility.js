@@ -31,6 +31,10 @@ export function pushButtonResponse(timeline, lines, buttonText) {
   });
 }
 
+export function pushContinueButtonResponse(timeline, lines) {
+  pushButtonResponse(timeline, lines, "Continue");
+}
+
 export function pushSpacebarResponse(timeline, lines) {
   timeline.push({
     type: "html-keyboard-response",
