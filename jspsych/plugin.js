@@ -448,7 +448,7 @@ function plugin(colorOrderMap, Screen) {
   );
   audioPlayer.setPlayDelaySeconds(0.003);
   audioPlayer.setToneSeriesDelaySeconds(0.5);
-  const plugin = {
+  return {
     trial(display_element, trial) {
       clear(display_element);
       const screen = new Screen(display_element, colorOrderMap);
@@ -474,7 +474,6 @@ function plugin(colorOrderMap, Screen) {
       },
     },
   };
-  return plugin;
 }
 
 export function coloredCircles(colorOrderMap) {
