@@ -13,7 +13,7 @@ function element() {
 }
 
 function pixelsString(a) {
-  return a + "px";
+  return `${a}px`;
 }
 
 function toneButtonWidthPixels() {
@@ -29,7 +29,7 @@ function borderedCircleButton() {
   button.style.borderRadius = pixelsString(
     diameterPixels / 2 + borderWidthPixels
   );
-  button.style.border = pixelsString(borderWidthPixels) + " solid black";
+  button.style.border = `${pixelsString(borderWidthPixels)} solid black`;
   button.style.margin = "auto";
   return button;
 }
@@ -138,19 +138,19 @@ class CognitionScreenColoredCircles {
     colorButtons[3].style.gridRow = 3;
     colorButtons[3].style.gridColumn = 2;
     adopt(grid, colorButtons[3]);
-    addClickEventListener(this.greenButton, (_e) => {
+    addClickEventListener(this.greenButton, (e) => {
       this.listener.notifyThatGreenWasClicked();
     });
-    addClickEventListener(this.redButton, (_e) => {
+    addClickEventListener(this.redButton, (e) => {
       this.listener.notifyThatRedWasClicked();
     });
-    addClickEventListener(this.blueButton, (_e) => {
+    addClickEventListener(this.blueButton, (e) => {
       this.listener.notifyThatBlueWasClicked();
     });
-    addClickEventListener(this.yellowButton, (_e) => {
+    addClickEventListener(this.yellowButton, (e) => {
       this.listener.notifyThatYellowWasClicked();
     });
-    addClickEventListener(this.doneButton, (_e) => {
+    addClickEventListener(this.doneButton, (e) => {
       this.listener.notifyThatDoneWasClicked();
     });
   }
@@ -253,7 +253,7 @@ function borderedSquareButton() {
   const borderWidthPixels = 4;
   button.style.height = pixelsString(width);
   button.style.width = pixelsString(width);
-  button.style.border = pixelsString(borderWidthPixels) + " solid black";
+  button.style.border = `${pixelsString(borderWidthPixels)} solid black`;
   button.style.margin = "auto";
   return button;
 }
@@ -298,19 +298,19 @@ class CognitionScreenBlackSquares {
     colorButtons[3].style.gridRow = 3;
     colorButtons[3].style.gridColumn = 3;
     adopt(grid, colorButtons[3]);
-    addClickEventListener(this.greenButton, (_e) => {
+    addClickEventListener(this.greenButton, (e) => {
       this.listener.notifyThatGreenWasClicked();
     });
-    addClickEventListener(this.redButton, (_e) => {
+    addClickEventListener(this.redButton, (e) => {
       this.listener.notifyThatRedWasClicked();
     });
-    addClickEventListener(this.blueButton, (_e) => {
+    addClickEventListener(this.blueButton, (e) => {
       this.listener.notifyThatBlueWasClicked();
     });
-    addClickEventListener(this.yellowButton, (_e) => {
+    addClickEventListener(this.yellowButton, (e) => {
       this.listener.notifyThatYellowWasClicked();
     });
-    addClickEventListener(this.doneButton, (_e) => {
+    addClickEventListener(this.doneButton, (e) => {
       this.listener.notifyThatDoneWasClicked();
     });
   }
@@ -441,16 +441,6 @@ function incorrectToneFrequencyHz() {
 }
 
 function plugin(colorOrderMap, Screen) {
-  let plugin = {};
-  plugin.info = {
-    parameters: {
-      colors: {
-        type: jsPsych.plugins.parameterType.INT,
-        default: undefined,
-        array: true,
-      },
-    },
-  };
   const audioPlayer = new simonGame.AudioPlayer(
     new WebAudioContext(),
     toneFrequenciesHz(),
@@ -458,20 +448,31 @@ function plugin(colorOrderMap, Screen) {
   );
   audioPlayer.setPlayDelaySeconds(0.003);
   audioPlayer.setToneSeriesDelaySeconds(0.5);
-  plugin.trial = function (display_element, trial) {
-    clear(display_element);
-    const screen = new Screen(display_element, colorOrderMap);
-    const simon = new simonGame.Simon(
-      audioPlayer,
-      screen,
-      new JsPsychTrial(screen),
-      new PerformanceTimer()
-    );
-    simon.setLongToneDurationMilliseconds(700);
-    simon.setShortToneDurationMilliseconds(100);
-    simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
-    new simonGame.ScreenResponder(screen, simon);
-    simon.say(trial.colors);
+  const plugin = {
+    trial(display_element, trial) {
+      clear(display_element);
+      const screen = new Screen(display_element, colorOrderMap);
+      const simon = new simonGame.Simon(
+        audioPlayer,
+        screen,
+        new JsPsychTrial(screen),
+        new PerformanceTimer()
+      );
+      simon.setLongToneDurationMilliseconds(700);
+      simon.setShortToneDurationMilliseconds(100);
+      simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
+      new simonGame.ScreenResponder(screen, simon);
+      simon.say(trial.colors);
+    },
+    info: {
+      parameters: {
+        colors: {
+          type: jsPsych.plugins.parameterType.INT,
+          default: [],
+          array: true,
+        },
+      },
+    },
   };
   return plugin;
 }
