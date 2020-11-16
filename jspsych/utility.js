@@ -23,6 +23,18 @@ export function arrayToHtml(lines) {
   return html;
 }
 
+export function pushButtonResponse(timeline, lines, buttonText) {
+  timeline.push({
+    type: "html-button-response",
+    stimulus: arrayToHtml(lines),
+    choices: [buttonText],
+  });
+}
+
+export function pushContinueButtonResponse(timeline, lines) {
+  pushButtonResponse(timeline, lines, "Continue");
+}
+
 export function pushSpacebarResponse(timeline, lines) {
   timeline.push({
     type: "html-keyboard-response",
@@ -60,6 +72,25 @@ export function pushConditionalSpacebarResponse(timeline, lines, condition) {
   const response = [];
   pushSpacebarResponse(response, lines);
   pushConditionalSubtimeline(timeline, response, condition);
+}
+
+export function pushConditionalButtonResponse(
+  timeline,
+  lines,
+  buttonText,
+  condition
+) {
+  const response = [];
+  pushButtonResponse(response, lines, buttonText);
+  pushConditionalSubtimeline(timeline, response, condition);
+}
+
+export function pushConditionalContinueButtonResponse(
+  timeline,
+  lines,
+  condition
+) {
+  pushConditionalButtonResponse(timeline, lines, "Continue", condition);
 }
 
 export function lastTrialCorrect() {
