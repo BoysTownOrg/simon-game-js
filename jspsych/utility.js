@@ -57,6 +57,10 @@ export function pushSingleInput(timeline, label, id) {
   });
 }
 
+export function pushParticipantIdForm(timeline) {
+  pushSingleInput(timeline, "Participant ID number: ", "participant_id");
+}
+
 export function pushConditionalSubtimeline(timeline, subtimeline, condition) {
   timeline.push({
     timeline: subtimeline,
