@@ -8,7 +8,7 @@ export function arrayToHtml(lines) {
   return html;
 }
 
-export function pushButtonResponse(timeline, lines, buttonText) {
+function pushButtonResponse(timeline, lines, buttonText) {
   timeline.push({
     type: "html-button-response",
     stimulus: arrayToHtml(lines),
@@ -35,7 +35,7 @@ export function pushAnyKeyResponse(timeline, lines) {
   });
 }
 
-export function pushSingleInput(timeline, label, id) {
+function pushSingleInput(timeline, label, id) {
   timeline.push({
     type: "survey-html-form",
     html: "<p> " + label + '<input name="' + id + '" type="text" /> </p>',
@@ -46,7 +46,7 @@ export function pushParticipantIdForm(timeline) {
   pushSingleInput(timeline, "Participant ID number: ", "participant_id");
 }
 
-export function pushConditionalSubtimeline(timeline, subtimeline, condition) {
+function pushConditionalSubtimeline(timeline, subtimeline, condition) {
   timeline.push({
     timeline: subtimeline,
     conditional_function: condition,
