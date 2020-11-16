@@ -1,5 +1,5 @@
-import * as simon from "../../lib/index.js";
-import * as jsPsychUtility from "../utility.js";
+import * as simon from "../lib/index.js";
+import * as jsPsychUtility from "./utility.js";
 
 function colorOrder(orderedColors, n) {
   return [orderedColors.get(n), n];

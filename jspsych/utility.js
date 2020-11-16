@@ -161,3 +161,22 @@ export function fixedTrial(trials, id) {
     },
   };
 }
+
+export function pushBlockTrials(timeline, id) {
+  const trials = new BlockTrials();
+  timeline.push({
+    timeline: [fixedTrial(trials, id)],
+    repetitions: 15,
+    data: { block: 1, isRandom: false },
+  });
+  timeline.push({
+    timeline: [randomTrial(trials, id)],
+    repetitions: 15,
+    data: { block: 2, isRandom: true },
+  });
+  timeline.push({
+    timeline: [fixedTrial(trials, id)],
+    repetitions: 15,
+    data: { block: 3, isRandom: false },
+  });
+}
