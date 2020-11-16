@@ -1,5 +1,19 @@
 import * as simon from "../lib/index.js";
-import * as jsPsychUtility from "./utility.js";
+
+// https://stackoverflow.com/a/2450976
+function shuffle(array) {
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
 
 function colorOrder(orderedColors, n) {
   return [orderedColors.get(n), n];
@@ -14,7 +28,7 @@ function sequencedColors(orderedColors, sequence) {
 }
 
 // https://stackoverflow.com/a/10050831
-const order = jsPsychUtility.shuffle([...Array(4).keys()]);
+const order = shuffle([...Array(4).keys()]);
 const orderedColors = new Map([
   [order[0], simon.Color.red],
   [order[1], simon.Color.green],

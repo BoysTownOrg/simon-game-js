@@ -1,20 +1,5 @@
 import * as simon from "../lib/index.js";
 
-// https://stackoverflow.com/a/2450976
-export function shuffle(array) {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-  return array;
-}
-
 export function arrayToHtml(lines) {
   let html = "";
   for (const line of lines) {
@@ -114,7 +99,7 @@ const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
   32
 );
 
-export class BlockTrials {
+class BlockTrials {
   constructor() {
     this.colorSequenceLength = 1;
   }
@@ -142,7 +127,7 @@ export class BlockTrials {
   }
 }
 
-export function randomTrial(trials, id) {
+function randomTrial(trials, id) {
   return {
     type: id,
     colors: function () {
@@ -154,7 +139,7 @@ export function randomTrial(trials, id) {
   };
 }
 
-export function fixedTrial(trials, id) {
+function fixedTrial(trials, id) {
   return {
     type: id,
     colors: function () {
