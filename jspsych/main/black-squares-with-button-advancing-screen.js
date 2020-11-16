@@ -55,24 +55,7 @@ jsPsychUtility.pushConditionalButtonResponse(
   "Continue",
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
-
-const trials = new jsPsychUtility.BlockTrials();
-
-timeline.push({
-  timeline: [jsPsychUtility.fixedTrial(trials, simonPluginId)],
-  repetitions: 15,
-  data: { block: 1, isRandom: false },
-});
-timeline.push({
-  timeline: [jsPsychUtility.randomTrial(trials, simonPluginId)],
-  repetitions: 15,
-  data: { block: 2, isRandom: true },
-});
-timeline.push({
-  timeline: [jsPsychUtility.fixedTrial(trials, simonPluginId)],
-  repetitions: 15,
-  data: { block: 3, isRandom: false },
-});
+jsPsychUtility.pushBlockTrials(timeline, simonPluginId);
 fetch("final-screen-text.txt")
   .then((p) => p.text())
   .then((text) => {

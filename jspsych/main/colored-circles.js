@@ -48,7 +48,6 @@ jsPsychUtility.pushConditionalSpacebarResponse(
   ["Good job!", "Do you have any questions?", "Press the spacebar to begin."],
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
-
 jsPsychUtility.pushBlockTrials(timeline, simonPluginId);
 fetch("final-screen-text.txt")
   .then((p) => p.text())
