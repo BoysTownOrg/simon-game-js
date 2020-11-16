@@ -53,6 +53,6 @@ fetch("final-screen-text.txt")
       "Press any key to close.",
     ]);
     jsPsych.init({
-      timeline: timeline,
+      timeline,
     });
   });

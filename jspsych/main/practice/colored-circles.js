@@ -19,7 +19,7 @@ jsPsychUtility.pushSpacebarResponse(timeline, [
 const trials = [];
 trials.push({
   type: simonPluginId,
-  colors: function () {
+  colors() {
     return jsPsych.randomization.sampleWithReplacement(
       [
         simon.Color.red,
@@ -33,7 +33,7 @@ trials.push({
 });
 trials.push({
   type: "html-keyboard-response",
-  stimulus: function () {
+  stimulus() {
     return jsPsychUtility.arrayToHtml([
       jsPsychUtility.lastTrialCorrect() ? "Good job!" : "Try again.",
       "Press the spacebar to continue.",
@@ -50,6 +50,6 @@ fetch("final-screen-text.txt")
       "Press any key to close.",
     ]);
     jsPsych.init({
-      timeline: timeline,
+      timeline,
     });
   });
