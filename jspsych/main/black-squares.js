@@ -6,13 +6,4 @@ const simonPluginId = "simon-game-black-squares";
 jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.blackSquares(
   blackSquares.orderMap()
 );
-jsPsychUtility.initTaskWithInstructions(
-  [
-    blackSquares.instruction11,
-    blackSquares.instruction12,
-    blackSquares.instruction13,
-    blackSquares.instruction14,
-    blackSquares.instruction15,
-  ],
-  simonPluginId
-);
+jsPsychUtility.initTaskWithInstructions(simonPluginId);

@@ -6,13 +6,4 @@ const simonPluginId = "simon-game-colored-circles";
 jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.coloredCircles(
   coloredCircles.orderMap()
 );
-jsPsychUtility.initTaskWithInstructions(
-  [
-    coloredCircles.instruction11,
-    coloredCircles.instruction12,
-    coloredCircles.instruction13,
-    coloredCircles.instruction14,
-    coloredCircles.instruction15,
-  ],
-  simonPluginId
-);
+jsPsychUtility.initTaskWithInstructions(simonPluginId);

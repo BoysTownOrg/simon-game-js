@@ -8,28 +8,26 @@ jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.coloredCircles(
 );
 const timeline = [];
 jsPsychUtility.pushParticipantIdForm(timeline);
-jsPsychUtility.pushContinueButtonResponse(timeline, [
-  coloredCircles.instruction11,
-  coloredCircles.instruction12,
-  coloredCircles.instruction13,
-  coloredCircles.instruction14,
-  coloredCircles.instruction15,
-]);
-const trials = [];
-trials.push({
-  type: simonPluginId,
-  colors() {
-    return jsPsychUtility.randomColorSequence(3);
-  },
-});
-trials.push({
-  type: "html-button-response",
-  stimulus() {
-    return jsPsychUtility.arrayToHtml([
-      jsPsychUtility.lastTrialCorrect() ? "Good job!" : "Try again.",
-    ]);
-  },
-  choices: ["Continue"],
-});
-timeline.push({ timeline: trials, repetitions: 10 });
-jsPsychUtility.pushFinalScreenAndInit(timeline);
+fetch("instructions.txt")
+  .then((p) => p.text())
+  .then((text) => {
+    jsPsychUtility.pushContinueButtonResponse(timeline, text.split("\n"));
+    const trials = [];
+    trials.push({
+      type: simonPluginId,
+      colors() {
+        return jsPsychUtility.randomColorSequence(3);
+      },
+    });
+    trials.push({
+      type: "html-button-response",
+      stimulus() {
+        return jsPsychUtility.arrayToHtml([
+          jsPsychUtility.lastTrialCorrect() ? "Good job!" : "Try again.",
+        ]);
+      },
+      choices: ["Continue"],
+    });
+    timeline.push({ timeline: trials, repetitions: 10 });
+    jsPsychUtility.pushFinalScreenAndInit(timeline);
+  });

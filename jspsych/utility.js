@@ -132,10 +132,14 @@ export function pushFinalScreenAndInit(timeline) {
     });
 }
 
-export function initTaskWithInstructions(instructions, pluginId) {
+export function initTaskWithInstructions(pluginId) {
   const timeline = [];
   pushParticipantIdForm(timeline);
-  pushContinueButtonResponse(timeline, instructions);
-  pushBlockTrials(timeline, pluginId);
-  pushFinalScreenAndInit(timeline);
+  fetch("instructions.txt")
+    .then((p) => p.text())
+    .then((text) => {
+      pushContinueButtonResponse(timeline, text.split("\n"));
+      pushBlockTrials(timeline, pluginId);
+      pushFinalScreenAndInit(timeline);
+    });
 }
