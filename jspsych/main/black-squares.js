@@ -9,7 +9,7 @@ jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.blackSquares(
 );
 const timeline = [];
 jsPsychUtility.pushParticipantIdForm(timeline);
-jsPsychUtility.pushSpacebarResponse(timeline, [
+jsPsychUtility.pushContinueButtonResponse(timeline, [
   blackSquares.instruction11,
   blackSquares.instruction12,
   blackSquares.instruction13,
@@ -26,9 +26,10 @@ jsPsychUtility.pushConditionalTrial(
   firstTrial,
   jsPsychUtility.lastTrialIncorrect
 );
-jsPsychUtility.pushConditionalSpacebarResponse(
+jsPsychUtility.pushConditionalButtonResponse(
   timeline,
-  [feedback.afterFirstTrial1, feedback.afterFirstTrial2],
+  [feedback.afterFirstTrial1],
+  "Continue",
   jsPsychUtility.lastTrialCorrect
 );
 const secondTrial = {
@@ -40,23 +41,17 @@ jsPsychUtility.pushConditionalTrial(
   secondTrial,
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
-jsPsychUtility.pushConditionalSpacebarResponse(
+jsPsychUtility.pushConditionalButtonResponse(
   timeline,
-  [
-    feedback.afterSecondTrial1,
-    feedback.afterSecondTrial2,
-    feedback.afterSecondTrial3,
-  ],
+  [feedback.afterSecondTrial1, feedback.afterSecondTrial2],
+  "Continue",
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
 jsPsychUtility.pushBlockTrials(timeline, simonPluginId);
 fetch("final-screen-text.txt")
   .then((p) => p.text())
   .then((text) => {
-    jsPsychUtility.pushAnyKeyResponse(timeline, [
-      text,
-      "Press any key to close.",
-    ]);
+    jsPsychUtility.pushContinueButtonResponse(timeline, [text]);
     jsPsych.init({
       timeline,
     });
