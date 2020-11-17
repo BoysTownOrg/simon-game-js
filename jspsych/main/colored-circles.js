@@ -43,9 +43,9 @@ jsPsychUtility.pushConditionalTrial(
 jsPsychUtility.pushConditionalSpacebarResponse(
   timeline,
   [
-    coloredCircles.instruction31,
-    coloredCircles.instruction32,
-    coloredCircles.instruction33,
+    feedback.afterSecondTrial11,
+    feedback.afterSecondTrial12,
+    feedback.afterSecondTrial13,
   ],
   jsPsychUtility.allEvaluatedTrialsCorrect
 );

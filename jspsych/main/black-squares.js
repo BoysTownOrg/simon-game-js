@@ -47,7 +47,11 @@ jsPsychUtility.pushConditionalTrial(
 );
 jsPsychUtility.pushConditionalSpacebarResponse(
   timeline,
-  ["Good job!", "Do you have any questions?", "Press the spacebar to begin."],
+  [
+    feedback.afterSecondTrial11,
+    feedback.afterSecondTrial12,
+    feedback.afterSecondTrial13,
+  ],
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
 jsPsychUtility.pushBlockTrials(timeline, simonPluginId);
