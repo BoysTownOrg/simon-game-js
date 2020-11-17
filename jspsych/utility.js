@@ -20,13 +20,6 @@ export function pushContinueButtonResponse(timeline, lines) {
   pushButtonResponse(timeline, lines, "Continue");
 }
 
-export function pushAnyKeyResponse(timeline, lines) {
-  timeline.push({
-    type: "html-keyboard-response",
-    stimulus: arrayToHtml(lines),
-  });
-}
-
 function pushSingleInput(timeline, label, id) {
   timeline.push({
     type: "survey-html-form",
@@ -36,36 +29,6 @@ function pushSingleInput(timeline, label, id) {
 
 export function pushParticipantIdForm(timeline) {
   pushSingleInput(timeline, "Participant ID number: ", "participant_id");
-}
-
-function pushConditionalSubtimeline(timeline, subtimeline, condition) {
-  timeline.push({
-    timeline: subtimeline,
-    conditional_function: condition,
-  });
-}
-
-export function pushConditionalTrial(timeline, trial, condition) {
-  pushConditionalSubtimeline(timeline, [trial], condition);
-}
-
-export function pushConditionalButtonResponse(
-  timeline,
-  lines,
-  buttonText,
-  condition
-) {
-  const response = [];
-  pushButtonResponse(response, lines, buttonText);
-  pushConditionalSubtimeline(timeline, response, condition);
-}
-
-export function pushConditionalContinueButtonResponse(
-  timeline,
-  lines,
-  condition
-) {
-  pushConditionalButtonResponse(timeline, lines, "Continue", condition);
 }
 
 export function lastTrialCorrect() {
