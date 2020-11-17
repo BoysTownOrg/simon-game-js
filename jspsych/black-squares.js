@@ -9,14 +9,6 @@ export function orderMap() {
   ]);
 }
 
-export function firstTrialSequence() {
-  return [simon.Color.red, simon.Color.blue, simon.Color.blue];
-}
-
-export function secondTrialSequence() {
-  return [simon.Color.green, simon.Color.yellow, simon.Color.green];
-}
-
 export const instruction11 =
   "You will see patterns of black squares shown on the screen in different places, one at a time. After watching each pattern, you must correctly copy it by pressing the place where you saw it.";
 export const instruction12 =
