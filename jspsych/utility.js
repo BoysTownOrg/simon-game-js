@@ -36,14 +36,6 @@ export function lastTrialCorrect() {
   return jsPsych.data.getLastTrialData().values()[0].correct;
 }
 
-export function lastTrialIncorrect() {
-  return !lastTrialCorrect();
-}
-
-export function allEvaluatedTrialsCorrect() {
-  return jsPsych.data.get().filter({ correct: false }).count() === 0;
-}
-
 export function randomColorSequence(sequenceLength) {
   return jsPsych.randomization.sampleWithReplacement(
     [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
