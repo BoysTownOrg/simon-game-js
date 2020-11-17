@@ -9,12 +9,12 @@ jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.coloredCircles(
 );
 const timeline = [];
 jsPsychUtility.pushParticipantIdForm(timeline);
-jsPsychUtility.pushSpacebarResponse(timeline, [
+jsPsychUtility.pushContinueButtonResponse(timeline, [
   coloredCircles.instruction11,
   coloredCircles.instruction12,
   coloredCircles.instruction13,
   coloredCircles.instruction14,
-  coloredCircles.instruction15,
+  "Watch me!",
 ]);
 const trials = [];
 trials.push({
@@ -32,23 +32,19 @@ trials.push({
   },
 });
 trials.push({
-  type: "html-keyboard-response",
+  type: "html-button-response",
   stimulus() {
     return jsPsychUtility.arrayToHtml([
       jsPsychUtility.lastTrialCorrect() ? "Good job!" : "Try again.",
-      "Press the spacebar to continue.",
     ]);
   },
-  choices: [" "],
+  choices: ["Continue"],
 });
 timeline.push({ timeline: trials, repetitions: 10 });
 fetch("final-screen-text.txt")
   .then((p) => p.text())
   .then((text) => {
-    jsPsychUtility.pushAnyKeyResponse(timeline, [
-      text,
-      "Press any key to close.",
-    ]);
+    jsPsychUtility.pushContinueButtonResponse(timeline, [text]);
     jsPsych.init({
       timeline,
     });
