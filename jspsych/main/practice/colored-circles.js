@@ -32,11 +32,4 @@ trials.push({
   choices: ["Continue"],
 });
 timeline.push({ timeline: trials, repetitions: 10 });
-fetch("final-screen-text.txt")
-  .then((p) => p.text())
-  .then((text) => {
-    jsPsychUtility.pushContinueButtonResponse(timeline, [text]);
-    jsPsych.init({
-      timeline,
-    });
-  });
+jsPsychUtility.pushFinalScreenAndInit(timeline);

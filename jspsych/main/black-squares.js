@@ -16,11 +16,4 @@ jsPsychUtility.pushContinueButtonResponse(timeline, [
   blackSquares.instruction15,
 ]);
 jsPsychUtility.pushBlockTrials(timeline, simonPluginId);
-fetch("final-screen-text.txt")
-  .then((p) => p.text())
-  .then((text) => {
-    jsPsychUtility.pushContinueButtonResponse(timeline, [text]);
-    jsPsych.init({
-      timeline,
-    });
-  });
+jsPsychUtility.pushFinalScreenAndInit(timeline);

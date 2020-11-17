@@ -120,3 +120,14 @@ export function pushBlockTrials(timeline, id) {
     data: { block: 3, isRandom: false },
   });
 }
+
+export function pushFinalScreenAndInit(timeline) {
+  fetch("final-screen-text.txt")
+    .then((p) => p.text())
+    .then((text) => {
+      pushContinueButtonResponse(timeline, [text]);
+      jsPsych.init({
+        timeline,
+      });
+    });
+}
