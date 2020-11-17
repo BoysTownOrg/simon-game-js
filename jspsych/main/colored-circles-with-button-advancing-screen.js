@@ -42,7 +42,7 @@ jsPsychUtility.pushConditionalTrial(
 );
 jsPsychUtility.pushConditionalContinueButtonResponse(
   timeline,
-  [feedback.afterSecondTrial11, feedback.afterSecondTrial12],
+  [feedback.afterSecondTrial1, feedback.afterSecondTrial2],
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
 jsPsychUtility.pushBlockTrials(timeline, simonPluginId);
