@@ -28,7 +28,7 @@ jsPsychUtility.pushConditionalTrial(
 );
 jsPsychUtility.pushConditionalContinueButtonResponse(
   timeline,
-  [feedback.afterFirstTrial11],
+  [feedback.afterFirstTrial1],
   jsPsychUtility.lastTrialCorrect
 );
 const secondTrial = {

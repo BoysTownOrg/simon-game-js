@@ -28,7 +28,7 @@ jsPsychUtility.pushConditionalTrial(
 );
 jsPsychUtility.pushConditionalSpacebarResponse(
   timeline,
-  [feedback.afterFirstTrial11, feedback.afterFirstTrial12],
+  [feedback.afterFirstTrial1, feedback.afterFirstTrial2],
   jsPsychUtility.lastTrialCorrect
 );
 const secondTrial = {
