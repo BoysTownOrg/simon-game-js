@@ -20,21 +20,6 @@ export function pushContinueButtonResponse(timeline, lines) {
   pushButtonResponse(timeline, lines, "Continue");
 }
 
-export function pushSpacebarResponse(timeline, lines) {
-  timeline.push({
-    type: "html-keyboard-response",
-    stimulus: arrayToHtml(lines),
-    choices: [" "],
-  });
-}
-
-export function pushAnyKeyResponse(timeline, lines) {
-  timeline.push({
-    type: "html-keyboard-response",
-    stimulus: arrayToHtml(lines),
-  });
-}
-
 function pushSingleInput(timeline, label, id) {
   timeline.push({
     type: "survey-html-form",
@@ -46,59 +31,19 @@ export function pushParticipantIdForm(timeline) {
   pushSingleInput(timeline, "Participant ID number: ", "participant_id");
 }
 
-function pushConditionalSubtimeline(timeline, subtimeline, condition) {
-  timeline.push({
-    timeline: subtimeline,
-    conditional_function: condition,
-  });
-}
-
-export function pushConditionalTrial(timeline, trial, condition) {
-  pushConditionalSubtimeline(timeline, [trial], condition);
-}
-
-export function pushConditionalSpacebarResponse(timeline, lines, condition) {
-  const response = [];
-  pushSpacebarResponse(response, lines);
-  pushConditionalSubtimeline(timeline, response, condition);
-}
-
-export function pushConditionalButtonResponse(
-  timeline,
-  lines,
-  buttonText,
-  condition
-) {
-  const response = [];
-  pushButtonResponse(response, lines, buttonText);
-  pushConditionalSubtimeline(timeline, response, condition);
-}
-
-export function pushConditionalContinueButtonResponse(
-  timeline,
-  lines,
-  condition
-) {
-  pushConditionalButtonResponse(timeline, lines, "Continue", condition);
-}
-
 export function lastTrialCorrect() {
   // https://www.jspsych.org/overview/trial/
   return jsPsych.data.getLastTrialData().values()[0].correct;
 }
 
-export function lastTrialIncorrect() {
-  return !lastTrialCorrect();
+export function randomColorSequence(sequenceLength) {
+  return jsPsych.randomization.sampleWithReplacement(
+    [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
+    sequenceLength
+  );
 }
 
-export function allEvaluatedTrialsCorrect() {
-  return jsPsych.data.get().filter({ correct: false }).count() === 0;
-}
-
-const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
-  [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
-  32
-);
+const fixedColorSequence = randomColorSequence(32);
 
 class BlockTrials {
   constructor() {
@@ -110,15 +55,7 @@ class BlockTrials {
   }
 
   randomColors() {
-    return jsPsych.randomization.sampleWithReplacement(
-      [
-        simon.Color.red,
-        simon.Color.green,
-        simon.Color.blue,
-        simon.Color.yellow,
-      ],
-      this.colorSequenceLength
-    );
+    return randomColorSequence(this.colorSequenceLength);
   }
 
   update(data) {
@@ -173,5 +110,30 @@ export function pushBlockTrials(timeline, id) {
     timeline: [fixedTrial(trials, id)],
     repetitions: 15,
     data: { block: 3, isRandom: false },
+  });
+}
+
+function fetchAsText(filename, callback) {
+  fetch(filename)
+    .then((p) => p.text())
+    .then(callback);
+}
+
+export function pushFinalScreenAndInit(timeline) {
+  fetchAsText("final-screen-text.txt", (text) => {
+    pushContinueButtonResponse(timeline, [text]);
+    jsPsych.init({
+      timeline,
+    });
+  });
+}
+
+export function initTaskWithInstructions(pluginId) {
+  const timeline = [];
+  pushParticipantIdForm(timeline);
+  fetchAsText("instructions.txt", (text) => {
+    pushContinueButtonResponse(timeline, text.split("\n"));
+    pushBlockTrials(timeline, pluginId);
+    pushFinalScreenAndInit(timeline);
   });
 }
