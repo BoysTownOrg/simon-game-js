@@ -6,14 +6,13 @@ const simonPluginId = "simon-game-colored-circles";
 jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.coloredCircles(
   coloredCircles.orderMap()
 );
-const timeline = [];
-jsPsychUtility.pushParticipantIdForm(timeline);
-jsPsychUtility.pushContinueButtonResponse(timeline, [
-  coloredCircles.instruction11,
-  coloredCircles.instruction12,
-  coloredCircles.instruction13,
-  coloredCircles.instruction14,
-  coloredCircles.instruction15,
-]);
-jsPsychUtility.pushBlockTrials(timeline, simonPluginId);
-jsPsychUtility.pushFinalScreenAndInit(timeline);
+jsPsychUtility.initTaskWithInstructions(
+  [
+    coloredCircles.instruction11,
+    coloredCircles.instruction12,
+    coloredCircles.instruction13,
+    coloredCircles.instruction14,
+    coloredCircles.instruction15,
+  ],
+  simonPluginId
+);

@@ -6,14 +6,13 @@ const simonPluginId = "simon-game-black-squares";
 jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.blackSquares(
   blackSquares.orderMap()
 );
-const timeline = [];
-jsPsychUtility.pushParticipantIdForm(timeline);
-jsPsychUtility.pushContinueButtonResponse(timeline, [
-  blackSquares.instruction11,
-  blackSquares.instruction12,
-  blackSquares.instruction13,
-  blackSquares.instruction14,
-  blackSquares.instruction15,
-]);
-jsPsychUtility.pushBlockTrials(timeline, simonPluginId);
-jsPsychUtility.pushFinalScreenAndInit(timeline);
+jsPsychUtility.initTaskWithInstructions(
+  [
+    blackSquares.instruction11,
+    blackSquares.instruction12,
+    blackSquares.instruction13,
+    blackSquares.instruction14,
+    blackSquares.instruction15,
+  ],
+  simonPluginId
+);

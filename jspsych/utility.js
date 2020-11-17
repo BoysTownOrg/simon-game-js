@@ -131,3 +131,11 @@ export function pushFinalScreenAndInit(timeline) {
       });
     });
 }
+
+export function initTaskWithInstructions(instructions, pluginId) {
+  const timeline = [];
+  pushParticipantIdForm(timeline);
+  pushContinueButtonResponse(timeline, instructions);
+  pushBlockTrials(timeline, pluginId);
+  pushFinalScreenAndInit(timeline);
+}
