@@ -60,10 +60,3 @@ export const instruction13 =
 export const instruction14 =
   "If you don't know or can't remember what a pattern was, just make your best guess. Once you make a response, you cannot go back and correct it, so take your time in choosing the correct colors.";
 export const instruction15 = "Watch me! Press spacebar to start.";
-
-export const instruction21 = "Now it's your turn!";
-export const instruction22 = "Press the spacebar when you're ready to start";
-
-export const instruction31 = "Good job!";
-export const instruction32 = "Do you have any questions?";
-export const instruction33 = "Press the spacebar to begin.";
