@@ -1,4 +1,3 @@
-import * as simon from "../../lib/index.js";
 import * as simonJsPsychPlugins from "../plugin.js";
 import * as jsPsychUtility from "../utility.js";
 import * as feedback from "../feedback.js";
@@ -6,12 +5,7 @@ import * as blackSquares from "../black-squares.js";
 
 const simonPluginId = "simon-game-black-squares";
 jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.blackSquares(
-  new Map([
-    [simon.Color.red, 0],
-    [simon.Color.green, 1],
-    [simon.Color.blue, 2],
-    [simon.Color.yellow, 3],
-  ])
+  blackSquares.orderMap()
 );
 const timeline = [];
 jsPsychUtility.pushParticipantIdForm(timeline);
@@ -24,7 +18,7 @@ jsPsychUtility.pushContinueButtonResponse(timeline, [
 ]);
 const firstTrial = {
   type: simonPluginId,
-  colors: [simon.Color.red, simon.Color.blue, simon.Color.blue],
+  colors: blackSquares.firstTrialSequence(),
 };
 timeline.push(firstTrial);
 jsPsychUtility.pushConditionalTrial(
@@ -40,7 +34,7 @@ jsPsychUtility.pushConditionalButtonResponse(
 );
 const secondTrial = {
   type: simonPluginId,
-  colors: [simon.Color.green, simon.Color.yellow, simon.Color.green],
+  colors: blackSquares.secondTrialSequence(),
 };
 jsPsychUtility.pushConditionalTrial(
   timeline,
