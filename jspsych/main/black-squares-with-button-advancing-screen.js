@@ -1,6 +1,7 @@
 import * as simon from "../../lib/index.js";
 import * as simonJsPsychPlugins from "../plugin.js";
 import * as jsPsychUtility from "../utility.js";
+import * as feedback from "../feedback.js";
 
 const simonPluginId = "simon-game-black-squares";
 jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.blackSquares(
@@ -32,7 +33,7 @@ jsPsychUtility.pushConditionalTrial(
 );
 jsPsychUtility.pushConditionalButtonResponse(
   timeline,
-  ["Now it's your turn!"],
+  [feedback.afterFirstTrial11],
   "Continue",
   jsPsychUtility.lastTrialCorrect
 );
@@ -47,7 +48,7 @@ jsPsychUtility.pushConditionalTrial(
 );
 jsPsychUtility.pushConditionalButtonResponse(
   timeline,
-  ["Good job!", "Do you have any questions?"],
+  [feedback.afterSecondTrial1, feedback.afterSecondTrial2],
   "Continue",
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
