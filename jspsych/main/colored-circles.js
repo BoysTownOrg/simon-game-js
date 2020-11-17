@@ -14,7 +14,7 @@ jsPsychUtility.pushSpacebarResponse(timeline, [
   coloredCircles.instruction12,
   coloredCircles.instruction13,
   coloredCircles.instruction14,
-  coloredCircles.instruction15,
+  `${coloredCircles.instruction15} Press spacebar to start.`,
 ]);
 const firstTrial = {
   type: simonPluginId,

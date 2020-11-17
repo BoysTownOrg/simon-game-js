@@ -14,7 +14,7 @@ jsPsychUtility.pushContinueButtonResponse(timeline, [
   coloredCircles.instruction12,
   coloredCircles.instruction13,
   coloredCircles.instruction14,
-  "Watch me!",
+  coloredCircles.instruction15,
 ]);
 const firstTrial = {
   type: simonPluginId,
