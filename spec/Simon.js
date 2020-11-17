@@ -114,6 +114,14 @@ class ScreenStub {
   }
 }
 
+function expectTrue(b) {
+  expect(b).toBeTrue();
+}
+
+function expectFalse(b) {
+  expect(b).toBeFalse();
+}
+
 function expectRedButtonLightTurnedOn(screen) {
   expectTrue(screen.redButtonLightTurnedOn());
 }
@@ -437,14 +445,6 @@ class AudioPlayerStub {
 
 function say(simon, colors) {
   simon.say(colors);
-}
-
-function expectTrue(b) {
-  expect(b).toBeTrue();
-}
-
-function expectFalse(b) {
-  expect(b).toBeFalse();
 }
 
 function enterYellow(simon) {
