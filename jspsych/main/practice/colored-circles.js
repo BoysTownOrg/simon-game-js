@@ -20,15 +20,7 @@ const trials = [];
 trials.push({
   type: simonPluginId,
   colors() {
-    return jsPsych.randomization.sampleWithReplacement(
-      [
-        simon.Color.red,
-        simon.Color.green,
-        simon.Color.blue,
-        simon.Color.yellow,
-      ],
-      3
-    );
+    return jsPsychUtility.randomColorSequence(3);
   },
 });
 trials.push({

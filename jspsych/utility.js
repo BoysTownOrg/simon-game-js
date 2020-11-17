@@ -100,6 +100,13 @@ const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
   32
 );
 
+export function randomColorSequence(sequenceLength) {
+  return jsPsych.randomization.sampleWithReplacement(
+    [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
+    sequenceLength
+  );
+}
+
 class BlockTrials {
   constructor() {
     this.colorSequenceLength = 1;
@@ -110,15 +117,7 @@ class BlockTrials {
   }
 
   randomColors() {
-    return jsPsych.randomization.sampleWithReplacement(
-      [
-        simon.Color.red,
-        simon.Color.green,
-        simon.Color.blue,
-        simon.Color.yellow,
-      ],
-      this.colorSequenceLength
-    );
+    return randomColorSequence(this.colorSequenceLength);
   }
 
   update(data) {
