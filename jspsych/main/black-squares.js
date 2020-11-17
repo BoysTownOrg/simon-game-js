@@ -1,6 +1,7 @@
 import * as simon from "../../lib/index.js";
 import * as simonJsPsychPlugins from "../plugin.js";
 import * as jsPsychUtility from "../utility.js";
+import * as feedback from "../feedback.js";
 
 const simonPluginId = "simon-game-black-squares";
 jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.blackSquares(
@@ -32,7 +33,7 @@ jsPsychUtility.pushConditionalTrial(
 );
 jsPsychUtility.pushConditionalSpacebarResponse(
   timeline,
-  ["Now it's your turn!", "Press the spacebar when you're ready to start"],
+  [feedback.afterFirstTrial11, feedback.afterFirstTrial12],
   jsPsychUtility.lastTrialCorrect
 );
 const secondTrial = {

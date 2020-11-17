@@ -1,6 +1,7 @@
 import * as simonJsPsychPlugins from "../plugin.js";
 import * as jsPsychUtility from "../utility.js";
 import * as coloredCircles from "../colored-circles.js";
+import * as feedback from "../feedback.js";
 
 const simonPluginId = "simon-game-colored-circles";
 jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.coloredCircles(
@@ -27,7 +28,7 @@ jsPsychUtility.pushConditionalTrial(
 );
 jsPsychUtility.pushConditionalSpacebarResponse(
   timeline,
-  [coloredCircles.instruction21, coloredCircles.instruction22],
+  [feedback.afterFirstTrial11, feedback.afterFirstTrial12],
   jsPsychUtility.lastTrialCorrect
 );
 const secondTrial = {
