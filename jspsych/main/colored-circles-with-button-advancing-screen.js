@@ -27,7 +27,7 @@ jsPsychUtility.pushConditionalTrial(
 );
 jsPsychUtility.pushConditionalContinueButtonResponse(
   timeline,
-  ["Now it's your turn!"],
+  [coloredCircles.instruction21],
   jsPsychUtility.lastTrialCorrect
 );
 const secondTrial = {

@@ -27,7 +27,7 @@ jsPsychUtility.pushConditionalTrial(
 );
 jsPsychUtility.pushConditionalSpacebarResponse(
   timeline,
-  ["Now it's your turn!", "Press the spacebar when you're ready to start"],
+  [coloredCircles.instruction21, coloredCircles.instruction22],
   jsPsychUtility.lastTrialCorrect
 );
 const secondTrial = {
