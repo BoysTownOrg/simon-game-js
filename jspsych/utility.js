@@ -20,14 +20,6 @@ export function pushContinueButtonResponse(timeline, lines) {
   pushButtonResponse(timeline, lines, "Continue");
 }
 
-export function pushSpacebarResponse(timeline, lines) {
-  timeline.push({
-    type: "html-keyboard-response",
-    stimulus: arrayToHtml(lines),
-    choices: [" "],
-  });
-}
-
 export function pushAnyKeyResponse(timeline, lines) {
   timeline.push({
     type: "html-keyboard-response",
@@ -55,12 +47,6 @@ function pushConditionalSubtimeline(timeline, subtimeline, condition) {
 
 export function pushConditionalTrial(timeline, trial, condition) {
   pushConditionalSubtimeline(timeline, [trial], condition);
-}
-
-export function pushConditionalSpacebarResponse(timeline, lines, condition) {
-  const response = [];
-  pushSpacebarResponse(response, lines);
-  pushConditionalSubtimeline(timeline, response, condition);
 }
 
 export function pushConditionalButtonResponse(
