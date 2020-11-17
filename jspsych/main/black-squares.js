@@ -1,6 +1,5 @@
 import * as simonJsPsychPlugins from "../plugin.js";
 import * as jsPsychUtility from "../utility.js";
-import * as feedback from "../feedback.js";
 import * as blackSquares from "../black-squares.js";
 
 const simonPluginId = "simon-game-black-squares";
@@ -16,37 +15,6 @@ jsPsychUtility.pushContinueButtonResponse(timeline, [
   blackSquares.instruction14,
   blackSquares.instruction15,
 ]);
-const firstTrial = {
-  type: simonPluginId,
-  colors: blackSquares.firstTrialSequence(),
-};
-timeline.push(firstTrial);
-jsPsychUtility.pushConditionalTrial(
-  timeline,
-  firstTrial,
-  jsPsychUtility.lastTrialIncorrect
-);
-jsPsychUtility.pushConditionalButtonResponse(
-  timeline,
-  [feedback.afterFirstTrial1],
-  "Continue",
-  jsPsychUtility.lastTrialCorrect
-);
-const secondTrial = {
-  type: simonPluginId,
-  colors: blackSquares.secondTrialSequence(),
-};
-jsPsychUtility.pushConditionalTrial(
-  timeline,
-  secondTrial,
-  jsPsychUtility.allEvaluatedTrialsCorrect
-);
-jsPsychUtility.pushConditionalButtonResponse(
-  timeline,
-  [feedback.afterSecondTrial1, feedback.afterSecondTrial2],
-  "Continue",
-  jsPsychUtility.allEvaluatedTrialsCorrect
-);
 jsPsychUtility.pushBlockTrials(timeline, simonPluginId);
 fetch("final-screen-text.txt")
   .then((p) => p.text())
