@@ -41,7 +41,11 @@ jsPsychUtility.pushConditionalTrial(
 );
 jsPsychUtility.pushConditionalSpacebarResponse(
   timeline,
-  ["Good job!", "Do you have any questions?", "Press the spacebar to begin."],
+  [
+    coloredCircles.instruction31,
+    coloredCircles.instruction32,
+    coloredCircles.instruction33,
+  ],
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
 jsPsychUtility.pushBlockTrials(timeline, simonPluginId);

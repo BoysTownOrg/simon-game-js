@@ -41,7 +41,7 @@ jsPsychUtility.pushConditionalTrial(
 );
 jsPsychUtility.pushConditionalContinueButtonResponse(
   timeline,
-  ["Good job!", "Do you have any questions?"],
+  [coloredCircles.instruction31, coloredCircles.instruction32],
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
 jsPsychUtility.pushBlockTrials(timeline, simonPluginId);
