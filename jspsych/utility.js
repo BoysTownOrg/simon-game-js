@@ -113,25 +113,27 @@ export function pushBlockTrials(timeline, id) {
   });
 }
 
-export function pushFinalScreenAndInit(timeline) {
-  fetch("final-screen-text.txt")
+function fetchAsText(filename, callback) {
+  fetch(filename)
     .then((p) => p.text())
-    .then((text) => {
-      pushContinueButtonResponse(timeline, [text]);
-      jsPsych.init({
-        timeline,
-      });
+    .then(callback);
+}
+
+export function pushFinalScreenAndInit(timeline) {
+  fetchAsText("final-screen-text.txt", (text) => {
+    pushContinueButtonResponse(timeline, [text]);
+    jsPsych.init({
+      timeline,
     });
+  });
 }
 
 export function initTaskWithInstructions(pluginId) {
   const timeline = [];
   pushParticipantIdForm(timeline);
-  fetch("instructions.txt")
-    .then((p) => p.text())
-    .then((text) => {
-      pushContinueButtonResponse(timeline, text.split("\n"));
-      pushBlockTrials(timeline, pluginId);
-      pushFinalScreenAndInit(timeline);
-    });
+  fetchAsText("instructions.txt", (text) => {
+    pushContinueButtonResponse(timeline, text.split("\n"));
+    pushBlockTrials(timeline, pluginId);
+    pushFinalScreenAndInit(timeline);
+  });
 }
