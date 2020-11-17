@@ -95,17 +95,14 @@ export function allEvaluatedTrialsCorrect() {
   return jsPsych.data.get().filter({ correct: false }).count() === 0;
 }
 
-const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
-  [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
-  32
-);
-
 export function randomColorSequence(sequenceLength) {
   return jsPsych.randomization.sampleWithReplacement(
     [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
     sequenceLength
   );
 }
+
+const fixedColorSequence = randomColorSequence(32);
 
 class BlockTrials {
   constructor() {

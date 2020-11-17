@@ -1,4 +1,3 @@
-import * as simon from "../../../lib/index.js";
 import * as simonJsPsychPlugins from "../../plugin.js";
 import * as jsPsychUtility from "../../utility.js";
 import * as coloredCircles from "../../colored-circles.js";
