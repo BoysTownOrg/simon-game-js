@@ -1,18 +1,17 @@
 // https://stackoverflow.com/a/54691621
-import glob from 'glob';
-import Jasmine from 'jasmine';
+import glob from "glob";
+import Jasmine from "jasmine";
 
 const jasmine = new Jasmine();
 
-glob('./spec/*.js', function (_er, files) {
-    Promise.all(
-        files
-            .map(f => import(f)
-                .catch(e => {
-                    console.error('** Error loading ' + f + ': ');
-                    console.error(e);
-                    process.exit(1);
-                }))
+glob("./spec/*.js", (_er, files) => {
+  Promise.all(
+    files.map((f) =>
+      import(f).catch((e) => {
+        console.error(`** Error loading ${f}: `);
+        console.error(e);
+        process.exit(1);
+      })
     )
-        .then(() => jasmine.execute());
+  ).then(() => jasmine.execute());
 });

@@ -114,6 +114,14 @@ class ScreenStub {
   }
 }
 
+function expectTrue(b) {
+  expect(b).toBeTrue();
+}
+
+function expectFalse(b) {
+  expect(b).toBeFalse();
+}
+
 function expectRedButtonLightTurnedOn(screen) {
   expectTrue(screen.redButtonLightTurnedOn());
 }
@@ -201,13 +209,13 @@ class AudioPlayerStub {
   }
 
   play(
-    toneColors,
-    toneDurationMilliseconds,
-    toneOffsetToNextOnsetDurationMilliseconds
+    toneColors_,
+    toneDurationMilliseconds_,
+    toneOffsetToNextOnsetDurationMilliseconds_
   ) {
-    this.toneColors_ = toneColors;
-    this.toneDurationMilliseconds_ = toneDurationMilliseconds;
-    this.toneOffsetToNextOnsetDurationMilliseconds_ = toneOffsetToNextOnsetDurationMilliseconds;
+    this.toneColors_ = toneColors_;
+    this.toneDurationMilliseconds_ = toneDurationMilliseconds_;
+    this.toneOffsetToNextOnsetDurationMilliseconds_ = toneOffsetToNextOnsetDurationMilliseconds_;
   }
 
   toneDurationMilliseconds() {
@@ -439,14 +447,6 @@ function say(simon, colors) {
   simon.say(colors);
 }
 
-function expectTrue(b) {
-  expect(b).toBeTrue();
-}
-
-function expectFalse(b) {
-  expect(b).toBeFalse();
-}
-
 function enterYellow(simon) {
   simon.enterYellow();
 }
@@ -627,7 +627,7 @@ function notifyThatIncorrectBlueToneEnded(audioPlayer) {
   audioPlayer.notifyThatIncorrectBlueToneEnded();
 }
 
-describe("Simon", function () {
+describe("Simon", () => {
   beforeEach(function () {
     this.audioPlayer = new AudioPlayerStub();
     this.screen = new ScreenStub();

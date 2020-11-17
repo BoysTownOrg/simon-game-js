@@ -12,11 +12,7 @@ jsPsych.plugins[simonPluginId] = simonJsPsychPlugins.blackSquares(
   ])
 );
 const timeline = [];
-jsPsychUtility.pushSingleInput(
-  timeline,
-  "Participant ID number: ",
-  "participant_id"
-);
+jsPsychUtility.pushParticipantIdForm(timeline);
 jsPsychUtility.pushContinueButtonResponse(timeline, [
   "You will see patterns of black squares shown on the screen in different places, one at a time. After watching each pattern, you must correctly copy it by pressing the place where you saw it.",
   'When you finish copying each pattern, press the "Done" button and then the next pattern will be shown.',
@@ -55,29 +51,12 @@ jsPsychUtility.pushConditionalButtonResponse(
   "Continue",
   jsPsychUtility.allEvaluatedTrialsCorrect
 );
-
-const trials = new jsPsychUtility.BlockTrials();
-
-timeline.push({
-  timeline: [jsPsychUtility.fixedTrial(trials, simonPluginId)],
-  repetitions: 15,
-  data: { block: 1, isRandom: false },
-});
-timeline.push({
-  timeline: [jsPsychUtility.randomTrial(trials, simonPluginId)],
-  repetitions: 15,
-  data: { block: 2, isRandom: true },
-});
-timeline.push({
-  timeline: [jsPsychUtility.fixedTrial(trials, simonPluginId)],
-  repetitions: 15,
-  data: { block: 3, isRandom: false },
-});
+jsPsychUtility.pushBlockTrials(timeline, simonPluginId);
 fetch("final-screen-text.txt")
   .then((p) => p.text())
   .then((text) => {
     jsPsychUtility.pushContinueButtonResponse(timeline, [text]);
     jsPsych.init({
-      timeline: timeline,
+      timeline,
     });
   });

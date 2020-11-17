@@ -1,29 +1,14 @@
 import * as simon from "../lib/index.js";
 
-// https://stackoverflow.com/a/2450976
-export function shuffle(array) {
-  var currentIndex = array.length,
-    temporaryValue,
-    randomIndex;
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-  return array;
-}
-
 export function arrayToHtml(lines) {
   let html = "";
   for (const line of lines) {
-    html += '<p style="line-height:normal">' + line + "</p>";
+    html += `<p style="line-height:normal">${line}</p>`;
   }
   return html;
 }
 
-export function pushButtonResponse(timeline, lines, buttonText) {
+function pushButtonResponse(timeline, lines, buttonText) {
   timeline.push({
     type: "html-button-response",
     stimulus: arrayToHtml(lines),
@@ -50,14 +35,18 @@ export function pushAnyKeyResponse(timeline, lines) {
   });
 }
 
-export function pushSingleInput(timeline, label, id) {
+function pushSingleInput(timeline, label, id) {
   timeline.push({
     type: "survey-html-form",
-    html: "<p> " + label + '<input name="' + id + '" type="text" /> </p>',
+    html: `<p> ${label}<input name="${id}" type="text" /> </p>`,
   });
 }
 
-export function pushConditionalSubtimeline(timeline, subtimeline, condition) {
+export function pushParticipantIdForm(timeline) {
+  pushSingleInput(timeline, "Participant ID number: ", "participant_id");
+}
+
+function pushConditionalSubtimeline(timeline, subtimeline, condition) {
   timeline.push({
     timeline: subtimeline,
     conditional_function: condition,
@@ -103,14 +92,15 @@ export function lastTrialIncorrect() {
 }
 
 export function allEvaluatedTrialsCorrect() {
-  return jsPsych.data.get().filter({ correct: false }).count() == 0;
+  return jsPsych.data.get().filter({ correct: false }).count() === 0;
 }
+
 const fixedColorSequence = jsPsych.randomization.sampleWithReplacement(
   [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
   32
 );
 
-export class BlockTrials {
+class BlockTrials {
   constructor() {
     this.colorSequenceLength = 1;
   }
@@ -132,32 +122,56 @@ export class BlockTrials {
   }
 
   update(data) {
-    if (data.correct) ++this.colorSequenceLength;
-    else --this.colorSequenceLength;
-    if (this.colorSequenceLength == 0) this.colorSequenceLength = 1;
+    if (data.correct) {
+      this.colorSequenceLength += 1;
+    } else {
+      this.colorSequenceLength -= 1;
+    }
+    if (this.colorSequenceLength === 0) {
+      this.colorSequenceLength = 1;
+    }
   }
 }
 
-export function randomTrial(trials, id) {
+function randomTrial(trials, id) {
   return {
     type: id,
-    colors: function () {
+    colors() {
       return trials.randomColors();
     },
-    on_finish: function (data) {
+    on_finish(data) {
       trials.update(data);
     },
   };
 }
 
-export function fixedTrial(trials, id) {
+function fixedTrial(trials, id) {
   return {
     type: id,
-    colors: function () {
+    colors() {
       return trials.fixedColors();
     },
-    on_finish: function (data) {
+    on_finish(data) {
       trials.update(data);
     },
   };
+}
+
+export function pushBlockTrials(timeline, id) {
+  const trials = new BlockTrials();
+  timeline.push({
+    timeline: [fixedTrial(trials, id)],
+    repetitions: 15,
+    data: { block: 1, isRandom: false },
+  });
+  timeline.push({
+    timeline: [randomTrial(trials, id)],
+    repetitions: 15,
+    data: { block: 2, isRandom: true },
+  });
+  timeline.push({
+    timeline: [fixedTrial(trials, id)],
+    repetitions: 15,
+    data: { block: 3, isRandom: false },
+  });
 }

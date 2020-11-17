@@ -21,10 +21,6 @@ class ScreenStub {
     this.listener.notifyThatBlueWasClicked();
   }
 
-  clickDone() {
-    this.listener.notifyThatDoneWasClicked();
-  }
-
   subscribe(e) {
     this.listener = e;
   }
@@ -92,7 +88,7 @@ function expectTrue(b) {
   expect(b).toBeTrue();
 }
 
-describe("ScreenResponder", function () {
+describe("ScreenResponder", () => {
   beforeEach(function () {
     this.screen = new ScreenStub();
     this.simon = new SimonStub();

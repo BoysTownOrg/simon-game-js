@@ -125,9 +125,9 @@ class ColorToneEventListenerStub {
 
 function scheduledTone(startTimeSeconds, stopTimeSeconds, frequencyHz) {
   return {
-    startTimeSeconds: startTimeSeconds,
-    stopTimeSeconds: stopTimeSeconds,
-    frequencyHz: frequencyHz,
+    startTimeSeconds,
+    stopTimeSeconds,
+    frequencyHz,
   };
 }
 
@@ -157,7 +157,7 @@ class AudioEnvironmentStub {
   }
 
   endNextTone() {
-    let onEnd = this.scheduledToneOnEnds.shift();
+    const onEnd = this.scheduledToneOnEnds.shift();
     onEnd();
   }
 }
@@ -290,8 +290,9 @@ function expectScheduledTonesContains(
   );
 }
 
-describe("AudioPlayer", function () {
+describe("AudioPlayer", () => {
   beforeEach(function () {
+    this.audioEnvironment = new AudioEnvironmentStub();
     this.audioEnvironment = new AudioEnvironmentStub();
     this.player = new AudioPlayer(
       this.audioEnvironment,
