@@ -47,7 +47,7 @@ const fixedColorSequence = randomColorSequence(32);
 
 class BlockTrials {
   constructor() {
-    this.colorSequenceLength = 1;
+    this.colorSequenceLength = 3;
   }
 
   fixedColors() {
@@ -95,19 +95,18 @@ function fixedTrial(trials, id) {
 }
 
 export function pushBlockTrials(timeline, id) {
-  const trials = new BlockTrials();
   timeline.push({
-    timeline: [fixedTrial(trials, id)],
+    timeline: [fixedTrial(new BlockTrials(), id)],
     repetitions: 15,
     data: { block: 1, isRandom: false },
   });
   timeline.push({
-    timeline: [randomTrial(trials, id)],
+    timeline: [randomTrial(new BlockTrials(), id)],
     repetitions: 15,
     data: { block: 2, isRandom: true },
   });
   timeline.push({
-    timeline: [fixedTrial(trials, id)],
+    timeline: [fixedTrial(new BlockTrials(), id)],
     repetitions: 15,
     data: { block: 3, isRandom: false },
   });
