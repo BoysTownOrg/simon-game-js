@@ -10,7 +10,7 @@ export function arrayToHtml(lines) {
 
 function pushButtonResponse(timeline, lines, buttonText) {
   timeline.push({
-    type: "html-button-response",
+    type: jsPsychHtmlButtonResponse,
     stimulus: arrayToHtml(lines),
     choices: [buttonText],
   });
@@ -22,7 +22,7 @@ export function pushContinueButtonResponse(timeline, lines) {
 
 function pushSingleInput(timeline, label, id) {
   timeline.push({
-    type: "survey-html-form",
+    type: jsPsychSurveyHtmlForm,
     html: `<p> ${label}<input name="${id}" type="text" /> </p>`,
   });
 }
@@ -43,19 +43,19 @@ export function randomColorSequence(jsPsych, sequenceLength) {
   );
 }
 
-const fixedColorSequence = randomColorSequence(32);
-
 class BlockTrials {
-  constructor() {
+  constructor(jsPsych, fixedColorSequence) {
+    this.jsPsych = jsPsych;
+    this.fixedColorSequence = fixedColorSequence;
     this.colorSequenceLength = 3;
   }
 
   fixedColors() {
-    return fixedColorSequence.slice(0, this.colorSequenceLength);
+    return this.fixedColorSequence.slice(0, this.colorSequenceLength);
   }
 
   randomColors() {
-    return randomColorSequence(this.colorSequenceLength);
+    return randomColorSequence(this.jsPsych, this.colorSequenceLength);
   }
 
   update(data) {
@@ -94,19 +94,19 @@ function fixedTrial(trials, id) {
   };
 }
 
-export function pushBlockTrials(timeline, id) {
+function pushBlockTrials(jsPsych, timeline, id, fixedColorSequence) {
   timeline.push({
-    timeline: [fixedTrial(new BlockTrials(), id)],
+    timeline: [fixedTrial(new BlockTrials(jsPsych, fixedColorSequence), id)],
     repetitions: 15,
     data: { block: 1, isRandom: false },
   });
   timeline.push({
-    timeline: [randomTrial(new BlockTrials(), id)],
+    timeline: [randomTrial(new BlockTrials(jsPsych, fixedColorSequence), id)],
     repetitions: 15,
     data: { block: 2, isRandom: true },
   });
   timeline.push({
-    timeline: [fixedTrial(new BlockTrials(), id)],
+    timeline: [fixedTrial(new BlockTrials(jsPsych, fixedColorSequence), id)],
     repetitions: 15,
     data: { block: 3, isRandom: false },
   });
@@ -118,7 +118,7 @@ function fetchAsText(filename, callback) {
     .then(callback);
 }
 
-export function pushFinalScreenAndRun(jsPsych, timeline) {
+function pushFinalScreenAndRun(jsPsych, timeline) {
   fetchAsText("final-screen-text.txt", (text) => {
     pushContinueButtonResponse(timeline, [text]);
     jsPsych.run(timeline);
@@ -126,11 +126,12 @@ export function pushFinalScreenAndRun(jsPsych, timeline) {
 }
 
 export function initTaskWithInstructions(jsPsych, pluginId) {
+  const fixedColorSequence = randomColorSequence(jsPsych, 32);
   const timeline = [];
   pushParticipantIdForm(timeline);
   fetchAsText("instructions.txt", (text) => {
     pushContinueButtonResponse(timeline, text.split("\n"));
-    pushBlockTrials(timeline, pluginId);
+    pushBlockTrials(jsPsych, timeline, pluginId, fixedColorSequence);
     pushFinalScreenAndRun(jsPsych, timeline);
   });
 }
