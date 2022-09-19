@@ -31,12 +31,12 @@ export function pushParticipantIdForm(timeline) {
   pushSingleInput(timeline, "Participant ID number: ", "participant_id");
 }
 
-export function lastTrialCorrect() {
+export function lastTrialCorrect(jsPsych) {
   // https://www.jspsych.org/overview/trial/
   return jsPsych.data.getLastTrialData().values()[0].correct;
 }
 
-export function randomColorSequence(sequenceLength) {
+export function randomColorSequence(jsPsych, sequenceLength) {
   return jsPsych.randomization.sampleWithReplacement(
     [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
     sequenceLength
@@ -118,21 +118,19 @@ function fetchAsText(filename, callback) {
     .then(callback);
 }
 
-export function pushFinalScreenAndInit(timeline) {
+export function pushFinalScreenAndRun(jsPsych, timeline) {
   fetchAsText("final-screen-text.txt", (text) => {
     pushContinueButtonResponse(timeline, [text]);
-    jsPsych.init({
-      timeline,
-    });
+    jsPsych.run(timeline);
   });
 }
 
-export function initTaskWithInstructions(pluginId) {
+export function initTaskWithInstructions(jsPsych, pluginId) {
   const timeline = [];
   pushParticipantIdForm(timeline);
   fetchAsText("instructions.txt", (text) => {
     pushContinueButtonResponse(timeline, text.split("\n"));
     pushBlockTrials(timeline, pluginId);
-    pushFinalScreenAndInit(timeline);
+    pushFinalScreenAndRun(jsPsych, timeline);
   });
 }
