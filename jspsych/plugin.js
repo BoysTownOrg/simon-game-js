@@ -79,15 +79,16 @@ function getKeyByValue(map, value) {
 }
 
 class JsPsychTrial {
-  constructor(screen) {
+  constructor(screen, jsPsych) {
     this.screen = screen;
+    this.jsPsych = jsPsych;
   }
 
   conclude(result) {
     this.screen.addVisualDescription(result);
     result.responses = JSON.stringify(result.responses);
     result.simon = JSON.stringify(result.simon);
-    jsPsych.finishTrial(result);
+    this.jsPsych.finishTrial(result);
   }
 }
 
@@ -440,7 +441,7 @@ function incorrectToneFrequencyHz() {
   return 48.9994;
 }
 
-function plugin(colorOrderMap, Screen) {
+function plugin(colorOrderMap, Screen, jspsych) {
   const audioPlayer = new simonGame.AudioPlayer(
     new WebAudioContext(),
     toneFrequenciesHz(),
@@ -448,14 +449,18 @@ function plugin(colorOrderMap, Screen) {
   );
   audioPlayer.setPlayDelaySeconds(0.003);
   audioPlayer.setToneSeriesDelaySeconds(0.5);
-  return {
+  class Plugin {
+    constructor(jsPsych) {
+      this.jsPsych = jsPsych;
+    }
+
     trial(display_element, trial) {
       clear(display_element);
       const screen = new Screen(display_element, colorOrderMap);
       const simon = new simonGame.Simon(
         audioPlayer,
         screen,
-        new JsPsychTrial(screen),
+        new JsPsychTrial(screen, this.jsPsych),
         new PerformanceTimer()
       );
       simon.setLongToneDurationMilliseconds(700);
@@ -463,23 +468,24 @@ function plugin(colorOrderMap, Screen) {
       simon.setToneOffsetToNextOnsetDurationMilliseconds(700);
       new simonGame.ScreenResponder(screen, simon);
       simon.say(trial.colors);
-    },
-    info: {
-      parameters: {
-        colors: {
-          type: jsPsych.plugins.parameterType.INT,
-          default: [],
-          array: true,
-        },
+    }
+  }
+  Plugin.info = {
+    parameters: {
+      colors: {
+        type: jspsych.ParameterType.INT,
+        default: [],
+        array: true,
       },
     },
   };
+  return Plugin;
 }
 
-export function coloredCircles(colorOrderMap) {
-  return plugin(colorOrderMap, CognitionScreenColoredCircles);
+export function coloredCircles(colorOrderMap, jspsych) {
+  return plugin(colorOrderMap, CognitionScreenColoredCircles, jspsych);
 }
 
-export function blackSquares(colorOrderMap) {
-  return plugin(colorOrderMap, CognitionScreenBlackSquares);
+export function blackSquares(colorOrderMap, jspsych) {
+  return plugin(colorOrderMap, CognitionScreenBlackSquares, jspsych);
 }
