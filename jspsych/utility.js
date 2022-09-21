@@ -135,3 +135,34 @@ export function initTaskWithInstructions(jsPsych, pluginId) {
     pushFinalScreenAndRun(jsPsych, timeline);
   });
 }
+
+export function initPracticeWithInstructions(jsPsych, pluginId, trials) {
+  const timeline = [];
+  pushParticipantIdForm(timeline);
+  fetch("instructions.txt")
+    .then((p) => p.text())
+    .then((text) => {
+      pushContinueButtonResponse(timeline, text.split("\n"));
+      timeline.push({
+        timeline: [
+          {
+            type: pluginId,
+            colors() {
+              return randomColorSequence(jsPsych, 3);
+            },
+          },
+          {
+            type: "html-button-response",
+            stimulus() {
+              return arrayToHtml([
+                lastTrialCorrect(jsPsych) ? "Good job!" : "Try again.",
+              ]);
+            },
+            choices: ["Continue"],
+          },
+        ],
+        repetitions: trials,
+      });
+      pushFinalScreenAndRun(jsPsych, timeline);
+    });
+}
