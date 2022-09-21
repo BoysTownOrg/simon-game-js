@@ -1,10 +1,8 @@
-import * as simonJsPsychPlugins from "../plugin.js";
-import * as jsPsychUtility from "../utility.js";
-import * as blackSquares from "../black-squares.js";
+import { blackSquares } from "../plugin.js";
+import { initTaskWithInstructions } from "../utility.js";
+import { orderMap } from "../black-squares.js";
 
-const jsPsych = initJsPsych();
-const simonPluginId = simonJsPsychPlugins.blackSquares(
-  blackSquares.orderMap(),
-  jsPsychModule
+initTaskWithInstructions(
+  initJsPsych(),
+  blackSquares(orderMap(), jsPsychModule)
 );
-jsPsychUtility.initTaskWithInstructions(jsPsych, simonPluginId);

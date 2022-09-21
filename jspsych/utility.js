@@ -1,6 +1,6 @@
 import * as simon from "../lib/index.js";
 
-export function arrayToHtml(lines) {
+function arrayToHtml(lines) {
   let html = "";
   for (const line of lines) {
     html += `<p style="line-height:normal">${line}</p>`;
@@ -16,7 +16,7 @@ function pushButtonResponse(timeline, lines, buttonText) {
   });
 }
 
-export function pushContinueButtonResponse(timeline, lines) {
+function pushContinueButtonResponse(timeline, lines) {
   pushButtonResponse(timeline, lines, "Continue");
 }
 
@@ -27,16 +27,16 @@ function pushSingleInput(timeline, label, id) {
   });
 }
 
-export function pushParticipantIdForm(timeline) {
+function pushParticipantIdForm(timeline) {
   pushSingleInput(timeline, "Participant ID number: ", "participant_id");
 }
 
-export function lastTrialCorrect(jsPsych) {
+function lastTrialCorrect(jsPsych) {
   // https://www.jspsych.org/overview/trial/
   return jsPsych.data.getLastTrialData().values()[0].correct;
 }
 
-export function randomColorSequence(jsPsych, sequenceLength) {
+function randomColorSequence(jsPsych, sequenceLength) {
   return jsPsych.randomization.sampleWithReplacement(
     [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
     sequenceLength
@@ -139,30 +139,28 @@ export function initTaskWithInstructions(jsPsych, pluginId) {
 export function initPracticeWithInstructions(jsPsych, pluginId, trials) {
   const timeline = [];
   pushParticipantIdForm(timeline);
-  fetch("instructions.txt")
-    .then((p) => p.text())
-    .then((text) => {
-      pushContinueButtonResponse(timeline, text.split("\n"));
-      timeline.push({
-        timeline: [
-          {
-            type: pluginId,
-            colors() {
-              return randomColorSequence(jsPsych, 3);
-            },
+  fetchAsText("instructions.txt", (text) => {
+    pushContinueButtonResponse(timeline, text.split("\n"));
+    timeline.push({
+      timeline: [
+        {
+          type: pluginId,
+          colors() {
+            return randomColorSequence(jsPsych, 3);
           },
-          {
-            type: "html-button-response",
-            stimulus() {
-              return arrayToHtml([
-                lastTrialCorrect(jsPsych) ? "Good job!" : "Try again.",
-              ]);
-            },
-            choices: ["Continue"],
+        },
+        {
+          type: jsPsychHtmlButtonResponse,
+          stimulus() {
+            return arrayToHtml([
+              lastTrialCorrect(jsPsych) ? "Good job!" : "Try again.",
+            ]);
           },
-        ],
-        repetitions: trials,
-      });
-      pushFinalScreenAndRun(jsPsych, timeline);
+          choices: ["Continue"],
+        },
+      ],
+      repetitions: trials,
     });
+    pushFinalScreenAndRun(jsPsych, timeline);
+  });
 }

@@ -1,10 +1,8 @@
-import * as simonJsPsychPlugins from "../plugin.js";
-import * as jsPsychUtility from "../utility.js";
-import * as coloredCircles from "../colored-circles.js";
+import { coloredCircles } from "../plugin.js";
+import { initTaskWithInstructions } from "../utility.js";
+import { orderMap } from "../colored-circles.js";
 
-const jsPsych = initJsPsych();
-const simonPluginId = simonJsPsychPlugins.coloredCircles(
-  coloredCircles.orderMap(),
-  jsPsychModule
+initTaskWithInstructions(
+  initJsPsych(),
+  coloredCircles(orderMap(), jsPsychModule)
 );
-jsPsychUtility.initTaskWithInstructions(jsPsych, simonPluginId);
