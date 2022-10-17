@@ -4,7 +4,7 @@ import { orderMap } from "../../black-squares.js";
 
 jatos.onLoad(() => {
   const jsPsych = initJsPsych({
-    on_finish: () => jatos.endStudy(jsPsych.data.get().json()),
+    on_finish: () => jatos.startNextComponent(jsPsych.data.get().json()),
   });
 
   initTaskWithInstructions(
