@@ -10,6 +10,8 @@ jatos.onLoad(() => {
   initPracticeWithInstructions(
     jsPsych,
     coloredCircles(orderMap(), jsPsychModule),
-    trials
+    trials,
+    jatos.componentJsonInput.instructionsText,
+    jatos.componentJsonInput.finalScreenText
   );
 });

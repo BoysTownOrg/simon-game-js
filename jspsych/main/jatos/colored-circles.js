@@ -7,5 +7,10 @@ jatos.onLoad(() => {
     on_finish: () => jatos.endStudy(jsPsych.data.get().json()),
   });
 
-  initTaskWithInstructions(jsPsych, coloredCircles(orderMap(), jsPsychModule));
+  initTaskWithInstructions(
+    jsPsych,
+    coloredCircles(orderMap(), jsPsychModule),
+    jatos.componentJsonInput.instructionsText,
+    jatos.componentJsonInput.finalScreenText
+  );
 });

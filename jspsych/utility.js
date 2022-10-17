@@ -112,55 +112,54 @@ function pushBlockTrials(jsPsych, timeline, id, fixedColorSequence) {
   });
 }
 
-function fetchAsText(filename, callback) {
-  fetch(filename)
-    .then((p) => p.text())
-    .then(callback);
+function pushFinalScreenAndRun(jsPsych, timeline, text) {
+  pushContinueButtonResponse(timeline, [text]);
+  jsPsych.run(timeline);
 }
 
-function pushFinalScreenAndRun(jsPsych, timeline) {
-  fetchAsText("final-screen-text.txt", (text) => {
-    pushContinueButtonResponse(timeline, [text]);
-    jsPsych.run(timeline);
-  });
-}
-
-export function initTaskWithInstructions(jsPsych, pluginId) {
+export function initTaskWithInstructions(
+  jsPsych,
+  pluginId,
+  instructionsText,
+  finalScreenText
+) {
   const fixedColorSequence = randomColorSequence(jsPsych, 32);
   const timeline = [];
   pushParticipantIdForm(timeline);
-  fetchAsText("instructions.txt", (text) => {
-    pushContinueButtonResponse(timeline, text.split("\n"));
-    pushBlockTrials(jsPsych, timeline, pluginId, fixedColorSequence);
-    pushFinalScreenAndRun(jsPsych, timeline);
-  });
+  pushContinueButtonResponse(timeline, instructionsText.split("\n"));
+  pushBlockTrials(jsPsych, timeline, pluginId, fixedColorSequence);
+  pushFinalScreenAndRun(jsPsych, timeline, finalScreenText);
 }
 
-export function initPracticeWithInstructions(jsPsych, pluginId, trials) {
+export function initPracticeWithInstructions(
+  jsPsych,
+  pluginId,
+  trials,
+  instructionsText,
+  finalScreenText
+) {
   const timeline = [];
   pushParticipantIdForm(timeline);
-  fetchAsText("instructions.txt", (text) => {
-    pushContinueButtonResponse(timeline, text.split("\n"));
-    timeline.push({
-      timeline: [
-        {
-          type: pluginId,
-          colors() {
-            return randomColorSequence(jsPsych, 3);
-          },
+  pushContinueButtonResponse(timeline, instructionsText.split("\n"));
+  timeline.push({
+    timeline: [
+      {
+        type: pluginId,
+        colors() {
+          return randomColorSequence(jsPsych, 3);
         },
-        {
-          type: jsPsychHtmlButtonResponse,
-          stimulus() {
-            return arrayToHtml([
-              lastTrialCorrect(jsPsych) ? "Good job!" : "Try again.",
-            ]);
-          },
-          choices: ["Continue"],
+      },
+      {
+        type: jsPsychHtmlButtonResponse,
+        stimulus() {
+          return arrayToHtml([
+            lastTrialCorrect(jsPsych) ? "Good job!" : "Try again.",
+          ]);
         },
-      ],
-      repetitions: trials,
-    });
-    pushFinalScreenAndRun(jsPsych, timeline);
+        choices: ["Continue"],
+      },
+    ],
+    repetitions: trials,
   });
+  pushFinalScreenAndRun(jsPsych, timeline, finalScreenText);
 }
