@@ -6,7 +6,7 @@ jatos.onLoad(() => {
   const jsPsych = initJsPsych({
     on_finish: () => jatos.startNextComponent(jsPsych.data.get().json()),
   });
-  const trials = 5;
+  const trials = 4;
   initPracticeWithInstructions(
     jsPsych,
     coloredCircles(orderMap(), jsPsychModule),
