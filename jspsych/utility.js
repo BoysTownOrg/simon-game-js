@@ -70,11 +70,26 @@ class BlockTrials {
   }
 }
 
-function randomTrial(jsPsych, trials, id, progress, totalTrials) {
+function fixedColors(trials) {
+  return trials.fixedColors();
+}
+
+function randomColors(trials) {
+  return trials.randomColors();
+}
+
+function blockTrial(
+  jsPsych,
+  colorsFromBlockTrials,
+  trials,
+  id,
+  progress,
+  totalTrials
+) {
   return {
     type: id,
     colors() {
-      return trials.randomColors();
+      return colorsFromBlockTrials(trials);
     },
     on_finish(data) {
       trials.update(data);
@@ -84,18 +99,12 @@ function randomTrial(jsPsych, trials, id, progress, totalTrials) {
   };
 }
 
+function randomTrial(jsPsych, trials, id, progress, totalTrials) {
+  return blockTrial(jsPsych, randomColors, trials, id, progress, totalTrials);
+}
+
 function fixedTrial(jsPsych, trials, id, progress, totalTrials) {
-  return {
-    type: id,
-    colors() {
-      return trials.fixedColors();
-    },
-    on_finish(data) {
-      trials.update(data);
-      progress.value += 1 / totalTrials;
-      jsPsych.setProgressBar(progress.value);
-    },
-  };
+  return blockTrial(jsPsych, fixedColors, trials, id, progress, totalTrials);
 }
 
 function pushBlockTrials(jsPsych, timeline, id, fixedColorSequence, progress) {
