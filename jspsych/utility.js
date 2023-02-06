@@ -70,44 +70,82 @@ class BlockTrials {
   }
 }
 
-function randomTrial(trials, id) {
+function fixedColors(trials) {
+  return trials.fixedColors();
+}
+
+function randomColors(trials) {
+  return trials.randomColors();
+}
+
+function blockTrial(
+  jsPsych,
+  colorsFromBlockTrials,
+  trials,
+  id,
+  progress,
+  totalTrials
+) {
   return {
     type: id,
     colors() {
-      return trials.randomColors();
+      return colorsFromBlockTrials(trials);
     },
     on_finish(data) {
       trials.update(data);
+      progress.value += 1 / totalTrials;
+      jsPsych.setProgressBar(progress.value);
     },
   };
 }
 
-function fixedTrial(trials, id) {
-  return {
-    type: id,
-    colors() {
-      return trials.fixedColors();
-    },
-    on_finish(data) {
-      trials.update(data);
-    },
-  };
+function randomTrial(jsPsych, trials, id, progress, totalTrials) {
+  return blockTrial(jsPsych, randomColors, trials, id, progress, totalTrials);
 }
 
-function pushBlockTrials(jsPsych, timeline, id, fixedColorSequence) {
+function fixedTrial(jsPsych, trials, id, progress, totalTrials) {
+  return blockTrial(jsPsych, fixedColors, trials, id, progress, totalTrials);
+}
+
+function pushBlockTrials(jsPsych, timeline, id, fixedColorSequence, progress) {
+  const totalTrials = 45;
   timeline.push({
-    timeline: [fixedTrial(new BlockTrials(jsPsych, fixedColorSequence), id)],
-    repetitions: 15,
+    timeline: [
+      fixedTrial(
+        jsPsych,
+        new BlockTrials(jsPsych, fixedColorSequence),
+        id,
+        progress,
+        totalTrials
+      ),
+    ],
+    repetitions: totalTrials / 3,
     data: { block: 1, isRandom: false },
   });
   timeline.push({
-    timeline: [randomTrial(new BlockTrials(jsPsych, fixedColorSequence), id)],
-    repetitions: 15,
+    timeline: [
+      randomTrial(
+        jsPsych,
+        new BlockTrials(jsPsych, fixedColorSequence),
+        id,
+        progress,
+        totalTrials
+      ),
+    ],
+    repetitions: totalTrials / 3,
     data: { block: 2, isRandom: true },
   });
   timeline.push({
-    timeline: [fixedTrial(new BlockTrials(jsPsych, fixedColorSequence), id)],
-    repetitions: 15,
+    timeline: [
+      fixedTrial(
+        jsPsych,
+        new BlockTrials(jsPsych, fixedColorSequence),
+        id,
+        progress,
+        totalTrials
+      ),
+    ],
+    repetitions: totalTrials / 3,
     data: { block: 3, isRandom: false },
   });
 }
@@ -127,7 +165,8 @@ export function initTaskWithInstructions(
   const timeline = [];
   pushParticipantIdForm(timeline);
   pushContinueButtonResponse(timeline, instructionsText.split("\n"));
-  pushBlockTrials(jsPsych, timeline, pluginId, fixedColorSequence);
+  const progress = { value: 0 };
+  pushBlockTrials(jsPsych, timeline, pluginId, fixedColorSequence, progress);
   pushFinalScreenAndRun(jsPsych, timeline, finalScreenText);
 }
 
