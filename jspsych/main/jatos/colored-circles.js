@@ -4,6 +4,7 @@ import { orderMap } from "../../colored-circles.js";
 
 jatos.onLoad(() => {
   const jsPsych = initJsPsych({
+    show_progress_bar: true,
     on_finish: () => jatos.startNextComponent(jsPsych.data.get().json()),
   });
 
