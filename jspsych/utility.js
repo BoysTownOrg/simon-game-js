@@ -39,7 +39,7 @@ function lastTrialCorrect(jsPsych) {
 function randomColorSequence(jsPsych, sequenceLength) {
   return jsPsych.randomization.sampleWithReplacement(
     [simon.Color.red, simon.Color.green, simon.Color.blue, simon.Color.yellow],
-    sequenceLength
+    sequenceLength,
   );
 }
 
@@ -84,7 +84,7 @@ function blockTrial(
   trials,
   id,
   progress,
-  totalTrials
+  totalTrials,
 ) {
   return {
     type: id,
@@ -116,7 +116,7 @@ function pushBlockTrials(jsPsych, timeline, id, fixedColorSequence, progress) {
         new BlockTrials(jsPsych, fixedColorSequence),
         id,
         progress,
-        totalTrials
+        totalTrials,
       ),
     ],
     repetitions: totalTrials / 3,
@@ -129,7 +129,7 @@ function pushBlockTrials(jsPsych, timeline, id, fixedColorSequence, progress) {
         new BlockTrials(jsPsych, fixedColorSequence),
         id,
         progress,
-        totalTrials
+        totalTrials,
       ),
     ],
     repetitions: totalTrials / 3,
@@ -142,7 +142,7 @@ function pushBlockTrials(jsPsych, timeline, id, fixedColorSequence, progress) {
         new BlockTrials(jsPsych, fixedColorSequence),
         id,
         progress,
-        totalTrials
+        totalTrials,
       ),
     ],
     repetitions: totalTrials / 3,
@@ -159,7 +159,7 @@ export function initTaskWithInstructions(
   jsPsych,
   pluginId,
   instructionsText,
-  finalScreenText
+  finalScreenText,
 ) {
   const fixedColorSequence = randomColorSequence(jsPsych, 32);
   const timeline = [];
@@ -170,12 +170,57 @@ export function initTaskWithInstructions(
   pushFinalScreenAndRun(jsPsych, timeline, finalScreenText);
 }
 
+export function initPracticeWithDemonstration(
+  jsPsych,
+  pluginId,
+  trials,
+  instructionsText,
+  testerPrompt,
+  participantPrompt,
+  finalScreenText,
+) {
+  const timeline = [];
+  pushParticipantIdForm(timeline);
+  pushContinueButtonResponse(timeline, instructionsText.split("\n"));
+  const testerPromptTimeline = [];
+  pushContinueButtonResponse(testerPromptTimeline, testerPrompt.split("\n"));
+  const participantPromptTimeline = [];
+  pushContinueButtonResponse(
+    participantPromptTimeline,
+    participantPrompt.split("\n"),
+  );
+  const trialWithFeedbackTimeline = [{
+    type: pluginId,
+    colors() {
+      return randomColorSequence(jsPsych, 3);
+    },
+  }, {
+    type: jsPsychHtmlButtonResponse,
+    stimulus() {
+      return arrayToHtml([
+        lastTrialCorrect(jsPsych) ? "Good job!" : "Try again.",
+      ]);
+    },
+    choices: ["Continue"],
+  }];
+  timeline.push({
+    timeline: [
+      ...testerPromptTimeline,
+      ...trialWithFeedbackTimeline,
+      ...participantPromptTimeline,
+      ...trialWithFeedbackTimeline,
+    ],
+    repetitions: trials,
+  });
+  pushFinalScreenAndRun(jsPsych, timeline, finalScreenText);
+}
+
 export function initPracticeWithInstructions(
   jsPsych,
   pluginId,
   trials,
   instructionsText,
-  finalScreenText
+  finalScreenText,
 ) {
   const timeline = [];
   pushParticipantIdForm(timeline);
