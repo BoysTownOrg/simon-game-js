@@ -173,7 +173,7 @@ export function initTaskWithInstructions(
 export function initPracticeWithDemonstration(
   jsPsych,
   pluginId,
-  trials,
+  repeats,
   instructionsText,
   testerPrompt,
   participantPrompt,
@@ -210,7 +210,7 @@ export function initPracticeWithDemonstration(
       ...participantPromptTimeline,
       ...trialWithFeedbackTimeline,
     ],
-    repetitions: trials,
+    repetitions: repeats,
   });
   pushFinalScreenAndRun(jsPsych, timeline, finalScreenText);
 }
