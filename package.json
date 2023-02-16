@@ -1,6 +1,7 @@
 {
     "name": "jspsych-plugin-simon-game",
     "version": "2.6.0",
+    "type": "module",
     "devDependencies": {
         "css-loader": "^6.7.3",
         "glob": "^7.1.6",
