@@ -1,9 +1,19 @@
 {
-  "name": "jspsych-plugin-simon-game",
-  "version": "2.6.0",
-  "type": "module",
-  "devDependencies": {
-    "jasmine": "^3.5.0",
-    "glob": "^7.1.6"
-  }
+    "name": "jspsych-plugin-simon-game",
+    "version": "2.6.0",
+    "type": "module",
+    "devDependencies": {
+        "css-loader": "^6.7.3",
+        "glob": "^7.1.6",
+        "html-webpack-plugin": "^5.5.0",
+        "jasmine": "^3.5.0",
+        "style-loader": "^3.3.1",
+        "webpack": "^5.75.0",
+        "webpack-cli": "^5.0.1"
+    },
+    "dependencies": {
+        "@jspsych/plugin-html-button-response": "^1.1.2",
+        "@jspsych/plugin-survey-html-form": "^1.0.2",
+        "jspsych": "^7.3.1"
+    }
 }
