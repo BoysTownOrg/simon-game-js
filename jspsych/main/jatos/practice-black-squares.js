@@ -8,6 +8,9 @@ import 'jspsych/css/jspsych.css'
 jatos.onLoad(() => {
     const jsPsych = initJsPsych({
         on_finish: () => jatos.startNextComponent(jsPsych.data.get().json()),
+        on_data_update: function(data) {
+            jatos.appendResultData(JSON.stringify(data));
+        }
     });
     const trials = 4;
     initPracticeWithInstructions(

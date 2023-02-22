@@ -10,6 +10,9 @@ jatos.onLoad(() => {
         show_progress_bar: true,
         auto_update_progress_bar: false,
         on_finish: () => jatos.startNextComponent(jsPsych.data.get().json()),
+        on_data_update: function(data) {
+            jatos.appendResultData(JSON.stringify(data));
+        }
     });
 
     initTaskWithInstructions(
