@@ -5,6 +5,7 @@ module.exports = {
         coloredCircles: './jspsych/main/jatos/colored-circles.js',
         blackSquares: './jspsych/main/jatos/black-squares.js',
         practice: './jspsych/main/jatos/practice.js',
+        practiceBlackSquares: './jspsych/main/jatos/practice-black-squares.js',
         practiceWithDemo: './jspsych/main/jatos/practice-with-demo.js'
     },
     plugins: [
@@ -22,6 +23,11 @@ module.exports = {
             filename: 'practice.html',
             template: 'jatos-template.html',
             chunks: ['practice']
+        }),
+        new HtmlWebpackPlugin({
+            filename: 'practice-black-squares.html',
+            template: 'jatos-template.html',
+            chunks: ['practiceBlackSquares']
         }),
         new HtmlWebpackPlugin({
             filename: 'practice-with-demo.html',
